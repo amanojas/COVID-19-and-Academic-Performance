@@ -5,10 +5,10 @@ lapply(packages, library, character.only = T)
 
 
 ### Loading the question level data ------------------------------------------
-question_level <- readRDS("/Users/amandesai/Desktop/research/covid/data/question_level.rds")
-imp_models <- readRDS("S:\\CUNY Coursework\\Paper2\\Aman_E1001\\Analyses\\2-1-data-with-diff-impute-gpa.rds")
 
-imp_models$instruction_mode <- droplevels(imp_models$instruction_mode)
+question_url <- "/Users/amandesai/Desktop/research/covid_19/data/question_level.rds"
+question_level <- readRDS(question_url)
+
 
 #### THE GPA VALUES ARE IMPUTED USING MEAN GPA ####
 

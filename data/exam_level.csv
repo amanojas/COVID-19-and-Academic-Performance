@@ -1,4 +1,4 @@
-ID,score,post,female,r_white,r_hispa,r_black,r_asian,r_other,cumgpa,typegpa,parttime,underclassperson,instructor,session,year,online,lowgpa,gpamiss,q1,q2,q3,q4,age,time
+id,score,post,female,r_white,r_hispa,r_black,r_asian,r_other,cumgpa,typegpa,parttime,underclassperson,instructor,session,year,online,lowgpa,gpamiss,q1,q2,q3,q4,age,time
 1,55.00000000000001,0,1,1,0,0,0,0,3.5799999237060547,high,0,1,Placido,S,2019,1,0,0,0,0,1,0,59.359344482421875,1
 2,62.5,0,0,0,0,1,0,0,3.086045744372349,low,0,0,Henry,S,2019,0,1,1,0,1,0,0,37.94387435913086,1
 18,37.5,0,1,1,0,0,0,0,3.319999933242798,low,0,0,Henry,S,2019,0,1,0,0,1,0,0,27.94524383544922,1

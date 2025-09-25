@@ -12,7 +12,7 @@ question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academi
 question_level <- read_rds(question_url)
 
 ### Loading the exam level data ------------------------------------------
-## These scores are out of possible 40
+## These scores are out of possible 40 points.
 
 exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
 exam_level <- read_rds(exam_url)

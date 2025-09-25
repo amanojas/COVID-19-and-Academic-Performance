@@ -8,19 +8,19 @@ lapply(packages, library, character.only = T)
 
 ### Loading the question level data ------------------------------------------
 
-question_url <- "/Users/amandesai/Desktop/research/covid_19/data/question_level.rds"
-question_level <- readRDS(question_url)
+question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
+question_level <- read_rds(question_url)
 
 ### Loading the exam level data ------------------------------------------
 ## These scores are out of possible 40
 
-exam_url <- "/Users/amandesai/Desktop/research/covid_19/data/exam_level.rds"
-exam_level <- readRDS(exam_url)
+exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
+exam_level <- read_rds(exam_url)
 
 
 ### Loading the course withdrawal data ------------------------------------------
 ## It has share of students who took withdrawal, CR, NC options. 
-full_grades <- read_dta("/Users/amandesai/Desktop/research/covid_19/data/grades-by-sem.dta") # s2020 available
+full_grades <- read_dta("https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta") # s2020 available
 full_g <- full_grades |>
   mutate(year = if_else(semester == "S19" | semester == "F19", 2019,
                         if_else(semester == "S20" | semester == "F20", 2020,

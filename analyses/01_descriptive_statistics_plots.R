@@ -36,7 +36,7 @@ full_g <- full_grades |>
 ############ Figures as they appear in the paper ############ 
 #############################################################
 
-## Figure 1: Average course GPA across semesters ------------------
+## Figure 1: Average final GPA in ECO 1001 across semesters ------------------
 
 # Define semester labels
 gpa_labels <- c(
@@ -67,12 +67,12 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
     width = 0.1, color = "darkblue"
   ) +
   geom_text(
-    size = 3, vjust = -1.5, color = "black"
+    size = 3, vjust = -2.5, color = "black"
   ) +
   ylim(0, 4) +
   labs(
     x = NULL,
-    y = "Average Final GPA in ECO 1001",
+    y = "Course GPA",
     title = ""
   ) +
   theme_minimal(base_size = 13)
@@ -80,7 +80,7 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
 
 
 
-## Figure 2: Average withdrawal rates across semesters ------------------
+## Figure 2: Withdrawal rates in ECO 1001 across semesters ------------------
 
 ## 376 students withdrew + 39 students withdrew
 ## 296 students CR
@@ -122,7 +122,7 @@ withdrawal_colors <- c(
 ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))) +
   geom_col(width = 0.5, position = position_stack(), alpha = 0.7) +
   geom_text(
-    size = 2.5, vjust = -2.2, position = position_stack(vjust = 0.9), color = "black"
+    size = 3, vjust = -2.2, position = position_stack(vjust = 0.9), color = "black"
   ) +
   ylim(0, 50) +
   scale_fill_manual(values = withdrawal_colors,
@@ -141,7 +141,7 @@ ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = pa
 ############## Figures as they appear in the appendix ##################
 ########################################################################
 
-### Figure A1: Average exam scores across semesters ------------------
+### Figure A1: Average final exam scores in ECO 1001 across semesters ------------------
 
 # Semester labels for exam scores
 
@@ -177,7 +177,7 @@ ggplot(exam_summary, aes(x = semester, y = avg_score, label = round(avg_score, 2
     width = 0.2, color = "darkblue"
   ) +
   geom_text(
-    size = 3, vjust = -2.5, color = "black"
+    size = 3, vjust = -3.5, color = "black"
   ) +
   ylim(0, 50) +
   labs(
@@ -192,12 +192,14 @@ ggplot(exam_summary, aes(x = semester, y = avg_score, label = round(avg_score, 2
 
 ### Figure A2: Student shares in low and high GPA groups ------------------
 ## S2019,F2019,F2020,S2021,F2021,S2022
+## S2019/F2019 combined due to small sample size
 
 # Semester labels for GPA share plot
 gpa_share_labels <- c(
   "Spring/Fall 2019", "Fall 2020",
   "Spring 2021", "Fall 2021", "Spring 2022"
 )
+
 
 # Prepare summary data: student share by GPA type
 stu_share_gpa_summary <- question_level|>
@@ -228,7 +230,7 @@ ggplot(stu_share_gpa_summary, aes(x = factor(time), y = share, fill = typegpa, l
   ) +
   geom_text(
     size = 3,
-    vjust = -0.75,
+    vjust = -1,
     position = position_dodge(0.6)
   ) +
   ylim(0, 1) +
@@ -244,7 +246,7 @@ ggplot(stu_share_gpa_summary, aes(x = factor(time), y = share, fill = typegpa, l
 
 
 
-### Figure A3: Average GPA in low and high GPA groups ------------------
+### Figure A3: Average GPA in low and high GPA groups in ECO 1001 across semesters ------------------
 ## S2019,F2019,F2020,S2021,F2021,S2022
 # Prepare semester labels
 mean_gpa_labels <- c(
@@ -259,8 +261,12 @@ stu_mean_gpa_summary <- question_level %>%
   dplyr::group_by(time, typegpa) %>%
   dplyr::summarise(
     avg_gpa = mean(cumgpa, na.rm = TRUE),
+    sd_score = sd(cumgpa, na.rm = TRUE),
+    n = dplyr::n(),
+    std_error = sd_score / sqrt(n),
     .groups = "drop"
-  )
+  ) |>
+  dplyr::mutate(margin_error = 1.96 * std_error)
 
 # GPA type colors (ensure levels match your data)
 gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
@@ -287,8 +293,8 @@ ggplot(stu_mean_gpa_summary, aes(
   ) +
   geom_text(
     size = 3,
-    vjust = -0.75,
-    position = position_dodge(0.8),
+    vjust = -1,
+    position = position_dodge(0.6),
     color = "black"
   ) +
   ylim(0, 6) +
@@ -307,7 +313,7 @@ ggplot(stu_mean_gpa_summary, aes(
 
 
 ### Figure A4: Student shares in hybrid and online classes ------------------
-#### S2019,F2019,F2020,S2021
+#### S2019,F2019,F2020,S2021,F2021,S2022
 
 # Semester labels for instruction mode plot
 inst_mode_labels <- c(
@@ -351,8 +357,8 @@ ggplot(stu_share_inst_summary, aes(
   ) +
   geom_text(
     size = 3,
-    vjust = -0.75,
-    position = position_dodge(0.65)
+    vjust = -1,
+    position = position_dodge(0.4)
   ) +
   ylim(0, 1) +
   labs(
@@ -368,5 +374,8 @@ ggplot(stu_share_inst_summary, aes(
   scale_fill_manual(values = inst_mode_colors) +
   theme_minimal(base_size = 13)
 
+
+
+####### ------------------------------------------------------------------------------------
 
 

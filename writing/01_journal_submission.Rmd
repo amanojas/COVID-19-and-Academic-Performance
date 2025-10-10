@@ -179,7 +179,7 @@ Figure 2 shows the unadjusted withdrawal rates across semesters in ECO 1001. The
 
 ```{r baseline-specification, echo=FALSE, warning=FALSE, message=FALSE}
 
-
+source("https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/writing/baseline-specification.R")
 
 ```
 

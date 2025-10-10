@@ -39,126 +39,20 @@ exam_base_long <- exam_level |>
           cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
 
 
-##### ------- standardization coefficients with outcome exam scores
-library(fixest)
-# After fitting your model
-exam_base <- feols(score ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-                     cumgpa + parttime + gpamiss | instructor + session, 
-                   data = exam_level, vcov = "hc1")
-
-# Calculate within-group (demeaned) variables
-within_data <- demean(exam_level,
-                      vars = c("post", "female", "r_black", "r_asian", "r_hispa", "r_other",
-                               "online", "cumgpa", "parttime", "gpamiss", "score"),
-                      by = c("instructor", "session"))
-
-# Now, for each variable, calculate the within-group standard deviation
-vars_to_std <- c("post", "female", "r_black", "r_asian", "r_hispa", "r_other",
-                 "online", "cumgpa", "parttime", "gpamiss")
-outcome <- "score"
-
-sd_x <- sapply(vars_to_std, function(var) sd(within_data[[var]], na.rm=TRUE))
-sd_y <- sd(within_data[[outcome]], na.rm=TRUE)
-
-# Extract coefficients from your model
-coef_model <- coef(exam_base)[vars_to_std]
-
-# Manually calculate standardized coefficients
-std_coef <- coef_model * (sd_x / sd_y)
-
-
-# Choose predictors to standardize (excluding outcome and factor/fixed effect variables)
-predictors_to_std <- c("post", "female", "r_black", "r_asian", "r_hispa", "r_other",
-                       "online", "cumgpa", "parttime", "gpamiss")
-
-# Create a new standardized dataset (leaving instructor/session/fixed effects unchanged)
-exam_level_std <- exam_level %>%
-  mutate(across(all_of(predictors_to_std), ~ as.numeric(scale(.))))
-
-# Fit FE model using standardized predictors
-exam_base_std <- feols(score ~ post + female + r_black + r_asian + r_hispa + r_other +
-                         online + cumgpa + parttime + gpamiss | instructor + session,
-                       data = exam_level_std, vcov = "hc1")
-
-# Summary
-summary(exam_base_std)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Regressions using exam scores as outcome
-
-exam_base <- exam_level |>
-  feols(fml = score ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
-
-exam_base_long <- exam_level |>
-  feols(fml = score ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
-
-##### ------- standardization exam scores
-standardize_parameters(exam_base, standardize = "posthoc") 
-
-sd_eb <- standardize_parameters(exam_base)  ## pre-post exam
-sd_el <- standardize_parameters(exam_base_long)  ## including time dummies exam
-
-sd_ebmodel1 <- paste0("[",as.character(round(sd_eb$Std_Coefficient[1],2)),"]")
-
-sd_elmodel22 <- paste0("[",as.character(round(sd_el$Std_Coefficient[1],2)),"]")
-sd_elmodel23 <- paste0("[",as.character(round(sd_el$Std_Coefficient[2],2)),"]")
-sd_elmodel24 <- paste0("[",as.character(round(sd_el$Std_Coefficient[3],2)),"]")
-sd_elmodel25 <- paste0("[",as.character(round(sd_el$Std_Coefficient[4],2)),"]")
-
-
 ##### -------------------------------------------------------------------------------------------------
 
-## Only for matched questions
+## ### Regressions using performance on matched questions as outcome
 
-ques_base <- avg_fd_im |>
+ques_base <- question_level |>
   feols(fml = correct ~ post + female + r_black + r_asian + r_hispa + r_other + online +
     cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
 
-ques_base_long <- avg_fd_im |>
+ques_base_long <- question_level |>
   feols(fml = correct ~ time + female + r_black + r_asian + r_hispa + r_other + online +
     cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
 
 
-##### ------- standardization questions
-
-sd_qb <- standardize_parameters(ques_base)  ## pre-post questions 
-sd_ql <- standardize_parameters(ques_base_long)  ## including time dummies questions
-
-sd_qbmodel3 <- paste0("[",as.character(round(sd_qb$Std_Coefficient[1],2)),"]")
-
-sd_qlmodel42 <- paste0("[",as.character(round(sd_ql$Std_Coefficient[1],2)),"]")
-sd_qlmodel43 <- paste0("[",as.character(round(sd_ql$Std_Coefficient[2],2)),"]")
-sd_qlmodel44 <- paste0("[",as.character(round(sd_ql$Std_Coefficient[3],2)),"]")
-sd_qlmodel45 <- paste0("[",as.character(round(sd_ql$Std_Coefficient[4],2)),"]")
-
-
-
-
-#### Creating a table -----------------------------------------------------------
+#### Creating a result table -----------------------------------------------------------
 
 rowlabs_base <- c(
   "post" = "postcovid",
@@ -174,17 +68,9 @@ results_base <- panelsummary_raw(
   coef_map = rowlabs_base,
   gof_map = c("nobs", "r.squared"),
   stars = "econ") |>
-  add_row(term = "", `Model 1` = sd_ebmodel1, `Model 2` = "",`Model 3` = sd_qbmodel3, `Model 4` = "",
-          .before = 3) |>
-  add_row(term = "", `Model 1` = "", `Model 2` = sd_elmodel22,`Model 3` = "", `Model 4` = sd_qlmodel42,
-          .before = 6) |>
-  add_row(term = "", `Model 1` = "", `Model 2` = sd_elmodel23,`Model 3` = "", `Model 4` = sd_qlmodel43,
-          .before = 9) |>
-  add_row(term = "", `Model 1` = "", `Model 2` = sd_elmodel24,`Model 3` = "", `Model 4` = sd_qlmodel44,
-          .before = 12) |>
-  add_row(term = "", `Model 1` = "", `Model 2` = sd_elmodel25,`Model 3` = "", `Model 4` = sd_qlmodel45,
-          .before = 15) |>
   clean_raw(caption = "Baseline Specification")
+
+### Formatting the table ----------------------  
 
 results_base |>
   kable_styling(font_size = 9, latex_options = c("scale_down", "HOLD_position")) |>

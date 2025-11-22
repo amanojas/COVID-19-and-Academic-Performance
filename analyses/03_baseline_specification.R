@@ -1,5 +1,4 @@
-
-
+if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
 library(pacman)
 
 # Load and install all packages at once

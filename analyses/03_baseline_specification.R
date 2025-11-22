@@ -1,9 +1,19 @@
-packages <- c(
-  "tidymodels", "tidyverse", "rio", "naniar", "labelled", "sjlabelled", "haven", "fixest", "vtable", "simputation",
-  "modelsummary", "gtsummary", "ggfixest","panelsummary", "parameters"
+
+# Fix: call feols with the formula first and pass the data explicitly (data = ...).
+# Reason: the base R pipe |> forwards the data as the first positional argument (formula for feols),
+# which causes a mismatch. Replaced piped feols calls with explicit data=... calls.
+
+# Ensure required packages are installed before running this script.
+# For reproducibility, consider using renv (https://rstudio.github.io/renv/) to manage dependencies.
+library(pacman)
+
+# Load and install all packages at once
+pacman::p_load(
+  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
+  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
+  panelsummary, cowplot, parameters
 )
-install.packages(packages, repos = "http://cran.us.r-project.org") # Installing packages at once
-lapply(packages, library, character.only = T) # Loading the packages
+
 
 
 ## This code produces table 3.2 in the main paper ------------------------------
@@ -30,26 +40,38 @@ exam_level <- read_rds(exam_url)
 
 ### Regressions using exam scores as outcome
 
-exam_base <- exam_level |>
-  feols(fml = score ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-          cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
+exam_base <- feols(
+  score ~ post + female + r_black + r_asian + r_hispa + r_other + online +
+    cumgpa + parttime + gpamiss | instructor + session,
+  data = exam_level,
+  vcov = "hc1"
+)
 
-exam_base_long <- exam_level |>
-  feols(fml = score ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-          cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
+exam_base_long <- feols(
+  score ~ time + female + r_black + r_asian + r_hispa + r_other + online +
+    cumgpa + parttime + gpamiss | instructor + session,
+  data = exam_level,
+  vcov = "hc1"
+)
 
 
 ##### -------------------------------------------------------------------------------------------------
 
 ## ### Regressions using performance on matched questions as outcome
 
-ques_base <- question_level |>
-  feols(fml = correct ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
+ques_base <- feols(
+  correct ~ post + female + r_black + r_asian + r_hispa + r_other + online +
+    cumgpa + parttime + gpamiss | instructor + session,
+  data = question_level,
+  vcov = "hc1"
+)
 
-ques_base_long <- question_level |>
-  feols(fml = correct ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session, vcov = "hc1")
+ques_base_long <- feols(
+  correct ~ time + female + r_black + r_asian + r_hispa + r_other + online +
+    cumgpa + parttime + gpamiss | instructor + session,
+  data = question_level,
+  vcov = "hc1"
+)
 
 
 #### Creating a result table -----------------------------------------------------------
@@ -83,5 +105,3 @@ results_base |>
            All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. 
            All regressions include course instructor fixed-effects and session fixed-effects.",
            escape = FALSE, threeparttable = T, footnote_as_chunk = T)
-
-

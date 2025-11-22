@@ -1,10 +1,5 @@
 
-# Fix: call feols with the formula first and pass the data explicitly (data = ...).
-# Reason: the base R pipe |> forwards the data as the first positional argument (formula for feols),
-# which causes a mismatch. Replaced piped feols calls with explicit data=... calls.
 
-# Ensure required packages are installed before running this script.
-# For reproducibility, consider using renv (https://rstudio.github.io/renv/) to manage dependencies.
 library(pacman)
 
 # Load and install all packages at once

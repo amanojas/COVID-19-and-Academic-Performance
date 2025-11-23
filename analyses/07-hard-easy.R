@@ -1,74 +1,23 @@
-packages <- c(
-  "tidymodels", "tidyverse", "rio", "naniar", "labelled", "sjlabelled", "haven", "fixest", "vtable", "simputation",
-  "modelsummary", "gtsummary", "ggfixest"
+if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
+
+# Load and install all packages at once
+pacman::p_load(
+  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
+  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
+  panelsummary, cowplot, parameters, patchwork
 )
-install.packages(packages, repos = "http://cran.us.r-project.org") # Installing packages at once
-lapply(packages, library, character.only = T) # Loading the packages
 
 
+### Loading the question level data ------------------------------------------
 
-#############################################
-############ LOAD THE FULL DATA #############
-#############################################
+question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
+question_level <- read_rds(question_url)
 
-totalscores <- readRDS("S:\\CUNY Coursework\\Paper2\\Aman_E1001\\Data\\total-exam\\3-1-total-scores-all.rds")
-imp_models <- readRDS("S:\\CUNY Coursework\\Paper2\\Aman_E1001\\Analyses\\2-1-data-with-diff-impute-gpa.rds")
+### Loading the exam level data ------------------------------------------
+## These scores are out of possible 40 points.
 
-imp_models$instruction_mode <- droplevels(imp_models$instruction_mode)
-
-# Matched Questions ---------------------------------------------------------------------------------------------------
-
-
-# 1     0
-# 2     3.08
-# 3     3.32
-# 4     3.68
-# 5     4
-
-### I am changing variable names for these two separate interactions to get
-### around the issue of reporting specific results in the table
-
-
-## FOR LOW vs HIGH GPA I, I use on and hyb ------------------------------------------------------------------------------------------------
-## FOR ONLINE vs HYBRID, I use online and hybrid
-
-avg_fd_im <- imp_models |>
-  filter(imp_model == "mean") |>
-  filter(instruction_mode != "P") |>
-  mutate(post = if_else(time > 2, 1, 0),
-         time = factor(time),
-         online = if_else(instruction_mode == "O", 1, 0),
-         q1 = if_else(cumgpa <= 3.08, 1, 0),
-         q2 = if_else(cumgpa > 3.08 & cumgpa <= 3.32, 1, 0),
-         q3 = if_else(cumgpa > 3.32 & cumgpa <= 3.68, 1, 0),
-         q4 = if_else(cumgpa > 3.68, 1, 0)) |>
-  mutate(qcode = as.character(code)) |>
-  mutate(on = online, hyb = hybrid) |>
-  separate(col = qcode, into = c("ch", "diffnum"), sep = c(-2)) |>
-  separate(col = diffnum, into = c("diff", "num"), sep = c(1)) |>
-  mutate(across(where(is.character), as_factor))
-
-avg_fd_im$instruction_mode <- droplevels(avg_fd_im$instruction_mode)
-
-
-
-# Exam Scores ---------------------------------------------------------------------------------------------------
-
-# 1  0
-# 2  3.01
-# 3  3.37
-# 4  3.71
-# 5  4
-
-
-tscores <- totalscores |>
-  filter(instruction_mode != "P") |>
-  mutate(q1 = if_else(cumgpa <= 3.01, 1, 0),
-         q2 = if_else(cumgpa > 3.01 & cumgpa <= 3.37, 1, 0),
-         q3 = if_else(cumgpa > 3.37 & cumgpa <= 3.71, 1, 0),
-         q4 = if_else(cumgpa > 3.71, 1, 0))
-
-tscores$instruction_mode <- droplevels(tscores$instruction_mode)
+exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
+exam_level <- read_rds(exam_url) 
 
 
 ################################################################################################################
@@ -81,47 +30,47 @@ tscores$instruction_mode <- droplevels(tscores$instruction_mode)
 # Low vs High GPA (Hard vs Easy Questions)---------------------------------------------------------------------------------------------------
 
 
-ques_gpa_easy <- avg_fd_im |>
-  filter(diff == "e") |>
-  feols(fml = correct ~ post + lowgpa + on + female + r_black + r_asian + r_hispa + r_other +
+ques_gpa_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(fml = correct ~ post + lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
-ques_gpa_did_easy <- avg_fd_im |>
-  filter(diff == "e") |>
-  feols(fml = correct ~ post + lowgpa + post * lowgpa + on + female + r_black + r_asian + r_hispa + r_other +
+ques_gpa_did_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(fml = correct ~ post + lowgpa + post * lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
-ques_gpa_hard <- avg_fd_im |>
-  filter(diff == "h") |>
-  feols(fml = correct ~ post + lowgpa + on + female + r_black + r_asian + r_hispa + r_other +
+ques_gpa_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(fml = correct ~ post + lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
-ques_gpa_did_hard <- avg_fd_im |>
-  filter(diff == "h") |>
-  feols(fml = correct ~ post + lowgpa + post * lowgpa + on + female + r_black + r_asian + r_hispa + r_other +
+ques_gpa_did_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(fml = correct ~ post + lowgpa + post * lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
 
 # Online hybrid (Hard vs Easy Questions)---------------------------------------------------------------------------------------------------
 
-ques_online_hard <- avg_fd_im |>
-  filter(diff == "h") |>
+ques_online_hard <- question_level |>
+  filter(difficulty == "h") |>
   feols(fml = correct ~ post + online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
-ques_online_did_hard <- avg_fd_im |>
-  filter(diff == "h") |>
+ques_online_did_hard <- question_level |>
+  filter(difficulty == "h") |>
   feols(fml = correct ~ post + online + post * online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
 
-ques_online_easy <- avg_fd_im |>
-  filter(diff == "e") |>
+ques_online_easy <- question_level |>
+  filter(difficulty == "e") |>
   feols(fml = correct ~ post + online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 
-ques_online_did_easy <- avg_fd_im |>
-  filter(diff == "e") |>
+ques_online_did_easy <- question_level |>
+  filter(difficulty == "e") |>
   feols(fml = correct ~ post + online + post * online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
           parttime + gpamiss | session + instructor, vcov = "hc1")
 

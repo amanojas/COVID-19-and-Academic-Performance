@@ -6,7 +6,7 @@ output:
   pdf_document:
     toc: false
     latex_engine: lualatex
-mainfont: 
+mainfont: "Times New Roman"
 affiliation: CUNY
 fontsize: 12pt
 geometry: margin=1in
@@ -15,7 +15,6 @@ biblio-style: natbib
 linestretch: 2
 link-citations: true
 urlcolor: blue
-always_allow_html: true
 abstract: "I analyze the impact of the COVID-19 pandemic on undergraduates’  performance
   in an introductory economics course at a large public university.  One challenge
   in analyzing student academic outcomes during the pandemic was the explicit change

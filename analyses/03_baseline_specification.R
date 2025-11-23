@@ -92,6 +92,6 @@ results_base |>
   add_header_above(c(" " = 1, "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
                      "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2),
                    bold = TRUE, italic = TRUE, escape = TRUE) |>
-  footnote(general = "* $p<0.1$, ** $p<0.05$, *** $p<0.01$. Final exam scores are based on a 100-point scale.\nHeteroskedasticity-robust standard errors are used.\nAll regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student.\nAll regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise.\nAll regressions include course instructor fixed-effects and session fixed-effects.",
+  add_footnote("* p {< 0.1}, ** p {< 0.05}, *** p {< 0.01}. Final exam scores are based on a 100-point scale.\nHeteroskedasticity-robust standard errors are used.\nAll regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student.\nAll regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise.\nAll regressions include course instructor fixed-effects and session fixed-effects.",
            escape = FALSE, threeparttable = TRUE)
            

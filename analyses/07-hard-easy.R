@@ -113,20 +113,3 @@ results_all |>
 
 
 
-##### Mean and SD of Dependent Variable --------------------------------------------------
-
-
-# avg_fd_im |>
-#   filter(diff == "h" | diff == "e") |>
-#   group_by(diff) |>
-#   summarise(mean_correct = mean(correct, na.rm = T),
-#             sd_correct   = sd(correct, na.rm = T))
-# 
-# 
-# dplyr::add_row(term = "Std. dev. of Dependent Variable",
-#                `(1)` = "0.495",
-#                `(2)` = "0.495",
-#                `(3)` = "0.479",
-#                `(4)` = "0.479",
-#                .before = 8)
-

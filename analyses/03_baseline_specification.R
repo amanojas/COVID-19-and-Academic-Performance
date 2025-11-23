@@ -1,4 +1,4 @@
-if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
+
 library(pacman)
 
 # Load and install all packages at once
@@ -78,24 +78,20 @@ rowlabs_base <- c(
   "time5" = "spring 2022"
 )
 
-
-results_base <- panelsummary_raw(
-  list(exam_base, exam_base_long,  ques_base, ques_base_long),
+# Re-create a kableExtra object (not a raw string)
+results_base <- panelsummary(
+  list(exam_base, exam_base_long, ques_base, ques_base_long),
   coef_map = rowlabs_base,
-  gof_map = c("nobs", "r.squared"),
-  stars = "econ") |>
-  clean_raw(caption = "Baseline Specification")
+  gof_map = c("nobs") # adjust as needed
+)
 
 ### Formatting the table ----------------------  
 
 results_base |>
   kable_styling(font_size = 9, latex_options = c("scale_down", "HOLD_position")) |>
-  add_header_above(c(" ", "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
+  add_header_above(c(" " = 1, "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
                      "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2),
-                   bold = T, italic = T, escape = TRUE) |>
-  footnote("* p {< 0.1}, ** p {< 0.05}, *** p {< 0.01}. Final exam scores are based on a 100-point scale.
-           Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: 
-           cumulative GPA, gender, race, age, whether a student is at least a sophomore ,part-time status of the student. 
-           All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. 
-           All regressions include course instructor fixed-effects and session fixed-effects.",
-           escape = FALSE, threeparttable = T, footnote_as_chunk = T)
+                   bold = TRUE, italic = TRUE, escape = TRUE) |>
+  footnote(general = "* $p<0.1$, ** $p<0.05$, *** $p<0.01$. Final exam scores are based on a 100-point scale.\nHeteroskedasticity-robust standard errors are used.\nAll regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student.\nAll regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise.\nAll regressions include course instructor fixed-effects and session fixed-effects.",
+           escape = FALSE, threeparttable = TRUE)
+           

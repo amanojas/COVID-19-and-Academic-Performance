@@ -1,9 +1,11 @@
-packages <- c(
-  "tidymodels", "tidyverse", "rio", "naniar", "labelled", "sjlabelled", "haven", "fixest", "vtable", "simputation",
-  "modelsummary", "gtsummary", "estimatr", "cobalt"
+if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
+
+# Load and install all packages at once
+pacman::p_load(
+  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
+  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
+  panelsummary, cowplot, parameters, patchwork
 )
-install.packages(packages, repos = "http://cran.us.r-project.org") # Installing packages at once
-lapply(packages, library, character.only = T)
 
 
 ### Loading the question level data ------------------------------------------

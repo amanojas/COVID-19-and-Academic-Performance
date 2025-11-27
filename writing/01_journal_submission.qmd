@@ -42,7 +42,7 @@ if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-pro
 pacman::p_load(
   tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
   vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
-  panelsummary, cowplot, parameters
+  panelsummary, cowplot, parameters, patchwork
 )
 
 # Set default theme
@@ -142,13 +142,47 @@ y_{i,c,t} = \delta P_{t} + \phi O_{i} + \mu P_{t} \times O_{i} + \beta X_{i,c,t}
 
 # Results
 
+```{r data-load, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
+### Loading the question level data ------------------------------------------
+
+question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
+question_level <- read_rds(question_url)
+
+### Loading the exam level data ------------------------------------------
+## These scores are out of possible 40 points.
+
+exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
+exam_level <- read_rds(exam_url)
+
+
+### Loading the course withdrawal data ------------------------------------------
+## It has share of students who took withdrawal, CR, NC options. 
+full_grades <- read_dta("https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta") # s2020 available
+full_g <- full_grades |>
+  mutate(year = if_else(semester == "S19" | semester == "F19", 2019,
+                        if_else(semester == "S20" | semester == "F20", 2020,
+                                if_else(semester == "S21" | semester == "F21", 2021, 2022)
+                        )
+  )) |>
+  mutate(session = factor(if_else(semester %in% c("S19", "S20", "S21", "S22"), "S", "F"))) |>
+  mutate(session = fct_relevel(session, c("S", "F")))
+
+```
+
+
 ## Average Course GPA Across Semesters in ECO 1001
+
+```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
+
+```
 
 An important argument I make in this paper is that student performance is mostly measured using course completion, withdrawal rates, or GPA in the literature currently. These may not be good measures of academic performance during the pandemic, given that most educational institutions adopted flexible grading policies to reduce the burden on students due to pandemic-related disruptions.
 
 In Figure 1, I show how the unadjusted average GPA in course ECO 1001 changes over time. I see an abrupt jump in course GPA in spring 2020 when the pandemic started. According to student surveys mentioned in the literature review, students faced hardships and struggled in their studies due to the disruption in their environment. Although these GPAs decreased in fall 2020 and spring 2021, they did not return to pre-pandemic levels until after fall 2021.
 
 Using course GPA as a measure of student performance contradicts students’ experiences. A sudden change in the educational setting also affected instructors, who might have become more lenient with grading. This change could have led to common exams being held online, giving students more opportunities for possible misconduct. The possible negative impact of the pandemic on students’ actual performance could be overshadowed by these changes in institutional policies and educational settings.
+
+
 
 ## Withdrawal Rate Across Semesters in ECO 1001
 

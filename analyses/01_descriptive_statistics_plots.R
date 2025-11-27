@@ -63,7 +63,7 @@ gpa_summary <- full_g |>
 
 # Plot the results
 ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
-  geom_bar(stat = "identity", width = 0.3, fill = "skyblue", alpha = 0.8) +
+  geom_bar(stat = "identity", width = 0.3, fill = "#009E73", alpha = 0.8) +
   geom_errorbar(
     aes(ymin = avg_gpa - margin_error, ymax = avg_gpa + margin_error),
     width = 0.1, color = "darkblue"
@@ -78,7 +78,7 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
     title = ""
   ) +
   scale_x_discrete(labels = gpa_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
-  theme_minimal(base_size = 13)
+  theme_minimal(base_size = 10)
 
 
 
@@ -116,16 +116,17 @@ withdrawal_summary <- full_g|>
 
 # Set up color scheme for measures
 withdrawal_colors <- c(
-  "avg_NC" = "skyblue",
-  "avg_CR" = "steelblue",
-  "avg_WD" = "darkblue"
+  "avg_NC" = "#0072B2",  # blue
+  "avg_CR" = "#D55E00",  # vermillion / orange
+  "avg_WD" = "#009E73"   # green (distinct from blue & orange)
 )
+
 
 # Plot the withdrawal rates
 ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))) +
   geom_col(width = 0.5, position = position_stack(), alpha = 0.7) +
   geom_text(
-    size = 3, vjust = -2.2, position = position_stack(vjust = 0.9), color = "black"
+    size = 2, vjust = -2.5, position = position_stack(0.), color = "black"
   ) +
   ylim(0, 50) +
   scale_fill_manual(values = withdrawal_colors,
@@ -135,8 +136,8 @@ ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = pa
     y = "Withdrawal, Credit, No Credit Rate (%)",
     title = ""
   ) +
-  scale_x_discrete(labels = withdrawal_labels) +
-  theme_minimal(base_size = 13) +
+  scale_x_discrete(labels = withdrawal_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  theme_minimal(base_size = 10) +
   theme(legend.title = element_blank())
 
 

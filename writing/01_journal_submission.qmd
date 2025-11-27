@@ -172,8 +172,46 @@ full_g <- full_grades |>
 
 ## Average Course GPA Across Semesters in ECO 1001
 
-```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
+```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, fig.cap= "Average final GPA in ECO 1001 across semesters", fig.pos="H",  fig.align = "center"}
+# Define semester labels
+gpa_labels <- c(
+  "Spring 2019", "Fall 2019", "Spring 2020", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
 
+# Summarize GPA statistics by semester
+gpa_summary <- full_g |>
+  dplyr::select(year, session, coursegpa) |>
+  dplyr::group_by(year, session) |>
+  dplyr::summarise(
+    avg_gpa = mean(coursegpa, na.rm = TRUE),
+    sd_gpa = sd(coursegpa, na.rm = TRUE),
+    n = dplyr::n(),
+    .groups = 'drop'
+  ) |>
+  dplyr::mutate(
+    margin_error = 1.96 * (sd_gpa / sqrt(n)),
+    semester = factor(seq_along(year), labels = gpa_labels)
+  )
+
+# Plot the results
+ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
+  geom_bar(stat = "identity", width = 0.3, fill = "#009E73", alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = avg_gpa - margin_error, ymax = avg_gpa + margin_error),
+    width = 0.1, color = "darkblue"
+  ) +
+  geom_text(
+    size = 3, vjust = -2.5, color = "black"
+  ) +
+  ylim(0, 4) +
+  labs(
+    x = NULL,
+    y = "Course GPA",
+    title = ""
+  ) +
+  scale_x_discrete(labels = gpa_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  theme_minimal(base_size = 10)
 ```
 
 An important argument I make in this paper is that student performance is mostly measured using course completion, withdrawal rates, or GPA in the literature currently. These may not be good measures of academic performance during the pandemic, given that most educational institutions adopted flexible grading policies to reduce the burden on students due to pandemic-related disruptions.
@@ -182,14 +220,73 @@ In Figure 1, I show how the unadjusted average GPA in course ECO 1001 changes ov
 
 Using course GPA as a measure of student performance contradicts students’ experiences. A sudden change in the educational setting also affected instructors, who might have become more lenient with grading. This change could have led to common exams being held online, giving students more opportunities for possible misconduct. The possible negative impact of the pandemic on students’ actual performance could be overshadowed by these changes in institutional policies and educational settings.
 
-
-
 ## Withdrawal Rate Across Semesters in ECO 1001
+
+
+```{r withdrawal-rate, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "Withdrawal rates in ECO 1001 across semesters", fig.pos="H", fig.align = "center"}
+## Figure 2: Withdrawal rates in ECO 1001 across semesters ------------------
+
+## 376 students withdrew + 39 students withdrew
+## 296 students CR
+## 55 students NC
+## 160 missing coursegpa
+
+# Semester labels
+withdrawal_labels <- c(
+  "Spring 2019", "Fall 2019", "Spring 2020", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Summarize withdrawal-related measures
+withdrawal_summary <- full_g|>
+  dplyr::select(year, session, CR, NC, wd)|>
+  dplyr::group_by(year, session)|>
+  dplyr::summarise(
+    avg_NC = mean(NC, na.rm = TRUE),
+    avg_CR = mean(CR, na.rm = TRUE),
+    avg_WD = mean(wd, na.rm = TRUE),
+    .groups = 'drop'
+  )|>
+  dplyr::mutate(semester = factor(seq_along(year), labels = withdrawal_labels))|>
+  tidyr::pivot_longer(
+    cols = c("avg_NC", "avg_CR", "avg_WD"),
+    names_to = "measure",
+    values_to = "avg"
+  )|>
+  dplyr::mutate(avg = 100 * avg)
+
+# Set up color scheme for measures
+withdrawal_colors <- c(
+  "avg_NC" = "#0072B2",  # blue
+  "avg_CR" = "#D55E00",  # vermillion / orange
+  "avg_WD" = "#009E73"   # green (distinct from blue & orange)
+)
+
+
+# Plot the withdrawal rates
+ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))) +
+  geom_col(width = 0.5, position = position_stack(), alpha = 0.7) +
+  geom_text(
+    size = 2, vjust = -2.5, position = position_stack(0.), color = "black"
+  ) +
+  ylim(0, 50) +
+  scale_fill_manual(values = withdrawal_colors,
+                    labels = c("No Credit", "Credit", "Withdrawal")) +
+  labs(
+    x = NULL,
+    y = "Withdrawal, Credit, No Credit Rate (%)",
+    title = ""
+  ) +
+  scale_x_discrete(labels = withdrawal_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  theme_minimal(base_size = 10) +
+  theme(legend.title = element_blank())
+```
+
+
 
 Another possible mechanism leading to the opposing change in measured performance is that the institution in consideration, like many other academic institutions, adopted a flexible grading policy to help students face the challenges due to the pandemic. This policy aimed to reduce the burden on students by providing three options up until the last day of the semester. The first option, Credit (CR), allowed students to pass the course with credit, though their grade wouldn't affect their GPA. The second, No Credit (NC), let students complete the course without credit, allowing them to retake it later without any record of their withdrawal. The third was the standard course withdrawal option.
 
 Figure 2 shows the unadjusted withdrawal rates across semesters in ECO 1001. The course withdrawal rate decreased to 0.83% in fall 2019, down from 4.97% in spring 2019. However, it increased again to 3.92% in spring 2020, a semester heavily influenced by the onset of the pandemic. Despite the pandemic, the withdrawal rate was kept relatively low due to the introduction of a flexible grading policy by the college. As shown in the figure, 29.75% of students enrolled in ECO 1001 chose the CR option, while 5.53% chose NC. Because of this flexibility, only 3.92% of students opted for a standard withdrawal in spring 2020. The withdrawal rate increased to 6.65% in fall 2020 and remained roughly at that level, reaching around 8% in spring 2022. It is worth noting that the flexible grading policy was not implemented after spring 2020. Using course GPA or course completion rate in presence of a flexible grading policy may not give me a clear effect of the pandemic on students’ academic outcomes and their learning loss.
-
 
 
 ## Baseline Specification

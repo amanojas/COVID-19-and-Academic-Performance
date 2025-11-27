@@ -77,6 +77,7 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
     y = "Course GPA",
     title = ""
   ) +
+  scale_x_discrete(labels = gpa_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
   theme_minimal(base_size = 13)
 
 

@@ -12,11 +12,11 @@ format:
     include-in-header: |
       \usepackage{makecell}
       \usepackage{booktabs}
+      \usepackage{endfloat}
       \usepackage{threeparttable}
       \setlength{\defaultaddspace}{0pt}
       % fallback if \makecell call lost its backslash
       \providecommand\makecell[2][]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
-      \usepackage{endfloat}
     toc: false
     mainfont: "Times New Roman"
     sansfont: "Times New Roman"
@@ -32,8 +32,6 @@ bibliography: references.bib
 biblio-style: natbib
 abstract: |
   I analyze the impact of the COVID-19 pandemic on undergraduates’ performance in an introductory economics course at a large public university. One challenge in analyzing student academic outcomes during the pandemic was the explicit change in grading policies by college administrators as well as the implicit adjustment by faculty designed to mitigate the impact of an abrupt shift to online learning amidst the stress and uncertainly associated with the pandemic. To limit the impact of grading policies I analyze changes in the raw scores on a common final administered to all sections of the course the year before and for four semesters after the spring of 2020. To limit variation in the difficulty of the exams from before to during the pandemic, I compare student performance on nearly identical questions on the final exam overtime. Adjusted mean scores on the common final fell by a point and the probability of answering the qualitatively same question on the final fell, on average, by 1.5 percentage points. Students with lower GPAs were 3.3 percentage points (or 0.02 standard deviations) less likely to answer similar questions correctly relative to students with higher GPAs during the pandemic. Also, the mean probability of answering a nearly identical question before and after suddenly moving to online classes increased by 5.6 percentage points.
-  
-  
   
   **Keywords:** COVID-19, academic performance, undergraduate education, online learning
 ---

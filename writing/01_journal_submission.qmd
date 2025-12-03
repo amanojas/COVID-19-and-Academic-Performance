@@ -16,6 +16,7 @@ format:
       \setlength{\defaultaddspace}{0pt}
       % fallback if \makecell call lost its backslash
       \providecommand\makecell[2][]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
+      \usepackage{endfloat}
     toc: false
     mainfont: "Times New Roman"
     sansfont: "Times New Roman"

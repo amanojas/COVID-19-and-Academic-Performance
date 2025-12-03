@@ -8,8 +8,15 @@ date: today
 format:
   pdf:
     keep-tex: true
-    toc: false
     pdf-engine: lualatex
+    include-in-header: |
+      \usepackage{makecell}
+      \usepackage{booktabs}
+      \usepackage{threeparttable}
+      \setlength{\defaultaddspace}{0pt}
+      % fallback if \makecell call lost its backslash
+      \providecommand\makecell[2][]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
+    toc: false
     mainfont: "Times New Roman"
     sansfont: "Times New Roman"
     monofont: "Courier New"
@@ -19,12 +26,7 @@ format:
     geometry: margin=1in
     linestretch: 2
     link-citations: true
-    urlcolor: blue
-header-includes:
-- \usepackage{booktabs}
-- \usepackage{threeparttable}
-- \setlength{\defaultaddspace}{0pt}
-# - \usepackage{endfloat}    
+    urlcolor: blue   
 bibliography: references.bib
 biblio-style: natbib
 abstract: |
@@ -42,13 +44,31 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r packages, include = FALSE, message=FALSE, warning=FALSE}
 
-if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
+if (!require("pacman")) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+}
 
 # Load and install all packages at once
 pacman::p_load(
-  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
-  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
-  panelsummary, cowplot, parameters, patchwork
+  tidymodels,
+  tidyverse,
+  rio,
+  naniar,
+  labelled,
+  sjlabelled,
+  haven,
+  fixest,
+  vtable,
+  ggfixest,
+  modelsummary,
+  gtsummary,
+  simputation,
+  kableExtra,
+  readxl,
+  panelsummary,
+  cowplot,
+  parameters,
+  patchwork
 )
 
 # Set default theme
@@ -161,15 +181,29 @@ exam_level <- read_rds(exam_url)
 
 
 ### Loading the course withdrawal data ------------------------------------------
-## It has share of students who took withdrawal, CR, NC options. 
-full_grades <- read_dta("https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta") # s2020 available
+## It has share of students who took withdrawal, CR, NC options.
+full_grades <- read_dta(
+  "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta"
+) # s2020 available
 full_g <- full_grades |>
-  mutate(year = if_else(semester == "S19" | semester == "F19", 2019,
-                        if_else(semester == "S20" | semester == "F20", 2020,
-                                if_else(semester == "S21" | semester == "F21", 2021, 2022)
-                        )
-  )) |>
-  mutate(session = factor(if_else(semester %in% c("S19", "S20", "S21", "S22"), "S", "F"))) |>
+  mutate(
+    year = if_else(
+      semester == "S19" | semester == "F19",
+      2019,
+      if_else(
+        semester == "S20" | semester == "F20",
+        2020,
+        if_else(semester == "S21" | semester == "F21", 2021, 2022)
+      )
+    )
+  ) |>
+  mutate(
+    session = factor(if_else(
+      semester %in% c("S19", "S20", "S21", "S22"),
+      "S",
+      "F"
+    ))
+  ) |>
   mutate(session = fct_relevel(session, c("S", "F")))
 
 ```
@@ -180,8 +214,13 @@ full_g <- full_grades |>
 ```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, fig.cap= "Average final GPA in ECO 1001 across semesters", fig.pos="H",  fig.align = "center"}
 # Define semester labels
 gpa_labels <- c(
-  "Spring 2019", "Fall 2019", "Spring 2020", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Summarize GPA statistics by semester
@@ -204,10 +243,13 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
   geom_bar(stat = "identity", width = 0.3, fill = "#009E73", alpha = 0.8) +
   geom_errorbar(
     aes(ymin = avg_gpa - margin_error, ymax = avg_gpa + margin_error),
-    width = 0.1, color = "darkblue"
+    width = 0.1,
+    color = "darkblue"
   ) +
   geom_text(
-    size = 3, vjust = -2.5, color = "black"
+    size = 3,
+    vjust = -2.5,
+    color = "black"
   ) +
   ylim(0, 4) +
   labs(
@@ -215,7 +257,10 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
     y = "Course GPA",
     title = ""
   ) +
-  scale_x_discrete(labels = gpa_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  scale_x_discrete(
+    labels = gpa_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
   theme_minimal(base_size = 10)
 ```
 
@@ -238,51 +283,69 @@ Using course GPA as a measure of student performance contradicts students’ exp
 
 # Semester labels
 withdrawal_labels <- c(
-  "Spring 2019", "Fall 2019", "Spring 2020", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Summarize withdrawal-related measures
-withdrawal_summary <- full_g|>
-  dplyr::select(year, session, CR, NC, wd)|>
-  dplyr::group_by(year, session)|>
+withdrawal_summary <- full_g |>
+  dplyr::select(year, session, CR, NC, wd) |>
+  dplyr::group_by(year, session) |>
   dplyr::summarise(
     avg_NC = mean(NC, na.rm = TRUE),
     avg_CR = mean(CR, na.rm = TRUE),
     avg_WD = mean(wd, na.rm = TRUE),
     .groups = 'drop'
-  )|>
-  dplyr::mutate(semester = factor(seq_along(year), labels = withdrawal_labels))|>
+  ) |>
+  dplyr::mutate(
+    semester = factor(seq_along(year), labels = withdrawal_labels)
+  ) |>
   tidyr::pivot_longer(
     cols = c("avg_NC", "avg_CR", "avg_WD"),
     names_to = "measure",
     values_to = "avg"
-  )|>
+  ) |>
   dplyr::mutate(avg = 100 * avg)
 
 # Set up color scheme for measures
 withdrawal_colors <- c(
-  "avg_NC" = "#0072B2",  # blue
-  "avg_CR" = "#D55E00",  # vermillion / orange
-  "avg_WD" = "#009E73"   # green (distinct from blue & orange)
+  "avg_NC" = "#0072B2", # blue
+  "avg_CR" = "#D55E00", # vermillion / orange
+  "avg_WD" = "#009E73" # green (distinct from blue & orange)
 )
 
 
 # Plot the withdrawal rates
-ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))) +
+ggplot(
+  withdrawal_summary,
+  aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))
+) +
   geom_col(width = 0.5, position = position_stack(), alpha = 0.7) +
   geom_text(
-    size = 2, vjust = -2.5, position = position_stack(0.), color = "black"
+    size = 2,
+    vjust = -2.5,
+    position = position_stack(0.),
+    color = "black"
   ) +
   ylim(0, 50) +
-  scale_fill_manual(values = withdrawal_colors,
-                    labels = c("No Credit", "Credit", "Withdrawal")) +
+  scale_fill_manual(
+    values = withdrawal_colors,
+    labels = c("No Credit", "Credit", "Withdrawal")
+  ) +
   labs(
     x = NULL,
     y = "Withdrawal, Credit, No Credit Rate (%)",
     title = ""
   ) +
-  scale_x_discrete(labels = withdrawal_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  scale_x_discrete(
+    labels = withdrawal_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
   theme_minimal(base_size = 10) +
   theme(legend.title = element_blank())
 ```
@@ -306,19 +369,36 @@ Figure 2 shows the unadjusted withdrawal rates across semesters in ECO 1001. The
 ################################################################################################################
 ################################################################################################################
 
-
 ### Regressions using exam scores as outcome
 
 exam_base <- feols(
-  score ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  score ~ post +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = exam_level,
   vcov = "hc1"
 )
 
 exam_base_long <- feols(
-  score ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  score ~ time +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = exam_level,
   vcov = "hc1"
 )
@@ -329,15 +409,33 @@ exam_base_long <- feols(
 ## ### Regressions using performance on matched questions as outcome
 
 ques_base <- feols(
-  correct ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  correct ~ post +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = question_level,
   vcov = "hc1"
 )
 
 ques_base_long <- feols(
-  correct ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  correct ~ time +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = question_level,
   vcov = "hc1"
 )
@@ -357,22 +455,32 @@ rowlabs_base <- c(
 results_base <- panelsummary(
   list(exam_base, exam_base_long, ques_base, ques_base_long),
   coef_map = rowlabs_base,
-  gof_map = c("nobs", "r.squared"), 
+  gof_map = c("nobs", "r.squared"),
   caption = "Baseline estimates of the effect of COVID-19 on students' academic performance",
   stars = "econ"
 )
 
-### Formatting the table ----------------------  
-
+### Formatting the table ----------------------
 
 results_base |>
-  kable_styling(font_size = 9, latex_options = c("scale_down", "HOLD_position")) |>
-  add_header_above(c(" " = 1, "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
-                     "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2),
-                   bold = T, italic = T, escape = TRUE) |>
-  footnote("* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.",
-    escape = TRUE, 
-    threeparttable = TRUE, 
+  kable_styling(
+    font_size = 9,
+    latex_options = c("scale_down", "HOLD_position")
+  ) |>
+  add_header_above(
+    c(
+      " " = 1,
+      "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
+      "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2
+    ),
+    bold = T,
+    italic = T,
+    escape = TRUE
+  ) |>
+  footnote(
+    "* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.",
+    escape = TRUE,
+    threeparttable = TRUE,
     footnote_as_chunk = TRUE
   )
 
@@ -381,31 +489,89 @@ results_base |>
 
 ```{r gpa-by-quartiles, echo=FALSE, warning=FALSE, message=FALSE}
 
-
 ### Models with GPA quartiles as additional controls
 
 exam_gpa_4 <- exam_level |>
-  feols(fml = score ~ post + q1 + q2 + q3 + online + female + r_black + r_asian + r_hispa + r_other +
-          parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = score ~ post +
+      q1 +
+      q2 +
+      q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 exam_gpa_int_4 <- exam_level |>
-  feols(fml = score ~ post + q1 + q2 + q3 + post * q1 + post * q2 + post * q3 + online + female + r_black + r_asian + r_hispa + r_other +
-          parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = score ~ post +
+      q1 +
+      q2 +
+      q3 +
+      post * q1 +
+      post * q2 +
+      post * q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 
 ques_gpa_4 <- question_level |>
-  feols(fml = correct ~ post + q1 + q2 + q3 + online + female + r_black + r_asian + r_hispa + r_other +
-          parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = correct ~ post +
+      q1 +
+      q2 +
+      q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 ques_gpa_int_4 <- question_level |>
-  feols(fml = correct ~ post + q1 + q2 + q3 + post * q1 + post * q2 + post * q3 + online + female + r_black + r_asian + r_hispa + r_other +
-          parttime + gpamiss | session + instructor, vcov = "hc1")
-
+  feols(
+    fml = correct ~ post +
+      q1 +
+      q2 +
+      q3 +
+      post * q1 +
+      post * q2 +
+      post * q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 
 #### Creating a result table -----------------------------------------------------------
-
-
 
 rowlabs_gpa_quartiles <- c(
   "post" = "postcovid",
@@ -430,25 +596,38 @@ rowlabs_gpa_quartiles <- c(
 # "gpamiss1" = "GPAmiss1",
 # "gpamiss2" = "GPAmiss2")
 
-
-results_gpa <- panelsummary(list(exam_gpa_4, exam_gpa_int_4, ques_gpa_4, ques_gpa_int_4),
-                                coef_map = rowlabs_gpa_quartiles,
-                                gof_map = c("nobs", "r.squared"),
-                                caption = "Differential effect of COVID-19 across GPA quartiles",
-                                stars = "econ") 
+results_gpa <- panelsummary(
+  list(exam_gpa_4, exam_gpa_int_4, ques_gpa_4, ques_gpa_int_4),
+  coef_map = rowlabs_gpa_quartiles,
+  gof_map = c("nobs", "r.squared"),
+  caption = "Differential effect of COVID-19 across GPA quartiles",
+  stars = "econ"
+)
 
 
 ## Formatting the table ----------------------
 
 results_gpa |>
-  kable_styling(font_size = 9, latex_options = c("scale_down", "HOLD_position")) |>
-  add_header_above(c(" ", "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
-                     "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2),
-                   bold = T, italic = T, escape = TRUE) |>
-  footnote("* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at most a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.", 
-  escape = TRUE, 
-  threeparttable = TRUE, 
-  footnote_as_chunk = TRUE)
+  kable_styling(
+    font_size = 9,
+    latex_options = c("scale_down", "HOLD_position")
+  ) |>
+  add_header_above(
+    c(
+      " ",
+      "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
+      "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2
+    ),
+    bold = T,
+    italic = T,
+    escape = TRUE
+  ) |>
+  footnote(
+    "* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at most a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.",
+    escape = TRUE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  )
 
 ```
 
@@ -466,21 +645,71 @@ Comparing these results to those from linear probability models in columns 3-4, 
 #### Interaction effects (also difference-in-differences)
 
 exam_gpa <- exam_level |>
-  feols(fml = score ~ post + lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = score ~ post +
+      lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 exam_gpa_did <- exam_level |>
-  feols(fml = score ~ post + lowgpa + post * lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = score ~ post +
+      lowgpa +
+      post * lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 
 ques_gpa <- question_level |>
-  feols(fml = correct ~ post + lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = correct ~ post +
+      lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 ques_gpa_did <- question_level |>
-  feols(fml = correct ~ post + lowgpa + post * lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = correct ~ post +
+      lowgpa +
+      post * lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 
 ################################################################################################################
@@ -489,28 +718,77 @@ ques_gpa_did <- question_level |>
 ################################################################################################################
 ################################################################################################################
 
-
 ### online vs hybrid (both outcomes)
 ## underclassperson status is not available in 2020. I do not include that
 ## since it might bias the results
 ### Only exam scores unweighted
 
 exam_online <- exam_level |>
-  feols(fml = score ~ post + online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = score ~ post +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 exam_online_did <- exam_level |>
-  feols(fml = score ~ post + online + post * online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = score ~ post +
+      online +
+      post * online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 
 ques_online <- question_level |>
-  feols(fml = correct ~ post + online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = correct ~ post +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 ques_online_did <- question_level |>
-  feols(fml = correct ~ post + online + post * online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
-    parttime + gpamiss | session + instructor, vcov = "hc1")
+  feols(
+    fml = correct ~ post +
+      online +
+      post * online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
 
 
 ### CREATE A TABLE FOR ALL INTERACTION EFFECTS IN ONE ------------------------------------------------------------
@@ -529,24 +807,40 @@ results_did <- panelsummary_raw(
   mean_dependent = T,
   gof_map = c("nobs", "r.squared"),
   coef_map = rowlabs_did,
-  stars = "econ") |>
-  clean_raw(caption = "Interaction effects of COVID-19 on students’ academic performance")
+  stars = "econ"
+) |>
+  clean_raw(
+    caption = "Interaction effects of COVID-19 on students’ academic performance"
+  )
 
 
 results_did |>
-  kable_styling(font_size = 9, latex_options = c("scale_down", "HOLD_position")) |>
-  add_header_above(c(" ", "Final Exam Score" = 2, "Did Student Get The Answer Correct (Y/N)?" = 2), bold = T, italic = T, escape = FALSE) |>
+  kable_styling(
+    font_size = 9,
+    latex_options = c("scale_down", "HOLD_position")
+  ) |>
+  add_header_above(
+    c(
+      " ",
+      "Final Exam Score" = 2,
+      "Did Student Get The Answer Correct (Y/N)?" = 2
+    ),
+    bold = T,
+    italic = T,
+    escape = TRUE
+  ) |>
   pack_rows("Panel A: Low GPA vs High GPA", 1, 11, bold = T, italic = T) |>
   pack_rows("Panel B: Online vs Hybrid", 12, 20, bold = T, italic = T) |>
   column_spec(1, width = "15em") |>
-  footnote("* p {< 0.1}, ** p {< 0.05}, *** p {< 0.01}. Heteroskedasticity-robust standard errors are used.
-               All regressions include the following control variables: cumulative GPA, gender, race, and part-time 
-               status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
-               GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course
-               instructor fixed-effects.", escape = TRUE, threeparttable = TRUE, footnote_as_chunk = TRUE)
+  footnote(
+    "* p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
+    GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.",
+    escape = FALSE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  )
 
 ```
-
 
 
 ## Abrupt Transition to Remote Learning
@@ -555,4 +849,526 @@ Panel B in table 3.4 displays the results of the impact of the pandemic-induced 
 
 Columns 3-4 show the results of linear probability models with binary outcome variable which is 1 if a student answers the question correctly and 0 otherwise.  Column 3 shows that on average, accounting for dummy variable for the pandemic, students enrolled in online course are 7.3 percentage points less likely to answer a nearly identical question from common exams from pre pandemic period in post pandemic exams. Column 4 is a classic difference-in-differences specification. Surprisingly, the impact of a sudden transition from hybrid to online learning increased the students’ probability of answering a similar question from pre-pandemic common exams in the post-pandemic period by 5.6 percentage points. 
 
-In table 3.4, in panel A, all regressions include the following control variables: instruction mode, gender, race, and part-time status of the student. In panel B, all regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects. 
+In table 3.4, in panel A, all regressions include the following control variables: instruction mode, gender, race, and part-time status of the student. In panel B, all regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
+
+
+
+## Dynamic Effects
+
+I am also interested in examining the differential impact of the pandemic on the outcomes of high and low GPA students across the semesters. I interact the low GPA with separate time dummies for all semesters, with spring 2019 and fall 2019 combined as the benchmark category. This allows me to explore how the outcome differences between low GPA and high GPA students evolve over time. I also perform the same exercise to explore the impact of abrupt transition to online mode of learning across the semesters. I interact a dummy variable for the online mode of learning with all semester dummies, with the same benchmark category.
+
+In figure 3.3, the outcome variable is scores on the common final exam. The top-left panel illustrates the long-term impact of COVID-19 on exam scores of low-GPA students compared to high-GPA students. There's a sharp decline in exam scores for low-GPA students in Fall 2020. Although their performance improves over time, a gap persists. The top-right panel illustrates the impact of the sudden transition to online learning on exam scores across different semesters. Immediately after the COVID-19 hit, transition to online classes decreased exam scores but recovered after one semester suggesting gradual adaptation to new learning environment.
+
+```{r dynamic-effects, echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Dynamic effects of COVID-19 on students' performance", out.width= "80%", fig.align = "center"}
+ 
+
+#####################################################################################
+#####################################################################################
+############### LONG TERM EFFECTS ON HIGH VS LOW GPA USING YEAR DUMMIES #############
+#####################################################################################
+#####################################################################################
+
+exam_longterm_gpa <- exam_level |>
+  feols(fml = score ~ i(factor_var = time, var = lowgpa, ref = 1) + online + female + r_hispa + r_black + r_asian + r_other
+    + session + parttime + gpamiss | time + instructor, vcov = "hc1")
+
+ques_longterm_gpa <- question_level |>
+  feols(fml = correct ~ i(factor_var = time, var = lowgpa, ref = 1) + online + female + r_hispa + r_black + r_asian + r_other
+    + session + parttime + gpamiss | time + instructor, vcov = "hc1")
+
+# msummary(list(exam_longterm_gpa, ques_longterm_gpa),
+#   stars = c("*" = .1, "**" = .05, "***" = .01)
+# )
+
+
+#####################################################################################
+#####################################################################################
+############### LONG TERM EFFECTS ON ONLINE VS HYBRID USING YEAR DUMMIES ############
+#####################################################################################
+#####################################################################################
+
+
+exam_longterm_online <- exam_level |>
+  filter(time %in% c("1", "2", "3")) |>
+  feols(fml = score ~ i(factor_var = time, var = online, ref = 1) + cumgpa + female + r_hispa + r_black + r_asian + r_other
+    + parttime + gpamiss | instructor, vcov = "hc1")
+
+ques_longterm_online <- question_level |>
+  filter(time %in% c("1", "2", "3")) |>
+  feols(fml = correct ~ i(factor_var = time, var = online, ref = 1) + cumgpa + female + r_hispa + r_black + r_asian + r_other
+    + parttime + gpamiss | instructor, vcov = "hc1")
+
+
+
+# Create plots with consistent minimal styling
+plot_gpa_exam <- ggiplot(exam_longterm_gpa, 
+                         main = "Exam Scores: Low vs High GPA",
+                         xlab = "Time Period",
+                         ylab = "Estimates",
+                         ref.line = FALSE,
+                         pt.join = TRUE,
+                         geom_style = "pointrange",
+                         ci_level = 0.95) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
+  theme_minimal(base_size = 10) +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 10))
+
+plot_gpa_ques <- ggiplot(ques_longterm_gpa, 
+                         main = "Matched Questions: Low vs High GPA",
+                         xlab = "Time Period",
+                         ylab = "Estimates",
+                         ref.line = FALSE,
+                         pt.join = TRUE,
+                         geom_style = "pointrange") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
+  theme_minimal(base_size = 10) +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 10))
+
+plot_online_exam <- ggiplot(exam_longterm_online, 
+                            main = "Exam Scores: Online vs Hybrid",
+                            xlab = "Time Period",
+                            ylab = "Estimates",
+                            ref.line = FALSE,
+                            pt.join = TRUE,
+                            geom_style = "pointrange") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
+  theme_minimal(base_size = 10) +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 10))
+
+plot_online_ques <- ggiplot(ques_longterm_online, 
+                            main = "Matched Questions: Online vs Hybrid",
+                            xlab = "Time Period",
+                            ylab = "Estimates",
+                            ref.line = FALSE,
+                            pt.join = TRUE,
+                            geom_style = "pointrange") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
+  theme_minimal(base_size = 10) +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 10))
+
+(plot_gpa_exam + plot_gpa_ques) / 
+  (plot_online_exam + plot_online_ques) 
+```
+
+A similar pattern emerges with matched question data used to measure students' academic outcomes. The mean probability of answering a nearly identical question post-pandemic compared to pre-pandemic exam decreases sharply for low-GPA students immediately after COVID-19 hit (bottom-left panel). It did not appear to recover by spring 2022. The average probability of answering a similar question correctly decreases due to the sudden transition to online classes but then increases to the levels seen before the pandemic (bottom-right panel). 
+
+## Effects Due to Heterogenity in Difficulty of Questions
+
+In this section, I examine the pandemic's effect on students' performance by analyzing the mean probability of answering nearly identical questions before and during the pandemic, taking into account the question difficulty. As previously mentioned, all students enrolled in ECO 1001 take a common final exam. Course instructors categorized questions as either *easy* or *hard* based on their difficulty level.  Since, I am matching question from pre pandemic exams to exams during the pandemic, I classify questions as *hard* if they were labelled *hard* by the instructors from the pre-pandemic exams, and the follow the same logic for the easy questions. 
+
+```{r robust-online-easy-hard, echo=FALSE, warning=FALSE, message=FALSE}
+
+################################################################################################################
+################################################################################################################
+#################################### HARD VS MEDIUM VS EASY QUESTIONS  #########################################
+################################################################################################################
+################################################################################################################
+
+
+# Low vs High GPA (Hard vs Easy Questions)---------------------------------------------------------------------------------------------------
+
+
+ques_gpa_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(fml = correct ~ post + lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+ques_gpa_did_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(fml = correct ~ post + lowgpa + post * lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+ques_gpa_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(fml = correct ~ post + lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+ques_gpa_did_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(fml = correct ~ post + lowgpa + post * lowgpa + online + female + r_black + r_asian + r_hispa + r_other +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+
+# Online hybrid (Hard vs Easy Questions)---------------------------------------------------------------------------------------------------
+
+ques_online_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(fml = correct ~ post + online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+ques_online_did_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(fml = correct ~ post + online + post * online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+
+ques_online_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(fml = correct ~ post + online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+ques_online_did_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(fml = correct ~ post + online + post * online + female + r_black + r_asian + r_hispa + r_other + cumgpa +
+          parttime + gpamiss | session + instructor, vcov = "hc1")
+
+
+##### CREATE A TABLE------------------------------------------------
+#####-------------------------------------------------------------------------------------------------------------------------
+  
+rowlabs_eh <- c(
+  "post" = "postcovid",
+  "lowgpa" = "lowgpa",
+  "post:lowgpa" = "post x lowgpa",
+  "online" = "online",
+  "post:online" = "post x online"
+)
+
+results_all <- panelsummary_raw(
+  list(ques_gpa_hard, ques_gpa_did_hard, ques_gpa_easy, ques_gpa_did_easy),
+  list(ques_online_hard, ques_online_did_hard, ques_online_easy, ques_online_did_easy),
+ mean_dependent = T,
+  gof_map = c("nobs", "r.squared"),
+  coef_map = rowlabs_did,
+  stars = "econ"
+) |>
+  clean_raw(
+    caption = "Estimates of COVID-19 on students’ performance on questions by level of difficulty"
+  )
+
+
+results_all |>
+  kable_styling(
+    font_size = 9,
+    latex_options = c("scale_down", "HOLD_position")
+  ) |>
+  add_header_above(
+    c(
+      " ",
+      "Final Exam Score" = 2,
+      "Did Student Get The Answer Correct (Y/N)?" = 2
+    ),
+    bold = T,
+    italic = T,
+    escape = TRUE
+  ) |>
+  pack_rows("Panel A: Low GPA vs High GPA", 1, 11, bold = T, italic = T) |>
+  pack_rows("Panel B: Online vs Hybrid", 12, 20, bold = T, italic = T) |>
+  column_spec(1, width = "15em") |>
+  footnote(
+    "* p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
+    GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.",
+    escape = FALSE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  )
+
+```
+
+Results from panel A in table 3.5 show that on average low GPA students are about 15 percentage points (0.15 standard deviations) less likely to answer a hard question correctly compared to high GPA students. Due to the pandemic, low-GPA students' mean probability of answering nearly identical hard questions correctly decreased by 4.5 percentage points (or 0.02 standard deviations) compared to high-GPA students. For easy questions, their performance decreased by 1.6 percentage points, though this estimate is not statistically significant. In Panel B, I do a similar analysis for students enrolled in online relative to hybrid classes.  On average, students enrolled in online classes are 7.2 percentage points (or 0.07 standard deviations) less likely to answer a hard question correctly compared to students enrolled in hybrid classes. Following the abrupt transition from pre-pandemic hybrid learning to online mode, mean probability of answering nearly identical hard questions correctly increased by just over 12 percentage points (0.06 standard deviations). For easy questions, the estimate is not statistically significant.
+
+# Conclusion
+
+In this essay, I examine the pandemic's influence on the academic performance of students by analyzing their results in the common exams for introductory microeconomics course at a large public university in New York City.  I advance the literature by providing estimates of learning loss in college students due to pandemic that are more reliable than current estimates. I use two outcome measures to evaluate students' academic performance and argue that these outcome choices are more appropriate than the existing outcome measures such as course completion rate, course GPA, or semester GPA used in the literature on the impact of COVID on students' academic performance. First, I analyze students' scores on common final exams administered at the institution from 2019 to 2022, excluding spring 2020 due to lack of data availability for that semester. Acknowledging the fact that difficulty of exams may have changed during the pandemic, I use 35 pairs of questions matched  from these common final exams to measure changes in the students’ average probability of answering nearly identical questions from the exams conducted before and during the pandemic to eliminate the variation from exam difficulty. I find an overall negative impact of the pandemic on students’ outcomes. Students’ scores went down by a point (or 0.02 standard deviations) in the full pandemic period (2020-2022), although the coefficient is not statistically significant. Students’ average probability of answering similar questions from the common exams before the pandemic went down during the pandemic by 1.5 percentage points. This clear evidence of learning loss, I argue, is not affected by the flexible grading policy. The extent of learning loss was greater in fall 2020 and gradually lessened through fall 2021, after which it stabilized. 
+
+I also examine the differential impact of the pandemic on the outcomes of students with low GPA compared to those with high GPA. My findings suggest that on average low GPA students have a 3.3 percentage point lower average probability of correctly answering similar questions compared to high GPA students during the pandemic. This accounts for a broad range of student characteristics and incorporates instructor and session fixed effects, indicating a significant differential impact on low GPA students. While using students' scores from common exams as the outcome variable, I find that low GPA students on average scored 3.23 points (or 0.04 standard deviations) less in the common exams compared to high GPA students during the pandemic. In the long term, although this difference decreases, it does not return to the pre-pandemic level by spring 2022. Additionally, I examined the pandemic's effects across GPA quartiles and found that students in the lowest quartile of GPA distribution were 4.1 percentage points (0.02 standard deviations) less likely to correctly answer nearly identical questions from pre-pandemic exams during the pandemic. This analysis supports the hypothesis that low GPA students, on average, suffered greater learning loss due to the pandemic compared to high GPA students.
+
+Furthermore, I explore an important channel: the sudden shift to online classes, through which the pandemic affected students' academic outcomes. I find that abruptly moving to online classes due to the pandemic reduced students’ final exam scores by 5.43 points. In case of matched questions data, the mean probability of answering a similar question before and after suddenly moving to online classes increased by 5.6 percentage points. Interacting the semester dummies with a dummy for online variable, I find that the abrupt transition to online classes reduced the average probability of answering a similar question correctly before and during pandemic before returning to pre-pandemic levels. The same pattern is observed in case of exam scores as outcome variable. To examine how sensitive these estimates of learning loss are to question difficulty in the matched questions data, I provide results from separate analyses using easy as well as hard questions. During the pandemic, low-GPA students' mean probability of answering nearly identical hard questions decreased by 4.5 percentage points relative to their high-GPA counterparts. I found no statistically significant effect for easy questions.  When examining the effect of abrupt transition to remote classes, I found that students scored just over 12 percentage points higher on hard questions after moving online, while showing no statistically significant difference on easy questions.
+
+Overall, I find negative effects of the pandemic on students' academic performance that align directionally with the current literature. My unique matched questions data allows me to eliminate bias in the estimates that arose from flexible grading policies implemented immediately after the pandemic hit educational institutions nationwide. I do, however, acknowledge that my estimates may not account fully for potential cheating by students, especially in the initial months following a sudden transition to remote classes. The implications of learning loss due to the pandemic could be significant. On one hand, students' GPAs, both course-specific and overall, did not change much or even increased in some cases during the pandemic, giving the impression of better performance. On the other hand, evidence from student surveys shows that students faced hardships and challenges in learning during this time. In my study I provide evidence of learning loss which is consistent with students’ negative experiences during the pandemic. In future, any decision to suddenly switch to remote learning during a complex situation should be carefully considered before implementation.
+
+
+\pagebreak
+
+# References
+
+::: {#refs}
+:::
+
+\pagebreak
+
+# Appendix
+
+
+## Average final exam scores in ECO 1001 across semesters
+
+```{r exam-scores-mean, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "Average Final Exam Scores in ECO 1001 across Semesters", fig.pos="H", fig.width = 6, fig.height = 4, fig.align = "center"}
+### Figure A1: Average final exam scores in ECO 1001 across semesters ------------------
+
+# Semester labels for exam scores
+
+exam_labels <- c(
+  "Spring 2019", "Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Summarize exam score statistics
+
+exam_summary <- exam_level|>
+  dplyr::select(score, year, session)|>
+  dplyr::mutate(session = forcats::fct_relevel(session, c("S", "F")))|>
+  dplyr::group_by(year, session)|>
+  dplyr::summarise(
+    avg_score = mean(score * 0.4, na.rm = TRUE),
+    sd_score = sd(score, na.rm = TRUE),
+    n = dplyr::n(),
+    std_error = sd_score / sqrt(n),
+    .groups = 'drop'
+  )|>
+  dplyr::mutate(
+    semester = factor(seq_along(year), labels = exam_labels),
+    margin_error = 1.96 * std_error
+  )
+
+# Plot exam scores across semesters
+
+ggplot(exam_summary, aes(x = semester, y = avg_score, label = round(avg_score, 2))) +
+  geom_bar(stat = "identity", width = 0.3, fill = "skyblue", alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = avg_score - margin_error, ymax = avg_score + margin_error),
+    width = 0.2, color = "darkblue"
+  ) +
+  geom_text(
+    size = 3, vjust = -3.5, color = "black"
+  ) +
+  ylim(0, 50) +
+  labs(
+    x = NULL,
+    y = "Average Final Exam Score",
+    title = ""
+  ) +
+  scale_x_discrete(labels = exam_labels) +
+  theme_minimal(base_size = 13)
+
+```
+
+## Student shares in low and high GPA groups
+
+```{r share-gpa-low-high, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "Share of High vs Low GPA Students", fig.pos="H", fig.width = 6, fig.height = 4, fig.align = "center"}
+### Figure A2: Student shares in low and high GPA groups ------------------
+## S2019,F2019,F2020,S2021,F2021,S2022
+## S2019/F2019 combined due to small sample size
+
+# Semester labels for GPA share plot
+gpa_share_labels <- c(
+  "Spring/Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+
+# Prepare summary data: student share by GPA type
+stu_share_gpa_summary <- question_level|>
+  dplyr::distinct(id, .keep_all = TRUE)|>
+  dplyr::group_by(time, id, typegpa)|>
+  dplyr::count()|>
+  dplyr::group_by(time, typegpa)|>
+  dplyr::count(name = "n")|>
+  dplyr::group_by(time)|>
+  dplyr::mutate(share = n / sum(n))|>
+  dplyr::ungroup()
+
+# Color palette for GPA types
+gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
+
+stu_share_gpa_summary <- stu_share_gpa_summary |>
+  dplyr::mutate(typegpa = dplyr::recode(typegpa,
+                                      "high" = "High GPA",
+                                      "low"  = "Low GPA"))
+
+# Plot share of students by GPA type
+ggplot(stu_share_gpa_summary, aes(x = factor(time), y = share, fill = typegpa, label = round(share, 2))) +
+  geom_col(
+    width = 0.5,
+    alpha = 0.8,
+    position = position_dodge(0.6),
+    color = "black"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -1,
+    position = position_dodge(0.6)
+  ) +
+  ylim(0, 1) +
+  labs(
+    x = NULL,
+    y = "Share of High and Low GPA Students",
+    fill = "GPA Type",
+    title = ""
+  ) +
+  scale_fill_manual(values = gpa_type_colors) +
+  scale_x_discrete(labels = gpa_share_labels) +
+  theme_minimal(base_size = 13)
+
+```
+
+## Average GPA in low and high GPA groups in ECO 1001 across semesters
+
+```{r meangpa-gpa-group, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "Average GPA in High vs Low GPA Group of Students", fig.pos="H", fig.width = 6, fig.height = 3.5, fig.align = "center"}
+### Figure A3: Average GPA in low and high GPA groups in ECO 1001 across semesters ------------------
+## S2019,F2019,F2020,S2021,F2021,S2022
+# Prepare semester labels
+mean_gpa_labels <- c(
+  "Spring/Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Summarize mean cumulative GPA by group
+stu_mean_gpa_summary <- question_level %>%
+  dplyr::distinct(id, .keep_all = TRUE) %>%
+  dplyr::select(time, cumgpa, typegpa) %>%
+  dplyr::group_by(time, typegpa) %>%
+  dplyr::summarise(
+    avg_gpa = mean(cumgpa, na.rm = TRUE),
+    sd_score = sd(cumgpa, na.rm = TRUE),
+    n = dplyr::n(),
+    std_error = sd_score / sqrt(n),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(margin_error = 1.96 * std_error)
+
+# GPA type colors (ensure levels match your data)
+gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
+
+# If your data uses values like 'high'/'low', relabel before plotting
+stu_mean_gpa_summary <- stu_mean_gpa_summary %>%
+  dplyr::mutate(typegpa = dplyr::recode(typegpa,
+                                        "high" = "High GPA",
+                                        "low"  = "Low GPA"))
+
+# Plot mean GPA by group across semesters
+ggplot(stu_mean_gpa_summary, aes(
+  x = factor(time),
+  y = avg_gpa,
+  group = typegpa,
+  fill = typegpa,
+  label = round(avg_gpa, 2)
+)) +
+  geom_col(
+    width = 0.5,
+    alpha = 0.8,
+    position = position_dodge(0.6),
+    color = "black"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -1,
+    position = position_dodge(0.75),
+    color = "black"
+  ) +
+  ylim(0, 6) +
+  labs(
+    x = NULL,
+    y = "Mean GPA of High and Low GPA Students",
+    fill = "GPA Type",
+    title = ""
+  ) +
+  scale_x_discrete(
+    breaks = c("1", "2", "3", "4", "5"),
+    labels = mean_gpa_labels
+  ) +
+  scale_fill_manual(values = gpa_type_colors) +
+  theme_minimal(base_size = 13)
+
+
+```
+
+## Share of Students in hybrid and online classes
+
+```{r student-share-online-hybrid, echo=FALSE, warning=FALSE, message=FALSE, fig.cap= "Share of the Students in Hybrid vs Online Classes", fig.pos="H", fig.width = 6, fig.height = 5, fig.align = "center"}
+### Figure A4: Student shares in hybrid and online classes ------------------
+#### S2019,F2019,F2020,S2021,F2021,S2022
+
+# Semester labels for instruction mode plot
+inst_mode_labels <- c(
+  "Spring/Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Prepare summary data: student share by instruction mode
+stu_share_inst_summary <- question_level %>%
+  dplyr::distinct(id, .keep_all = TRUE) %>%
+  dplyr::group_by(time, id, instruction_mode) %>%
+  dplyr::count() %>%
+  dplyr::group_by(time, instruction_mode) %>%
+  dplyr::count(name = "n") %>%
+  dplyr::group_by(time) %>%
+  dplyr::mutate(share = n / sum(n)) %>%
+  dplyr::ungroup()
+
+# Set color palette for instruction modes -- ensure it matches your data
+inst_mode_colors <- c("Hybrid" = "skyblue", "Online" = "darkblue")
+
+# Relabel for legend, if your values are different
+stu_share_inst_summary <- stu_share_inst_summary %>%
+  dplyr::mutate(instruction_mode = dplyr::recode(instruction_mode,
+                                                 "H" = "Hybrid",
+                                                 "O" = "Online"
+  ))
+
+# Plot student share by instruction mode
+ggplot(stu_share_inst_summary, aes(
+  x = factor(time),
+  y = share,
+  fill = instruction_mode,
+  label = round(share, 2)
+)) +
+  geom_col(
+    width = 0.2,
+    alpha = 0.7,
+    position = position_dodge(0.4),
+    color = "black"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -1,
+    position = position_dodge(0.75)
+  ) +
+  ylim(0, 1) +
+  labs(
+    x = NULL,
+    y = "Share of Students in Hybrid and Online Classes",
+    fill = "Instruction Mode",
+    title = ""
+  ) +
+  scale_x_discrete(
+    breaks = c("1", "2", "3", "4", "5"),
+    labels = inst_mode_labels
+  ) +
+  scale_fill_manual(values = inst_mode_colors) +
+  theme_minimal(base_size = 13)
+
+```
+
+\pagebreak
+
+## Example of a Matched-Question
+
+As explained earlier, I were able to match 35 pairs of nearly identical questions from pre-pandemic common exams to exams conducted during the pandemic. I provide an example of one such question below that was similar in common final exams in fall 2019 and fall 2020 which was deemed to be *hard* by the instructors. Full list of matched questions are provided in a separate document.
+
+### Fall 2019 version
+
+\noindent Scenario 2, Monopoly: Let the following equations the market for energy for ConEd, a monopolist: $P=56-2Q$, $MR=56-4Q$, $TC=50+6Q+3Q^2$, $MC=6+6Q$
+
+\noindent Refer to Scenario 2, Monopoly: What is the profit of ConEd at the profit maximizing quantity? (round to the nearest whole number and pick the best answer)
+
+a)  100
+b)  50
+c)  75
+d)  155
+
+### Fall 2020 version
+
+\noindent A monopolist has a total cost curve represented by $TC=50+2Q+Q^2$, and a marginal cost curve represented by $MC=2+2Q$. The monopolist faces the demand curve $P=100-3Q$. The price is in dollars and the quantity is in thousands. What is the monopolist’s profit? (pick the closest answer)
+
+a)  \$330,330
+b)  \$550,250
+c)  \$750,000
+d)  \$1,000,600

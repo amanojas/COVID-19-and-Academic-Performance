@@ -160,9 +160,6 @@
 \usepackage{makecell}
 \usepackage{xcolor}
 \KOMAoption{captions}{tableheading}
-\usepackage{booktabs}
-\usepackage{threeparttable}
-\setlength{\defaultaddspace}{0pt}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -937,7 +934,8 @@ significant at the 1\% level.
 \end{tabular}
 \begin{tablenotes}[para]
 \item \textit{Note: } 
-\item makecell[l]{* p \{< 0.1\}, ** p \{< 0.05\}, *** p \{< 0.01\}. Heteroskedasticity-robust standard errors are used.\               All regressions include the following control variables: cumulative GPA, gender, race, and part-time \               status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative\               GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course\               instructor fixed-effects.}
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
+    GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
 \end{tablenotes}
 \end{threeparttable}}
 \end{table}
@@ -984,6 +982,222 @@ student. All regressions also include a dummy variable, gpamiss, which
 is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All
 regressions include session fixed-effects and course instructor
 fixed-effects.
+
+\subsection{Dynamic Effects}\label{dynamic-effects}
+
+I am also interested in examining the differential impact of the
+pandemic on the outcomes of high and low GPA students across the
+semesters. I interact the low GPA with separate time dummies for all
+semesters, with spring 2019 and fall 2019 combined as the benchmark
+category. This allows me to explore how the outcome differences between
+low GPA and high GPA students evolve over time. I also perform the same
+exercise to explore the impact of abrupt transition to online mode of
+learning across the semesters. I interact a dummy variable for the
+online mode of learning with all semester dummies, with the same
+benchmark category.
+
+In figure 3.3, the outcome variable is scores on the common final exam.
+The top-left panel illustrates the long-term impact of COVID-19 on exam
+scores of low-GPA students compared to high-GPA students. There's a
+sharp decline in exam scores for low-GPA students in Fall 2020. Although
+their performance improves over time, a gap persists. The top-right
+panel illustrates the impact of the sudden transition to online learning
+on exam scores across different semesters. Immediately after the
+COVID-19 hit, transition to online classes decreased exam scores but
+recovered after one semester suggesting gradual adaptation to new
+learning environment.
+
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{01_journal_submission_files/figure-pdf/dynamic-effects-1.pdf}
+
+}
+
+\caption{Dynamic effects of COVID-19 on students' performance}
+
+\end{figure}%
+
+A similar pattern emerges with matched question data used to measure
+students' academic outcomes. The mean probability of answering a nearly
+identical question post-pandemic compared to pre-pandemic exam decreases
+sharply for low-GPA students immediately after COVID-19 hit (bottom-left
+panel). It did not appear to recover by spring 2022. The average
+probability of answering a similar question correctly decreases due to
+the sudden transition to online classes but then increases to the levels
+seen before the pandemic (bottom-right panel).
+
+\subsection{Effects Due to Heterogenity in Difficulty of
+Questions}\label{effects-due-to-heterogenity-in-difficulty-of-questions}
+
+In this section, I examine the pandemic's effect on students'
+performance by analyzing the mean probability of answering nearly
+identical questions before and during the pandemic, taking into account
+the question difficulty. As previously mentioned, all students enrolled
+in ECO 1001 take a common final exam. Course instructors categorized
+questions as either \emph{easy} or \emph{hard} based on their difficulty
+level. Since, I am matching question from pre pandemic exams to exams
+during the pandemic, I classify questions as \emph{hard} if they were
+labelled \emph{hard} by the instructors from the pre-pandemic exams, and
+the follow the same logic for the easy questions.
+
+\begin{table}[H]
+\centering
+\caption{\label{tab:robust-online-easy-hard}Estimates of COVID-19 on students’ performance on questions by level of difficulty}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
+\toprule
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Final Exam Score}}} & \multicolumn{2}{c}{\em{\textbf{Did Student Get The Answer Correct (Y/N)?}}} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & (1) & (2) & (3) & (4)\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textit{\textbf{Panel A: Low GPA vs High GPA}}}\\
+\hspace{1em}postcovid & -0.003 & 0.014 & -0.006 & -0.018\\
+\hspace{1em} & (0.010) & (0.011) & (0.018) & (0.020)\\
+\hspace{1em}lowgpa & -0.141*** & -0.120*** & -0.092*** & -0.101***\\
+\hspace{1em} & (0.006) & (0.010) & (0.009) & (0.013)\\
+\hspace{1em}post x lowgpa &  & -0.037*** &  & 0.022\\
+\hspace{1em} &  & (0.013) &  & (0.019)\\
+\hspace{1em}online & -0.039*** & -0.039*** & -0.118*** & -0.117***\\
+\hspace{1em} & (0.010) & (0.010) & (0.017) & (0.017)\\
+\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & \vphantom{1} 0.645\\
+\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & \vphantom{1} 13332\\
+\hspace{1em}R2 & 0.037 & 0.037 & 0.033 & 0.033\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textit{\textbf{Panel B: Online vs Hybrid}}}\\
+\hspace{1em}postcovid & -0.009 & -0.044*** & 0.003 & -0.005\\
+\hspace{1em} & (0.010) & (0.012) & (0.018) & (0.021)\\
+\hspace{1em}online & -0.047*** & -0.093*** & -0.126*** & -0.135***\\
+\hspace{1em} & (0.010) & (0.013) & (0.017) & (0.022)\\
+\hspace{1em}post x online &  & 0.100*** &  & 0.019\\
+\hspace{1em} &  & (0.018) &  & (0.027)\\
+\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & 0.645\\
+\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & 13332\\
+\hspace{1em}R2 & 0.042 & 0.043 & 0.031 & 0.031\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: } 
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
+    GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
+
+Results from panel A in table 3.5 show that on average low GPA students
+are about 15 percentage points (0.15 standard deviations) less likely to
+answer a hard question correctly compared to high GPA students. Due to
+the pandemic, low-GPA students' mean probability of answering nearly
+identical hard questions correctly decreased by 4.5 percentage points
+(or 0.02 standard deviations) compared to high-GPA students. For easy
+questions, their performance decreased by 1.6 percentage points, though
+this estimate is not statistically significant. In Panel B, I do a
+similar analysis for students enrolled in online relative to hybrid
+classes. On average, students enrolled in online classes are 7.2
+percentage points (or 0.07 standard deviations) less likely to answer a
+hard question correctly compared to students enrolled in hybrid classes.
+Following the abrupt transition from pre-pandemic hybrid learning to
+online mode, mean probability of answering nearly identical hard
+questions correctly increased by just over 12 percentage points (0.06
+standard deviations). For easy questions, the estimate is not
+statistically significant.
+
+\section{Conclusion}\label{conclusion}
+
+In this essay, I examine the pandemic's influence on the academic
+performance of students by analyzing their results in the common exams
+for introductory microeconomics course at a large public university in
+New York City. I advance the literature by providing estimates of
+learning loss in college students due to pandemic that are more reliable
+than current estimates. I use two outcome measures to evaluate students'
+academic performance and argue that these outcome choices are more
+appropriate than the existing outcome measures such as course completion
+rate, course GPA, or semester GPA used in the literature on the impact
+of COVID on students' academic performance. First, I analyze students'
+scores on common final exams administered at the institution from 2019
+to 2022, excluding spring 2020 due to lack of data availability for that
+semester. Acknowledging the fact that difficulty of exams may have
+changed during the pandemic, I use 35 pairs of questions matched from
+these common final exams to measure changes in the students' average
+probability of answering nearly identical questions from the exams
+conducted before and during the pandemic to eliminate the variation from
+exam difficulty. I find an overall negative impact of the pandemic on
+students' outcomes. Students' scores went down by a point (or 0.02
+standard deviations) in the full pandemic period (2020-2022), although
+the coefficient is not statistically significant. Students' average
+probability of answering similar questions from the common exams before
+the pandemic went down during the pandemic by 1.5 percentage points.
+This clear evidence of learning loss, I argue, is not affected by the
+flexible grading policy. The extent of learning loss was greater in fall
+2020 and gradually lessened through fall 2021, after which it
+stabilized.
+
+I also examine the differential impact of the pandemic on the outcomes
+of students with low GPA compared to those with high GPA. My findings
+suggest that on average low GPA students have a 3.3 percentage point
+lower average probability of correctly answering similar questions
+compared to high GPA students during the pandemic. This accounts for a
+broad range of student characteristics and incorporates instructor and
+session fixed effects, indicating a significant differential impact on
+low GPA students. While using students' scores from common exams as the
+outcome variable, I find that low GPA students on average scored 3.23
+points (or 0.04 standard deviations) less in the common exams compared
+to high GPA students during the pandemic. In the long term, although
+this difference decreases, it does not return to the pre-pandemic level
+by spring 2022. Additionally, I examined the pandemic's effects across
+GPA quartiles and found that students in the lowest quartile of GPA
+distribution were 4.1 percentage points (0.02 standard deviations) less
+likely to correctly answer nearly identical questions from pre-pandemic
+exams during the pandemic. This analysis supports the hypothesis that
+low GPA students, on average, suffered greater learning loss due to the
+pandemic compared to high GPA students.
+
+Furthermore, I explore an important channel: the sudden shift to online
+classes, through which the pandemic affected students' academic
+outcomes. I find that abruptly moving to online classes due to the
+pandemic reduced students' final exam scores by 5.43 points. In case of
+matched questions data, the mean probability of answering a similar
+question before and after suddenly moving to online classes increased by
+5.6 percentage points. Interacting the semester dummies with a dummy for
+online variable, I find that the abrupt transition to online classes
+reduced the average probability of answering a similar question
+correctly before and during pandemic before returning to pre-pandemic
+levels. The same pattern is observed in case of exam scores as outcome
+variable. To examine how sensitive these estimates of learning loss are
+to question difficulty in the matched questions data, I provide results
+from separate analyses using easy as well as hard questions. During the
+pandemic, low-GPA students' mean probability of answering nearly
+identical hard questions decreased by 4.5 percentage points relative to
+their high-GPA counterparts. I found no statistically significant effect
+for easy questions. When examining the effect of abrupt transition to
+remote classes, I found that students scored just over 12 percentage
+points higher on hard questions after moving online, while showing no
+statistically significant difference on easy questions.
+
+Overall, I find negative effects of the pandemic on students' academic
+performance that align directionally with the current literature. My
+unique matched questions data allows me to eliminate bias in the
+estimates that arose from flexible grading policies implemented
+immediately after the pandemic hit educational institutions nationwide.
+I do, however, acknowledge that my estimates may not account fully for
+potential cheating by students, especially in the initial months
+following a sudden transition to remote classes. The implications of
+learning loss due to the pandemic could be significant. On one hand,
+students' GPAs, both course-specific and overall, did not change much or
+even increased in some cases during the pandemic, giving the impression
+of better performance. On the other hand, evidence from student surveys
+shows that students faced hardships and challenges in learning during
+this time. In my study I provide evidence of learning loss which is
+consistent with students' negative experiences during the pandemic. In
+future, any decision to suddenly switch to remote learning during a
+complex situation should be carefully considered before implementation.
+
+\pagebreak
+
+\section{References}\label{references}
 
 \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
@@ -1116,6 +1330,118 @@ Xu, Di, and Ying Xu. 2019. {``The {Promises} and {Limits} of {Online}
 Institute. \url{https://eric.ed.gov/?id=ED596296}.
 
 \end{CSLReferences}
+
+\pagebreak
+
+\section{Appendix}\label{appendix}
+
+\subsection{Average final exam scores in ECO 1001 across
+semesters}\label{average-final-exam-scores-in-eco-1001-across-semesters}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{01_journal_submission_files/figure-pdf/exam-scores-mean-1.pdf}}
+
+}
+
+\caption{Average Final Exam Scores in ECO 1001 across Semesters}
+
+\end{figure}%
+
+\subsection{Student shares in low and high GPA
+groups}\label{student-shares-in-low-and-high-gpa-groups}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{01_journal_submission_files/figure-pdf/share-gpa-low-high-1.pdf}}
+
+}
+
+\caption{Share of High vs Low GPA Students}
+
+\end{figure}%
+
+\subsection{Average GPA in low and high GPA groups in ECO 1001 across
+semesters}\label{average-gpa-in-low-and-high-gpa-groups-in-eco-1001-across-semesters}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{01_journal_submission_files/figure-pdf/meangpa-gpa-group-1.pdf}}
+
+}
+
+\caption{Average GPA in High vs Low GPA Group of Students}
+
+\end{figure}%
+
+\subsection{Share of Students in hybrid and online
+classes}\label{share-of-students-in-hybrid-and-online-classes}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{01_journal_submission_files/figure-pdf/student-share-online-hybrid-1.pdf}}
+
+}
+
+\caption{Share of the Students in Hybrid vs Online Classes}
+
+\end{figure}%
+
+\pagebreak
+
+\subsection{Example of a
+Matched-Question}\label{example-of-a-matched-question}
+
+As explained earlier, I were able to match 35 pairs of nearly identical
+questions from pre-pandemic common exams to exams conducted during the
+pandemic. I provide an example of one such question below that was
+similar in common final exams in fall 2019 and fall 2020 which was
+deemed to be \emph{hard} by the instructors. Full list of matched
+questions are provided in a separate document.
+
+\subsubsection{Fall 2019 version}\label{fall-2019-version}
+
+\noindent Scenario 2, Monopoly: Let the following equations the market
+for energy for ConEd, a monopolist: \(P=56-2Q\), \(MR=56-4Q\),
+\(TC=50+6Q+3Q^2\), \(MC=6+6Q\)
+
+\noindent Refer to Scenario 2, Monopoly: What is the profit of ConEd at
+the profit maximizing quantity? (round to the nearest whole number and
+pick the best answer)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  100
+\item
+  50
+\item
+  75
+\item
+  155
+\end{enumerate}
+
+\subsubsection{Fall 2020 version}\label{fall-2020-version}
+
+\noindent A monopolist has a total cost curve represented by
+\(TC=50+2Q+Q^2\), and a marginal cost curve represented by \(MC=2+2Q\).
+The monopolist faces the demand curve \(P=100-3Q\). The price is in
+dollars and the quantity is in thousands. What is the monopolist's
+profit? (pick the closest answer)
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi})}
+\tightlist
+\item
+  \$330,330
+\item
+  \$550,250
+\item
+  \$750,000
+\item
+  \$1,000,600
+\end{enumerate}
 
 
 

@@ -69,6 +69,7 @@ plot_gpa_exam <- ggiplot(exam_longterm_gpa,
                          geom_style = "pointrange",
                          ci_level = 0.95) +
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
   theme(plot.title = element_text(size = 10, face = "plain"),
         axis.title = element_text(size = 10))
@@ -81,6 +82,7 @@ plot_gpa_ques <- ggiplot(ques_longterm_gpa,
                          pt.join = TRUE,
                          geom_style = "pointrange") +
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
   theme(plot.title = element_text(size = 10, face = "plain"),
         axis.title = element_text(size = 10))
@@ -93,6 +95,7 @@ plot_online_exam <- ggiplot(exam_longterm_online,
                             pt.join = TRUE,
                             geom_style = "pointrange") +
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
   theme(plot.title = element_text(size = 10, face = "plain"),
         axis.title = element_text(size = 10))
@@ -105,12 +108,12 @@ plot_online_ques <- ggiplot(ques_longterm_online,
                             pt.join = TRUE,
                             geom_style = "pointrange") +
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
+  geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
   theme(plot.title = element_text(size = 10, face = "plain"),
         axis.title = element_text(size = 10))
 
 (plot_gpa_exam + plot_gpa_ques) / 
   (plot_online_exam + plot_online_ques) 
-
 
 

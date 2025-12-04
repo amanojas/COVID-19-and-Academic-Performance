@@ -22,7 +22,7 @@ exam_level <- read_rds(exam_url)
 
 ## I use original data for descriptive statistics (it includes missing values )
 
-final_data <- readRDS("S:\\CUNY Coursework\\Paper2\\Aman_E1001\\Analyses\\1-1-final.rds") |>
+final_data <- readRDS("S:\\CUNY Coursework\\Paper2\\Aman_E1001\\Analyses\\data_original_with_missing.rds") |>
   filter(!is.na(female)) |>
   mutate(time_period = factor(if_else(year <= 2019, "Pre-Covid", "Post-Covid")))
   

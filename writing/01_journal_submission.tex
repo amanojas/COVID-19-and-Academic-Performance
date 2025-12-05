@@ -29,6 +29,7 @@
   \setmainfont[]{Times New Roman}
   \setsansfont[]{Times New Roman}
   \setmonofont[]{Courier New}
+  \setmathfont[]{TeX Gyre Termes Math}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -159,6 +160,14 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
+\usepackage{siunitx}
+
+    \newcolumntype{d}{S[
+      table-align-text-before=false,
+      table-align-text-after=false,
+      input-symbols={-,\*+()}
+    ]}
+  
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -218,7 +227,7 @@
 \title{Effects of COVID-19 on the Academic Performance of College
 Students}
 \author{Aman Desai}
-\date{2025-12-02}
+\date{2025-12-05}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -783,6 +792,43 @@ course GPA or course completion rate in presence of a flexible grading
 policy may not give me a clear effect of the pandemic on students'
 academic outcomes and their learning loss.
 
+\subsection{Descriptive Statistics}\label{descriptive-statistics}
+
+\begin{table}[!h]
+\centering\centering
+\caption{\label{tab:descriptive-stats}Descriptive Statistics}
+\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{lrrrrrr}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Pre-Covid (N=752)} & \multicolumn{2}{c}{Post-Covid (N=3846)} & \multicolumn{2}{c}{ } \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & Mean & Std. Dev. & Mean & Std. Dev. & Diff. in Means & Std. Error\\
+\midrule
+Final exam score & \num{56.586} & \num{15.100} & \num{57.148} & \num{15.697} & \num{0.562} & \num{0.606}\\
+Correct & \num{0.620} & \num{0.247} & \num{0.582} & \num{0.289} & \num{-0.038} & \num{0.010}\\
+Hispanic & \num{0.133} & \num{0.340} & \num{0.189} & \num{0.391} & \num{0.056} & \num{0.014}\\
+Black & \num{0.082} & \num{0.275} & \num{0.077} & \num{0.267} & \num{-0.005} & \num{0.011}\\
+Asian & \num{0.512} & \num{0.500} & \num{0.457} & \num{0.498} & \num{-0.055} & \num{0.020}\\
+Other race & \num{0.012} & \num{0.109} & \num{0.060} & \num{0.238} & \num{0.048} & \num{0.006}\\
+Fall & \num{0.480} & \num{0.500} & \num{0.542} & \num{0.498} & \num{0.062} & \num{0.020}\\
+Online & \num{0.346} & \num{0.476} & \num{0.585} & \num{0.493} & \num{0.239} & \num{0.019}\\
+GPA & \num{3.146} & \num{0.710} & \num{3.302} & \num{0.580} & \num{0.155} & \num{0.035}\\
+Female & \num{0.440} & \num{0.497} & \num{0.464} & \num{0.499} & \num{0.024} & \num{0.020}\\
+Age & \num{21.352} & \num{4.592} & \num{20.219} & \num{3.161} & \num{-1.133} & \num{0.178}\\
+Parttime & \num{0.082} & \num{0.275} & \num{0.051} & \num{0.220} & \num{-0.031} & \num{0.011}\\
+Sophomore or below & \num{0.840} & \num{0.366} & \num{0.935} & \num{0.247} & \num{0.094} & \num{0.014}\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: } 
+\item * p< 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
+
 \subsection{Baseline Specification}\label{baseline-specification}
 
 \begin{table}[H]
@@ -893,7 +939,7 @@ less likely to answer a similar question from pre-pandemic common exams
 compared to high GPA students. The coefficient is statistically
 significant at the 1\% level.
 
-\begin{table}
+\begin{table}[H]
 \centering
 \caption{\label{tab:interaction-effects}Interaction effects of COVID-19 on students’ academic performance}
 \centering
@@ -1009,7 +1055,7 @@ learning environment.
 
 \begin{figure}[H]
 
-{\centering \includegraphics[width=0.8\linewidth,height=\textheight,keepaspectratio]{01_journal_submission_files/figure-pdf/dynamic-effects-1.pdf}
+{\centering \includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{01_journal_submission_files/figure-pdf/dynamic-effects-1.pdf}
 
 }
 

@@ -14,13 +14,15 @@ format:
       \usepackage{booktabs}
       \usepackage{endfloat}
       \usepackage{threeparttable}
+      \usepackage{siunitx}
+      \sisetup{detect-all=true}
       \setlength{\defaultaddspace}{0pt}
-      % fallback if \makecell call lost its backslash
       \providecommand\makecell[2][]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
     toc: false
     mainfont: "Times New Roman"
     sansfont: "Times New Roman"
     monofont: "Courier New"
+    mathfont: "TeX Gyre Termes Math"
     title-font: "Times New Roman"
     headingfont: "Times New Roman"
     fontsize: 12pt
@@ -208,34 +210,6 @@ full_g <- full_grades |>
 ```
 
 
-## Descriptive Statistics
-
-```{r descriptive-stats, echo=FALSE, warning=FALSE, message=FALSE}
-
-### Table 1: Descriptive Statistics --------------------------------------------
-
-sum_stats_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/summary_stats_data.rds"
-f12 <- read_rds(sum_stats_url) |>
-  select(-id, -`SAT verbal`, -`SAT math`, -correct) |>
-  relocate(avgcor, .after = score) |>
-  rename(Correct = avgcor, Score = score)
-
-
-datasummary_balance(formula = ~ newperiod, data = f12,
-                    fmt = 3, stars = TRUE)
-
-
-datasummary_balance(
-  formula = ~ newperiod,
-  data = f12,
-  fmt = 3,
-  stars = TRUE,
-  output = "latex",        # request LaTeX
-  file = "table_descriptives.tex", # writes to file in working dir
-  overwrite = TRUE
-)
-```
-
 ## Average Course GPA Across Semesters in ECO 1001
 
 ```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, fig.cap= "Average final GPA in ECO 1001 across semesters", fig.pos="H",  fig.align = "center"}
@@ -382,6 +356,39 @@ ggplot(
 Another possible mechanism leading to the opposing change in measured performance is that the institution in consideration, like many other academic institutions, adopted a flexible grading policy to help students face the challenges due to the pandemic. This policy aimed to reduce the burden on students by providing three options up until the last day of the semester. The first option, Credit (CR), allowed students to pass the course with credit, though their grade wouldn't affect their GPA. The second, No Credit (NC), let students complete the course without credit, allowing them to retake it later without any record of their withdrawal. The third was the standard course withdrawal option.
 
 Figure 2 shows the unadjusted withdrawal rates across semesters in ECO 1001. The course withdrawal rate decreased to 0.83% in fall 2019, down from 4.97% in spring 2019. However, it increased again to 3.92% in spring 2020, a semester heavily influenced by the onset of the pandemic. Despite the pandemic, the withdrawal rate was kept relatively low due to the introduction of a flexible grading policy by the college. As shown in the figure, 29.75% of students enrolled in ECO 1001 chose the CR option, while 5.53% chose NC. Because of this flexibility, only 3.92% of students opted for a standard withdrawal in spring 2020. The withdrawal rate increased to 6.65% in fall 2020 and remained roughly at that level, reaching around 8% in spring 2022. It is worth noting that the flexible grading policy was not implemented after spring 2020. Using course GPA or course completion rate in presence of a flexible grading policy may not give me a clear effect of the pandemic on students’ academic outcomes and their learning loss.
+
+
+## Descriptive Statistics
+
+```{r descriptive-stats, echo=FALSE, warning=FALSE, message=FALSE}
+
+### Table 1: Descriptive Statistics --------------------------------------------
+
+sum_stats_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/summary_stats_data.rds"
+f12 <- read_rds(sum_stats_url) |>
+  select(-id, -`SAT verbal`, -`SAT math`, -correct, -`Native Language English?`) |>    ## Not using these variables in the analyses due to high number of missing values. So, it is not useful to show them in the table.
+  relocate(avgcor, .after = score) |>
+  rename(Correct = avgcor, `Final exam score` = score)
+
+
+datasummary_balance(
+  formula = ~ newperiod,
+  data = f12,
+  fmt = 3,
+  output = "kableExtra",
+  caption = "Descriptive Statistics"
+) |>
+  kable_styling(
+    latex_options = c("hold_position", "scale_down"), 
+    font_size = 9,
+    position = "center"
+  ) |>
+  footnote(
+    "* p< 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.",
+    escape = TRUE, threeparttable = TRUE, footnote_as_chunk = TRUE
+  )
+
+```
 
 
 ## Baseline Specification
@@ -886,7 +893,7 @@ I am also interested in examining the differential impact of the pandemic on the
 
 In figure 3.3, the outcome variable is scores on the common final exam. The top-left panel illustrates the long-term impact of COVID-19 on exam scores of low-GPA students compared to high-GPA students. There's a sharp decline in exam scores for low-GPA students in Fall 2020. Although their performance improves over time, a gap persists. The top-right panel illustrates the impact of the sudden transition to online learning on exam scores across different semesters. Immediately after the COVID-19 hit, transition to online classes decreased exam scores but recovered after one semester suggesting gradual adaptation to new learning environment.
 
-```{r dynamic-effects, echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Dynamic effects of COVID-19 on students' performance", out.width= "80%", fig.align = "center"}
+```{r dynamic-effects, echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Dynamic effects of COVID-19 on students' performance", out.width= "90%", fig.align = "center"}
  
 
 #####################################################################################
@@ -939,8 +946,8 @@ plot_gpa_exam <- ggiplot(exam_longterm_gpa,
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
   geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
-  theme(plot.title = element_text(size = 10, face = "plain"),
-        axis.title = element_text(size = 10))
+  theme(plot.title = element_text(size = 8, face = "plain"),
+        axis.title = element_text(size = 8))
 
 plot_gpa_ques <- ggiplot(ques_longterm_gpa, 
                          main = "Matched Questions: Low vs High GPA",
@@ -952,8 +959,8 @@ plot_gpa_ques <- ggiplot(ques_longterm_gpa,
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
   geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
-  theme(plot.title = element_text(size = 10, face = "plain"),
-        axis.title = element_text(size = 10))
+  theme(plot.title = element_text(size = 8, face = "plain"),
+        axis.title = element_text(size = 8))
 
 plot_online_exam <- ggiplot(exam_longterm_online, 
                             main = "Exam Scores: Online vs Hybrid",
@@ -965,8 +972,8 @@ plot_online_exam <- ggiplot(exam_longterm_online,
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
   geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
-  theme(plot.title = element_text(size = 10, face = "plain"),
-        axis.title = element_text(size = 10))
+  theme(plot.title = element_text(size = 8, face = "plain"),
+        axis.title = element_text(size = 8))
 
 plot_online_ques <- ggiplot(ques_longterm_online, 
                             main = "Matched Questions: Online vs Hybrid",
@@ -978,8 +985,8 @@ plot_online_ques <- ggiplot(ques_longterm_online,
   geom_vline(xintercept = 1, linetype = "dashed", color = "gray50") +
   geom_line(aes(group = 1)) +
   theme_minimal(base_size = 10) +
-  theme(plot.title = element_text(size = 10, face = "plain"),
-        axis.title = element_text(size = 10))
+  theme(plot.title = element_text(size = 8, face = "plain"),
+        axis.title = element_text(size = 8))
 
 (plot_gpa_exam + plot_gpa_ques) / 
   (plot_online_exam + plot_online_ques) 

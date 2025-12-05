@@ -1,13 +1,26 @@
-
 library(pacman)
 
 # Load and install all packages at once
 pacman::p_load(
-  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
-  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
-  panelsummary, cowplot, parameters
+  tidymodels,
+  tidyverse,
+  rio,
+  naniar,
+  labelled,
+  sjlabelled,
+  haven,
+  fixest,
+  vtable,
+  ggfixest,
+  modelsummary,
+  gtsummary,
+  simputation,
+  kableExtra,
+  readxl,
+  panelsummary,
+  cowplot,
+  parameters
 )
-
 
 
 ## This code produces table 3.2 in the main paper ------------------------------
@@ -22,7 +35,7 @@ question_level <- read_rds(question_url)
 ## These scores are out of possible 40 points.
 
 exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
-exam_level <- read_rds(exam_url) 
+exam_level <- read_rds(exam_url)
 
 
 ################################################################################################################
@@ -31,19 +44,36 @@ exam_level <- read_rds(exam_url)
 ################################################################################################################
 ################################################################################################################
 
-
 ### Regressions using exam scores as outcome
 
 exam_base <- feols(
-  score ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  score ~ post +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = exam_level,
   vcov = "hc1"
 )
 
 exam_base_long <- feols(
-  score ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  score ~ time +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = exam_level,
   vcov = "hc1"
 )
@@ -54,15 +84,33 @@ exam_base_long <- feols(
 ## ### Regressions using performance on matched questions as outcome
 
 ques_base <- feols(
-  correct ~ post + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  correct ~ post +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = question_level,
   vcov = "hc1"
 )
 
 ques_base_long <- feols(
-  correct ~ time + female + r_black + r_asian + r_hispa + r_other + online +
-    cumgpa + parttime + gpamiss | instructor + session,
+  correct ~ time +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
   data = question_level,
   vcov = "hc1"
 )
@@ -85,13 +133,25 @@ results_base <- panelsummary(
   gof_map = c("nobs") # adjust as needed
 )
 
-### Formatting the table ----------------------  
+### Formatting the table ----------------------
 
 results_base |>
-  kable_styling(font_size = 9, latex_options = c("scale_down", "HOLD_position")) |>
-  add_header_above(c(" " = 1, "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
-                     "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2),
-                   bold = TRUE, italic = TRUE, escape = TRUE) |>
-  add_footnote("* p {< 0.1}, ** p {< 0.05}, *** p {< 0.01}. Final exam scores are based on a 100-point scale.\nHeteroskedasticity-robust standard errors are used.\nAll regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student.\nAll regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise.\nAll regressions include course instructor fixed-effects and session fixed-effects.",
-           escape = FALSE, threeparttable = TRUE)
-           
+  kable_styling(
+    font_size = 9,
+    latex_options = c("scale_down", "HOLD_position")
+  ) |>
+  add_header_above(
+    c(
+      " " = 1,
+      "Final Exam Score\n(mean = 57.1, sd = 15.6)" = 2,
+      "Did Student Get The Answer Correct (Y/N)?\n(mean = 0.6, sd = 0.49)" = 2
+    ),
+    bold = TRUE,
+    italic = TRUE,
+    escape = TRUE
+  ) |>
+  add_footnote(
+    "* p {< 0.1}, ** p {< 0.05}, *** p {< 0.01}. Final exam scores are based on a 100-point scale.\nHeteroskedasticity-robust standard errors are used.\nAll regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student.\nAll regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise.\nAll regressions include course instructor fixed-effects and session fixed-effects.",
+    escape = FALSE,
+    threeparttable = TRUE
+  )

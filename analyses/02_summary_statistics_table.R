@@ -1,10 +1,28 @@
-if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
+if (!require("pacman")) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+}
 
 # Load and install all packages at once
 pacman::p_load(
-  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
-  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
-  panelsummary, cowplot, parameters, rmarkdown
+  tidymodels,
+  tidyverse,
+  rio,
+  naniar,
+  labelled,
+  sjlabelled,
+  haven,
+  fixest,
+  vtable,
+  ggfixest,
+  modelsummary,
+  gtsummary,
+  simputation,
+  kableExtra,
+  readxl,
+  panelsummary,
+  cowplot,
+  parameters,
+  rmarkdown
 )
 
 question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
@@ -14,20 +32,16 @@ f12 <- read_rds(sum_stats_url) |>
   select(-id, -`SAT verbal`, -`SAT math`, -correct)
 
 
+datasummary_balance(formula = ~newperiod, data = f12, fmt = 3, stars = TRUE)
 
 
-datasummary_balance(formula = ~ newperiod, data = f12,
-                    fmt = 3, stars = TRUE)
-
-
-
-datasummary_balance(formula = ~ newperiod, 
-                    data = f12,
-                    fmt = 3,
-                    stars = TRUE,
-                    output = "table-unweighted.docx")
-
+datasummary_balance(
+  formula = ~newperiod,
+  data = f12,
+  fmt = 3,
+  stars = TRUE,
+  output = "table-unweighted.docx"
+)
 
 ### Pre - 843
 ### post - 3812
-

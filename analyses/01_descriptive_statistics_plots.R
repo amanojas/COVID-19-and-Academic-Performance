@@ -1,10 +1,28 @@
-if (!require("pacman")) install.packages("pacman", repos = "http://cran.us.r-project.org")
+if (!require("pacman")) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+}
 
 # Load and install all packages at once
 pacman::p_load(
-  tidymodels, tidyverse, rio, naniar, labelled, sjlabelled, haven, fixest,
-  vtable, ggfixest, modelsummary, gtsummary, simputation, kableExtra, readxl,
-  panelsummary, cowplot, parameters, patchwork
+  tidymodels,
+  tidyverse,
+  rio,
+  naniar,
+  labelled,
+  sjlabelled,
+  haven,
+  fixest,
+  vtable,
+  ggfixest,
+  modelsummary,
+  gtsummary,
+  simputation,
+  kableExtra,
+  readxl,
+  panelsummary,
+  cowplot,
+  parameters,
+  patchwork
 )
 
 
@@ -21,29 +39,47 @@ exam_level <- read_rds(exam_url)
 
 
 ### Loading the course withdrawal data ------------------------------------------
-## It has share of students who took withdrawal, CR, NC options. 
-full_grades <- read_dta("https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta") # s2020 available
+## It has share of students who took withdrawal, CR, NC options.
+full_grades <- read_dta(
+  "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta"
+) # s2020 available
 full_g <- full_grades |>
-  mutate(year = if_else(semester == "S19" | semester == "F19", 2019,
-                        if_else(semester == "S20" | semester == "F20", 2020,
-                                if_else(semester == "S21" | semester == "F21", 2021, 2022)
-                        )
-  )) |>
-  mutate(session = factor(if_else(semester %in% c("S19", "S20", "S21", "S22"), "S", "F"))) |>
+  mutate(
+    year = if_else(
+      semester == "S19" | semester == "F19",
+      2019,
+      if_else(
+        semester == "S20" | semester == "F20",
+        2020,
+        if_else(semester == "S21" | semester == "F21", 2021, 2022)
+      )
+    )
+  ) |>
+  mutate(
+    session = factor(if_else(
+      semester %in% c("S19", "S20", "S21", "S22"),
+      "S",
+      "F"
+    ))
+  ) |>
   mutate(session = fct_relevel(session, c("S", "F")))
 
 
-
 #############################################################
-############ Figures as they appear in the paper ############ 
+############ Figures as they appear in the paper ############
 #############################################################
 
 ## Figure 1: Average final GPA in ECO 1001 across semesters ------------------
 
 # Define semester labels
 gpa_labels <- c(
-  "Spring 2019", "Fall 2019", "Spring 2020", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Summarize GPA statistics by semester
@@ -66,10 +102,13 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
   geom_bar(stat = "identity", width = 0.3, fill = "#009E73", alpha = 0.8) +
   geom_errorbar(
     aes(ymin = avg_gpa - margin_error, ymax = avg_gpa + margin_error),
-    width = 0.1, color = "darkblue"
+    width = 0.1,
+    color = "darkblue"
   ) +
   geom_text(
-    size = 3, vjust = -2.5, color = "black"
+    size = 3,
+    vjust = -2.5,
+    color = "black"
   ) +
   ylim(0, 4) +
   labs(
@@ -77,10 +116,11 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
     y = "Course GPA",
     title = ""
   ) +
-  scale_x_discrete(labels = gpa_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  scale_x_discrete(
+    labels = gpa_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
   theme_minimal(base_size = 10)
-
-
 
 
 ## Figure 2: Withdrawal rates in ECO 1001 across semesters ------------------
@@ -92,51 +132,69 @@ ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
 
 # Semester labels
 withdrawal_labels <- c(
-  "Spring 2019", "Fall 2019", "Spring 2020", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Summarize withdrawal-related measures
-withdrawal_summary <- full_g|>
-  dplyr::select(year, session, CR, NC, wd)|>
-  dplyr::group_by(year, session)|>
+withdrawal_summary <- full_g |>
+  dplyr::select(year, session, CR, NC, wd) |>
+  dplyr::group_by(year, session) |>
   dplyr::summarise(
     avg_NC = mean(NC, na.rm = TRUE),
     avg_CR = mean(CR, na.rm = TRUE),
     avg_WD = mean(wd, na.rm = TRUE),
     .groups = 'drop'
-  )|>
-  dplyr::mutate(semester = factor(seq_along(year), labels = withdrawal_labels))|>
+  ) |>
+  dplyr::mutate(
+    semester = factor(seq_along(year), labels = withdrawal_labels)
+  ) |>
   tidyr::pivot_longer(
     cols = c("avg_NC", "avg_CR", "avg_WD"),
     names_to = "measure",
     values_to = "avg"
-  )|>
+  ) |>
   dplyr::mutate(avg = 100 * avg)
 
 # Set up color scheme for measures
 withdrawal_colors <- c(
-  "avg_NC" = "#0072B2",  # blue
-  "avg_CR" = "#D55E00",  # vermillion / orange
-  "avg_WD" = "#009E73"   # green (distinct from blue & orange)
+  "avg_NC" = "#0072B2", # blue
+  "avg_CR" = "#D55E00", # vermillion / orange
+  "avg_WD" = "#009E73" # green (distinct from blue & orange)
 )
 
 
 # Plot the withdrawal rates
-ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))) +
+ggplot(
+  withdrawal_summary,
+  aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))
+) +
   geom_col(width = 0.5, position = position_stack(), alpha = 0.7) +
   geom_text(
-    size = 2, vjust = -2.5, position = position_stack(0.), color = "black"
+    size = 2,
+    vjust = -2.5,
+    position = position_stack(0.),
+    color = "black"
   ) +
   ylim(0, 50) +
-  scale_fill_manual(values = withdrawal_colors,
-                    labels = c("No Credit", "Credit", "Withdrawal")) +
+  scale_fill_manual(
+    values = withdrawal_colors,
+    labels = c("No Credit", "Credit", "Withdrawal")
+  ) +
   labs(
     x = NULL,
     y = "Withdrawal, Credit, No Credit Rate (%)",
     title = ""
   ) +
-  scale_x_discrete(labels = withdrawal_labels, guide = ggplot2::guide_axis(n.dodge = 2)) +
+  scale_x_discrete(
+    labels = withdrawal_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
   theme_minimal(base_size = 10) +
   theme(legend.title = element_blank())
 
@@ -150,23 +208,27 @@ ggplot(withdrawal_summary, aes(x = semester, y = avg, fill = measure, label = pa
 # Semester labels for exam scores
 
 exam_labels <- c(
-  "Spring 2019", "Fall 2019", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring 2019",
+  "Fall 2019",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Summarize exam score statistics
 
-exam_summary <- exam_level|>
-  dplyr::select(score, year, session)|>
-  dplyr::mutate(session = forcats::fct_relevel(session, c("S", "F")))|>
-  dplyr::group_by(year, session)|>
+exam_summary <- exam_level |>
+  dplyr::select(score, year, session) |>
+  dplyr::mutate(session = forcats::fct_relevel(session, c("S", "F"))) |>
+  dplyr::group_by(year, session) |>
   dplyr::summarise(
     avg_score = mean(score * 0.4, na.rm = TRUE),
     sd_score = sd(score, na.rm = TRUE),
     n = dplyr::n(),
     std_error = sd_score / sqrt(n),
     .groups = 'drop'
-  )|>
+  ) |>
   dplyr::mutate(
     semester = factor(seq_along(year), labels = exam_labels),
     margin_error = 1.96 * std_error
@@ -174,14 +236,20 @@ exam_summary <- exam_level|>
 
 # Plot exam scores across semesters
 
-ggplot(exam_summary, aes(x = semester, y = avg_score, label = round(avg_score, 2))) +
+ggplot(
+  exam_summary,
+  aes(x = semester, y = avg_score, label = round(avg_score, 2))
+) +
   geom_bar(stat = "identity", width = 0.3, fill = "skyblue", alpha = 0.8) +
   geom_errorbar(
     aes(ymin = avg_score - margin_error, ymax = avg_score + margin_error),
-    width = 0.2, color = "darkblue"
+    width = 0.2,
+    color = "darkblue"
   ) +
   geom_text(
-    size = 3, vjust = -3.5, color = "black"
+    size = 3,
+    vjust = -3.5,
+    color = "black"
   ) +
   ylim(0, 50) +
   labs(
@@ -193,39 +261,44 @@ ggplot(exam_summary, aes(x = semester, y = avg_score, label = round(avg_score, 2
   theme_minimal(base_size = 13)
 
 
-
 ### Figure A2: Student shares in low and high GPA groups ------------------
 ## S2019,F2019,F2020,S2021,F2021,S2022
 ## S2019/F2019 combined due to small sample size
 
 # Semester labels for GPA share plot
 gpa_share_labels <- c(
-  "Spring/Fall 2019", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring/Fall 2019",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 
 # Prepare summary data: student share by GPA type
-stu_share_gpa_summary <- question_level|>
-  dplyr::distinct(id, .keep_all = TRUE)|>
-  dplyr::group_by(time, id, typegpa)|>
-  dplyr::count()|>
-  dplyr::group_by(time, typegpa)|>
-  dplyr::count(name = "n")|>
-  dplyr::group_by(time)|>
-  dplyr::mutate(share = n / sum(n))|>
+stu_share_gpa_summary <- question_level |>
+  dplyr::distinct(id, .keep_all = TRUE) |>
+  dplyr::group_by(time, id, typegpa) |>
+  dplyr::count() |>
+  dplyr::group_by(time, typegpa) |>
+  dplyr::count(name = "n") |>
+  dplyr::group_by(time) |>
+  dplyr::mutate(share = n / sum(n)) |>
   dplyr::ungroup()
 
 # Color palette for GPA types
 gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
 
 stu_share_gpa_summary <- stu_share_gpa_summary |>
-  dplyr::mutate(typegpa = dplyr::recode(typegpa,
-                                      "high" = "High GPA",
-                                      "low"  = "Low GPA"))
+  dplyr::mutate(
+    typegpa = dplyr::recode(typegpa, "high" = "High GPA", "low" = "Low GPA")
+  )
 
 # Plot share of students by GPA type
-ggplot(stu_share_gpa_summary, aes(x = factor(time), y = share, fill = typegpa, label = round(share, 2))) +
+ggplot(
+  stu_share_gpa_summary,
+  aes(x = factor(time), y = share, fill = typegpa, label = round(share, 2))
+) +
   geom_col(
     width = 0.5,
     alpha = 0.8,
@@ -249,13 +322,15 @@ ggplot(stu_share_gpa_summary, aes(x = factor(time), y = share, fill = typegpa, l
   theme_minimal(base_size = 13)
 
 
-
 ### Figure A3: Average GPA in low and high GPA groups in ECO 1001 across semesters ------------------
 ## S2019,F2019,F2020,S2021,F2021,S2022
 # Prepare semester labels
 mean_gpa_labels <- c(
-  "Spring/Fall 2019", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring/Fall 2019",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Summarize mean cumulative GPA by group
@@ -277,18 +352,21 @@ gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
 
 # If your data uses values like 'high'/'low', relabel before plotting
 stu_mean_gpa_summary <- stu_mean_gpa_summary %>%
-  dplyr::mutate(typegpa = dplyr::recode(typegpa,
-                                        "high" = "High GPA",
-                                        "low"  = "Low GPA"))
+  dplyr::mutate(
+    typegpa = dplyr::recode(typegpa, "high" = "High GPA", "low" = "Low GPA")
+  )
 
 # Plot mean GPA by group across semesters
-ggplot(stu_mean_gpa_summary, aes(
-  x = factor(time),
-  y = avg_gpa,
-  group = typegpa,
-  fill = typegpa,
-  label = round(avg_gpa, 2)
-)) +
+ggplot(
+  stu_mean_gpa_summary,
+  aes(
+    x = factor(time),
+    y = avg_gpa,
+    group = typegpa,
+    fill = typegpa,
+    label = round(avg_gpa, 2)
+  )
+) +
   geom_col(
     width = 0.5,
     alpha = 0.8,
@@ -321,8 +399,11 @@ ggplot(stu_mean_gpa_summary, aes(
 
 # Semester labels for instruction mode plot
 inst_mode_labels <- c(
-  "Spring/Fall 2019", "Fall 2020",
-  "Spring 2021", "Fall 2021", "Spring 2022"
+  "Spring/Fall 2019",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
 )
 
 # Prepare summary data: student share by instruction mode
@@ -341,18 +422,24 @@ inst_mode_colors <- c("Hybrid" = "skyblue", "Online" = "darkblue")
 
 # Relabel for legend, if your values are different
 stu_share_inst_summary <- stu_share_inst_summary %>%
-  dplyr::mutate(instruction_mode = dplyr::recode(instruction_mode,
-                                                 "H" = "Hybrid",
-                                                 "O" = "Online"
-  ))
+  dplyr::mutate(
+    instruction_mode = dplyr::recode(
+      instruction_mode,
+      "H" = "Hybrid",
+      "O" = "Online"
+    )
+  )
 
 # Plot student share by instruction mode
-ggplot(stu_share_inst_summary, aes(
-  x = factor(time),
-  y = share,
-  fill = instruction_mode,
-  label = round(share, 2)
-)) +
+ggplot(
+  stu_share_inst_summary,
+  aes(
+    x = factor(time),
+    y = share,
+    fill = instruction_mode,
+    label = round(share, 2)
+  )
+) +
   geom_col(
     width = 0.2,
     alpha = 0.7,
@@ -378,8 +465,4 @@ ggplot(stu_share_inst_summary, aes(
   scale_fill_manual(values = inst_mode_colors) +
   theme_minimal(base_size = 13)
 
-
-
 ####### ------------------------------------------------------------------------------------
-
-

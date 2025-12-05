@@ -10,11 +10,14 @@ pacman::p_load(
 question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
 question_level <- read_rds(question_url)
 sum_stats_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/summary_stats_data.rds"
-f12 <- read_rds(sum_stats_url)
+f12 <- read_rds(sum_stats_url) |>
+  select(-id, -`SAT verbal`, -`SAT math`, -correct)
 
 
 
 
+datasummary_balance(formula = ~ newperiod, data = f12,
+                    fmt = 3, stars = TRUE)
 
 
 
@@ -24,8 +27,6 @@ datasummary_balance(formula = ~ newperiod,
                     stars = TRUE,
                     output = "table-unweighted.docx")
 
-datasummary_balance(formula = ~ newperiod, data = f12,
-                    fmt = 3, stars = TRUE)
 
 ### Pre - 843
 ### post - 3812

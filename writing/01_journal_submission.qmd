@@ -208,6 +208,34 @@ full_g <- full_grades |>
 ```
 
 
+## Descriptive Statistics
+
+```{r descriptive-stats, echo=FALSE, warning=FALSE, message=FALSE}
+
+### Table 1: Descriptive Statistics --------------------------------------------
+
+sum_stats_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/summary_stats_data.rds"
+f12 <- read_rds(sum_stats_url) |>
+  select(-id, -`SAT verbal`, -`SAT math`, -correct) |>
+  relocate(avgcor, .after = score) |>
+  rename(Correct = avgcor, Score = score)
+
+
+datasummary_balance(formula = ~ newperiod, data = f12,
+                    fmt = 3, stars = TRUE)
+
+
+datasummary_balance(
+  formula = ~ newperiod,
+  data = f12,
+  fmt = 3,
+  stars = TRUE,
+  output = "latex",        # request LaTeX
+  file = "table_descriptives.tex", # writes to file in working dir
+  overwrite = TRUE
+)
+```
+
 ## Average Course GPA Across Semesters in ECO 1001
 
 ```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, fig.cap= "Average final GPA in ECO 1001 across semesters", fig.pos="H",  fig.align = "center"}

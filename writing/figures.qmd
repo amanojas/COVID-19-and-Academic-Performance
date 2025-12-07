@@ -1,0 +1,645 @@
+---
+title: "Effects of COVID-19 on the Academic Performance of College Students"
+subtitle: "Figures"
+date: today
+format:
+  docx:
+    reference-doc: tf_template.docx
+---
+
+
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, include = FALSE, message=FALSE, warning=FALSE}
+
+if (!require("pacman")) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+}
+
+# Load and install all packages at once
+pacman::p_load(
+  tidymodels,
+  tidyverse,
+  rio,
+  naniar,
+  labelled,
+  sjlabelled,
+  haven,
+  fixest,
+  vtable,
+  ggfixest,
+  modelsummary,
+  gtsummary,
+  simputation,
+  kableExtra,
+  readxl,
+  panelsummary,
+  cowplot,
+  parameters,
+  patchwork
+)
+
+# Set a single global theme, font family and base size for all plots
+theme_set(theme_minimal(base_size = 12, base_family = "serif"))
+
+# Reusable plot theme (use for explicit overrides)
+plot_theme <- theme_minimal(base_size = 12, base_family = "serif") +
+  theme(
+    legend.title = element_blank(),
+    plot.title = element_text(size = 12, face = "plain"),
+    axis.title = element_text(size = 11),
+    axis.text = element_text(size = 10)
+  )
+
+# Colorblind-friendly palette (Okabe–Ito) with lighter tints for labels/secondary bars
+# Primary hues (high contrast) and lighter variants for two-level comparisons
+primary_fill  <- "#0072B2"  # blue (primary)
+primary_light <- "#7FB3D6"  # lighter blue (tint)
+primary_dark  <- "#004F80"  # darker blue
+
+# Secondary contrasting hues (use for stacked bars / multiple groups)
+secondary1      <- "#009E73"  # green
+secondary1_light<- "#8FD8BF"
+secondary1_dark <- "#006B4E"
+
+secondary2      <- "#D55E00"  # vermillion / orange
+secondary2_light<- "#FFB58A"
+secondary2_dark <- "#8A3600"
+
+secondary3      <- "#CC79A7"  # pink / magenta (optional)
+secondary3_light<- "#E7A5C8"
+secondary3_dark <- "#8A3A61"
+
+# Named palettes for stacked/filled measures (keep semantics consistent across plots)
+withdrawal_palette <- c(
+  "avg_NC" = secondary1,       # No Credit -> green
+  "avg_CR" = secondary2,       # Credit    -> orange
+  "avg_WD" = primary_fill      # Withdrawal-> blue (primary)
+)
+
+gpa_type_palette <- c(
+  "High GPA" = primary_light,  # lighter primary for 'High'
+  "Low GPA"  = primary_dark    # darker primary for 'Low'
+)
+
+inst_mode_palette <- c(
+  "Hybrid" = secondary1_light, # lighter green for Hybrid
+  "Online" = secondary2_dark   # darker orange for Online
+)
+
+# Shared neutral color for text, errorbars, vlines and outlines
+plot_neutral <- "#333333"
+```
+
+\pagebreak
+
+```{r data-load, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
+### Loading the question level data ------------------------------------------
+
+question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
+question_level <- read_rds(question_url)
+
+### Loading the exam level data ------------------------------------------
+## These scores are out of possible 40 points.
+
+exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
+exam_level <- read_rds(exam_url)
+
+
+### Loading the course withdrawal data ------------------------------------------
+## It has share of students who took withdrawal, CR, NC options.
+full_grades <- read_dta(
+  "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta"
+) # s2020 available
+full_g <- full_grades |>
+  mutate(
+    year = if_else(
+      semester == "S19" | semester == "F19",
+      2019,
+      if_else(
+        semester == "S20" | semester == "F20",
+        2020,
+        if_else(semester == "S21" | semester == "F21", 2021, 2022)
+      )
+    )
+  ) |>
+  mutate(
+    session = factor(if_else(
+      semester %in% c("S19", "S20", "S21", "S22"),
+      "S",
+      "F"
+    ))
+  ) |>
+  mutate(session = fct_relevel(session, c("S", "F")))
+
+```
+
+::: {custom-style="Figure caption"}
+Figure 1: Average final GPA in ECO 1001 across semesters
+:::
+
+```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, fig.pos="H",  fig.align = "center"}
+# Define semester labels
+gpa_labels <- c(
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
+)
+
+# Summarize GPA statistics by semester
+gpa_summary <- full_g |>
+  dplyr::select(year, session, coursegpa) |>
+  dplyr::group_by(year, session) |>
+  dplyr::summarise(
+    avg_gpa = mean(coursegpa, na.rm = TRUE),
+    sd_gpa = sd(coursegpa, na.rm = TRUE),
+    n = dplyr::n(),
+    .groups = 'drop'
+  ) |>
+  dplyr::mutate(
+    margin_error = 1.96 * (sd_gpa / sqrt(n)),
+    semester = factor(seq_along(year), labels = gpa_labels)
+  )
+
+# Plot the results
+ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
+  geom_bar(stat = "identity", width = 0.3, fill = primary_fill, alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = avg_gpa - margin_error, ymax = avg_gpa + margin_error),
+    width = 0.1,
+    color = "darkblue"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -2.5,
+    color = "black",
+    family = "serif"
+  ) +
+  ylim(0, 4) +
+  labs(
+    x = NULL,
+    y = "Course GPA",
+    title = ""
+  ) +
+  scale_x_discrete(
+    labels = gpa_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
+  plot_theme
+```
+
+\pagebreak
+
+::: {custom-style="Figure caption"}
+Figure 2: Withdrawal rates in ECO 1001 across semesters
+:::
+
+```{r withdrawal-rate, echo=FALSE, warning=FALSE, message=FALSE, fig.pos="H", fig.align = "center"}
+## Figure 2: Withdrawal rates in ECO 1001 across semesters ------------------
+
+## 376 students withdrew + 39 students withdrew
+## 296 students CR
+## 55 students NC
+## 160 missing coursegpa
+
+# Semester labels
+withdrawal_labels <- c(
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
+)
+
+# Summarize withdrawal-related measures
+withdrawal_summary <- full_g |>
+  dplyr::select(year, session, CR, NC, wd) |>
+  dplyr::group_by(year, session) |>
+  dplyr::summarise(
+    avg_NC = mean(NC, na.rm = TRUE),
+    avg_CR = mean(CR, na.rm = TRUE),
+    avg_WD = mean(wd, na.rm = TRUE),
+    .groups = 'drop'
+  ) |>
+  dplyr::mutate(
+    semester = factor(seq_along(year), labels = withdrawal_labels)
+  ) |>
+  tidyr::pivot_longer(
+    cols = c("avg_NC", "avg_CR", "avg_WD"),
+    names_to = "measure",
+    values_to = "avg"
+  ) |>
+  dplyr::mutate(avg = 100 * avg)
+
+# Set up color scheme for measures
+withdrawal_colors <- c(
+  "avg_NC" = "#0072B2", # blue
+  "avg_CR" = "#D55E00", # vermillion / orange
+  "avg_WD" = "#009E73" # green (distinct from blue & orange)
+)
+
+
+# Plot the withdrawal rates
+ggplot(
+  withdrawal_summary,
+  aes(x = semester, y = avg, fill = measure, label = paste0(round(avg, 2), "%"))
+) +
+  geom_col(width = 0.5, position = position_stack(), alpha = 0.7) +
+  geom_text(
+    size = 2,
+    vjust = -2.5,
+    position = position_stack(0.),
+    color = "black",
+    family = "serif"
+  ) +
+  ylim(0, 50) +
+  scale_fill_manual(
+    values = withdrawal_palette,
+    labels = c("No Credit", "Credit", "Withdrawal")
+  ) +
+  labs(
+    x = NULL,
+    y = "Withdrawal, Credit, No Credit Rate (%)",
+    title = ""
+  ) +
+  scale_x_discrete(
+    labels = withdrawal_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
+  plot_theme
+```
+
+\pagebreak
+
+::: {custom-style="Figure caption"}
+Figure 3: Dynamic effects of COVID-19 on students' performance
+:::
+
+```{r dynamic-effects, echo=FALSE, warning=FALSE, message=FALSE, fig.width=7, fig.height=5, dpi=150, fig.retina=1, out.width="70%", fig.align="center"}
+ 
+#####################################################################################
+############### LONG TERM EFFECTS ON HIGH VS LOW GPA USING YEAR DUMMIES #############
+#####################################################################################
+
+exam_longterm_gpa <- exam_level |>
+  feols(fml = score ~ i(factor_var = time, var = lowgpa, ref = 1) + online + female + r_hispa + r_black + r_asian + r_other
+    + session + parttime + gpamiss | time + instructor, vcov = "hc1")
+
+ques_longterm_gpa <- question_level |>
+  feols(fml = correct ~ i(factor_var = time, var = lowgpa, ref = 1) + online + female + r_hispa + r_black + r_asian + r_other
+    + session + parttime + gpamiss | time + instructor, vcov = "hc1")
+
+#####################################################################################
+############### LONG TERM EFFECTS ON ONLINE VS HYBRID USING YEAR DUMMIES ###########
+#####################################################################################
+
+exam_longterm_online <- exam_level |>
+  filter(time %in% c("1", "2", "3")) |>
+  feols(fml = score ~ i(factor_var = time, var = online, ref = 1) + cumgpa + female + r_hispa + r_black + r_asian + r_other
+    + parttime + gpamiss | instructor, vcov = "hc1")
+
+ques_longterm_online <- question_level |>
+  filter(time %in% c("1", "2", "3")) |>
+  feols(fml = correct ~ i(factor_var = time, var = online, ref = 1) + cumgpa + female + r_hispa + r_black + r_asian + r_other
+    + parttime + gpamiss | instructor, vcov = "hc1")
+
+# Create plots with consistent theme, fonts and colors
+plot_gpa_exam <- ggiplot(exam_longterm_gpa, 
+                         main = "Exam Scores: Low vs High GPA",
+                         xlab = "Time Period",
+                         ylab = "Estimates",
+                         ref.line = FALSE,
+                         pt.join = TRUE,
+                         geom_style = "pointrange",
+                         ci_level = 0.95) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = plot_neutral) +
+  geom_line(aes(group = 1), color = primary_dark) +
+  plot_theme +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 9),
+        axis.text = element_text(size = 9, family = "serif"))
+
+plot_gpa_ques <- ggiplot(ques_longterm_gpa, 
+                         main = "Matched Questions: Low vs High GPA",
+                         xlab = "Time Period",
+                         ylab = "Estimates",
+                         ref.line = FALSE,
+                         pt.join = TRUE,
+                         geom_style = "pointrange",
+                         ci_level = 0.95) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = plot_neutral) +
+  geom_line(aes(group = 1), color = primary_dark) +
+  plot_theme +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 9),
+        axis.text = element_text(size = 9, family = "serif"))
+
+plot_online_exam <- ggiplot(exam_longterm_online, 
+                            main = "Exam Scores: Online vs Hybrid",
+                            xlab = "Time Period",
+                            ylab = "Estimates",
+                            ref.line = FALSE,
+                            pt.join = TRUE,
+                            geom_style = "pointrange",
+                            ci_level = 0.95) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = plot_neutral) +
+  geom_line(aes(group = 1), color = primary_dark) +
+  plot_theme +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 9),
+        axis.text = element_text(size = 9, family = "serif"))
+
+plot_online_ques <- ggiplot(ques_longterm_online, 
+                            main = "Matched Questions: Online vs Hybrid",
+                            xlab = "Time Period",
+                            ylab = "Estimates",
+                            ref.line = FALSE,
+                            pt.join = TRUE,
+                            geom_style = "pointrange",
+                            ci_level = 0.95) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = plot_neutral) +
+  geom_line(aes(group = 1), color = primary_dark) +
+  plot_theme +
+  theme(plot.title = element_text(size = 10, face = "plain"),
+        axis.title = element_text(size = 9),
+        axis.text = element_text(size = 9, family = "serif"))
+
+(plot_gpa_exam + plot_gpa_ques) / 
+  (plot_online_exam + plot_online_ques)
+```
+
+\pagebreak
+
+::: {custom-style="Figure caption"}
+Figure 1A: Average final exam scores in ECO 1001 across semesters
+:::
+
+```{r exam-scores-mean, echo=FALSE, warning=FALSE, message=FALSE, fig.pos="H", fig.width = 6, fig.height = 4, fig.align = "center"}
+### Figure A1: Average final exam scores in ECO 1001 across semesters ------------------
+
+# Semester labels for exam scores
+
+exam_labels <- c(
+  "Spring 2019", "Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Summarize exam score statistics
+
+exam_summary <- exam_level|>
+  dplyr::select(score, year, session)|>
+  dplyr::mutate(session = forcats::fct_relevel(session, c("S", "F")))|>
+  dplyr::group_by(year, session)|>
+  dplyr::summarise(
+    avg_score = mean(score * 0.4, na.rm = TRUE),
+    sd_score = sd(score, na.rm = TRUE),
+    n = dplyr::n(),
+    std_error = sd_score / sqrt(n),
+    .groups = 'drop'
+  )|>
+  dplyr::mutate(
+    semester = factor(seq_along(year), labels = exam_labels),
+    margin_error = 1.96 * std_error
+  )
+
+# Plot exam scores across semesters
+
+ggplot(exam_summary, aes(x = semester, y = avg_score, label = round(avg_score, 2))) +
+  geom_bar(stat = "identity", width = 0.3, fill = primary_fill, alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = avg_score - margin_error, ymax = avg_score + margin_error),
+    width = 0.2, color = "darkblue"
+  ) +
+  geom_text(
+    size = 3, vjust = -3.5, color = "black", family = "serif"
+  ) +
+  ylim(0, 50) +
+  labs(
+    x = NULL,
+    y = "Average Final Exam Score",
+    title = ""
+  ) +
+  scale_x_discrete(labels = exam_labels,
+  guide = guide_axis(n.dodge = 2)) +
+  plot_theme
+```
+
+\pagebreak
+
+::: {custom-style="Figure caption"}
+Figure 2A: Share of High vs Low GPA Students
+:::
+
+```{r share-gpa-low-high, echo=FALSE, warning=FALSE, message=FALSE, fig.pos="H", fig.width = 6, fig.height = 4, fig.align = "center"}
+### Figure A2: Student shares in low and high GPA groups ------------------
+## S2019,F2019,F2020,S2021,F2021,S2022
+## S2019/F2019 combined due to small sample size
+
+# Semester labels for GPA share plot
+gpa_share_labels <- c(
+  "Spring/Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+
+# Prepare summary data: student share by GPA type
+stu_share_gpa_summary <- question_level|>
+  dplyr::distinct(id, .keep_all = TRUE)|>
+  dplyr::group_by(time, id, typegpa)|>
+  dplyr::count()|>
+  dplyr::group_by(time, typegpa)|>
+  dplyr::count(name = "n")|>
+  dplyr::group_by(time)|>
+  dplyr::mutate(share = n / sum(n))|>
+  dplyr::ungroup()
+
+# Color palette for GPA types
+gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
+
+stu_share_gpa_summary <- stu_share_gpa_summary |>
+  dplyr::mutate(typegpa = dplyr::recode(typegpa,
+                                      "high" = "High GPA",
+                                      "low"  = "Low GPA"))
+
+# Plot share of students by GPA type
+ggplot(stu_share_gpa_summary, aes(x = factor(time), y = share, fill = typegpa, label = round(share, 2))) +
+  geom_col(
+    width = 0.5,
+    alpha = 0.8,
+    position = position_dodge(0.6),
+    color = "black"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -1,
+    position = position_dodge(0.6),
+    family = "serif"
+  ) +
+  ylim(0, 1) +
+  labs(
+    x = NULL,
+    y = "Share of High and Low GPA Students",
+    fill = "GPA Type",
+    title = ""
+  ) +
+  scale_fill_manual(values = gpa_type_palette) +
+  scale_x_discrete(labels = gpa_share_labels,
+  guide = guide_axis(n.dodge = 2)) +
+  plot_theme
+```
+
+\pagebreak
+
+::: {custom-style="Figure caption"}
+Figure 3A: Average GPA in High vs Low GPA Group of Students
+:::
+
+```{r meangpa-gpa-group, echo=FALSE, warning=FALSE, message=FALSE, fig.pos="H", fig.width = 6, fig.height = 3.5, fig.align = "center"}
+### Figure A3: Average GPA in low and high GPA groups in ECO 1001 across semesters ------------------
+## S2019,F2019,F2020,S2021,F2021,S2022
+# Prepare semester labels
+mean_gpa_labels <- c(
+  "Spring/Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Summarize mean cumulative GPA by group
+stu_mean_gpa_summary <- question_level %>%
+  dplyr::distinct(id, .keep_all = TRUE) %>%
+  dplyr::select(time, cumgpa, typegpa) %>%
+  dplyr::group_by(time, typegpa) %>%
+  dplyr::summarise(
+    avg_gpa = mean(cumgpa, na.rm = TRUE),
+    sd_score = sd(cumgpa, na.rm = TRUE),
+    n = dplyr::n(),
+    std_error = sd_score / sqrt(n),
+    .groups = "drop"
+  ) |>
+  dplyr::mutate(margin_error = 1.96 * std_error)
+
+# GPA type colors (ensure levels match your data)
+gpa_type_colors <- c("High GPA" = "skyblue", "Low GPA" = "darkblue")
+
+# If your data uses values like 'high'/'low', relabel before plotting
+stu_mean_gpa_summary <- stu_mean_gpa_summary %>%
+  dplyr::mutate(typegpa = dplyr::recode(typegpa,
+                                        "high" = "High GPA",
+                                        "low"  = "Low GPA"))
+
+# Plot mean GPA by group across semesters
+ggplot(stu_mean_gpa_summary, aes(
+  x = factor(time),
+  y = avg_gpa,
+  group = typegpa,
+  fill = typegpa,
+  label = round(avg_gpa, 2)
+)) +
+  geom_col(
+    width = 0.5,
+    alpha = 0.8,
+    position = position_dodge(0.6),
+    color = "black"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -1,
+    position = position_dodge(0.75),
+    color = "black",
+    family = "serif"
+  ) +
+  ylim(0, 6) +
+  labs(
+    x = NULL,
+    y = "Mean GPA of High and Low GPA Students",
+    fill = "GPA Type",
+    title = ""
+  ) +
+  scale_x_discrete(
+    breaks = c("1", "2", "3", "4", "5"),
+    labels = mean_gpa_labels,
+    guide = guide_axis(n.dodge = 2)
+  ) +
+  scale_fill_manual(values = gpa_type_palette) +
+  plot_theme
+```
+
+\pagebreak
+
+::: {custom-style="Figure caption"}
+Figure 4A: Share of the Students in Hybrid vs Online Classes
+:::
+
+```{r student-share-online-hybrid, echo=FALSE, warning=FALSE, message=FALSE,fig.pos="H", fig.width = 6, fig.height = 5, fig.align = "center"}
+### Figure 4A: Student shares in hybrid and online classes ------------------
+#### S2019,F2019,F2020,S2021,F2021,S2022
+
+# Semester labels for instruction mode plot
+inst_mode_labels <- c(
+  "Spring/Fall 2019", "Fall 2020",
+  "Spring 2021", "Fall 2021", "Spring 2022"
+)
+
+# Prepare summary data: student share by instruction mode
+stu_share_inst_summary <- question_level %>%
+  dplyr::distinct(id, .keep_all = TRUE) %>%
+  dplyr::group_by(time, id, instruction_mode) %>%
+  dplyr::count() %>%
+  dplyr::group_by(time, instruction_mode) %>%
+  dplyr::count(name = "n") %>%
+  dplyr::group_by(time) %>%
+  dplyr::mutate(share = n / sum(n)) %>%
+  dplyr::ungroup()
+
+# Set color palette for instruction modes -- ensure it matches your data
+inst_mode_colors <- c("Hybrid" = "skyblue", "Online" = "darkblue")
+
+# Relabel for legend, if your values are different
+stu_share_inst_summary <- stu_share_inst_summary %>%
+  dplyr::mutate(instruction_mode = dplyr::recode(instruction_mode,
+                                                 "H" = "Hybrid",
+                                                 "O" = "Online"
+  ))
+
+# Plot student share by instruction mode
+ggplot(stu_share_inst_summary, aes(
+  x = factor(time),
+  y = share,
+  fill = instruction_mode,
+  label = round(share, 2)
+)) +
+  geom_col(
+    width = 0.2,
+    alpha = 0.7,
+    position = position_dodge(0.4),
+    color = "black"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -1,
+    position = position_dodge(0.75),
+    family = "serif"
+  ) +
+  ylim(0, 1) +
+  labs(
+    x = NULL,
+    y = "Share of Students in Hybrid and Online Classes",
+    fill = "Instruction Mode",
+    title = ""
+  ) +
+  scale_x_discrete(
+  breaks = c("1", "2", "3", "4", "5"),
+  labels = inst_mode_labels,
+  guide = guide_axis(n.dodge = 2)) +
+  scale_fill_manual(values = inst_mode_palette) +
+  plot_theme
+```
+

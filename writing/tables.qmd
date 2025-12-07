@@ -1,0 +1,859 @@
+---
+title: "Effects of COVID-19 on the Academic Performance of College Students"
+author:
+  - name: Aman Desai
+    affiliation: Quinnipiac University
+    email: aman.desai@quinnipiac.edu
+date: today
+format:
+  docx:
+    reference-doc: tf_template.docx
+---
+
+
+```{r setup, include=FALSE}
+options(tinytex.verbose = TRUE)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages, include = FALSE, message=FALSE, warning=FALSE}
+
+if (!require("pacman")) {
+  install.packages("pacman", repos = "http://cran.us.r-project.org")
+}
+
+# Load and install all packages at once
+pacman::p_load(
+  tidymodels,
+  tidyverse,
+  rio,
+  naniar,
+  labelled,
+  sjlabelled,
+  haven,
+  fixest,
+  vtable,
+  ggfixest,
+  modelsummary,
+  gtsummary,
+  simputation,
+  kableExtra,
+  readxl,
+  panelsummary,
+  cowplot,
+  parameters,
+  patchwork,
+  flextable,
+  officer
+)
+
+# Set default theme
+theme_set(theme_bw(base_family = "serif"))
+
+```
+
+\pagebreak
+
+```{r data-load, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
+### Loading the question level data ------------------------------------------
+
+question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
+question_level <- read_rds(question_url)
+
+### Loading the exam level data ------------------------------------------
+## These scores are out of possible 40 points.
+
+exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
+exam_level <- read_rds(exam_url)
+
+
+### Loading the course withdrawal data ------------------------------------------
+## It has share of students who took withdrawal, CR, NC options.
+full_grades <- read_dta(
+  "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta"
+) # s2020 available
+full_g <- full_grades |>
+  mutate(
+    year = if_else(
+      semester == "S19" | semester == "F19",
+      2019,
+      if_else(
+        semester == "S20" | semester == "F20",
+        2020,
+        if_else(semester == "S21" | semester == "F21", 2021, 2022)
+      )
+    )
+  ) |>
+  mutate(
+    session = factor(if_else(
+      semester %in% c("S19", "S20", "S21", "S22"),
+      "S",
+      "F"
+    ))
+  ) |>
+  mutate(session = fct_relevel(session, c("S", "F")))
+
+```
+
+::: {custom-style="Table title"}
+Table 1: Descriptive Statistics
+:::
+```{r descriptive-stats, echo=FALSE, warning=FALSE, message=FALSE}
+
+### Table 1: Descriptive Statistics --------------------------------------------
+
+sum_stats_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/summary_stats_data.rds"
+f12 <- read_rds(sum_stats_url) |>
+  select(
+    -id,
+    -`SAT verbal`,
+    -`SAT math`,
+    -correct,
+    -`Native Language English?`
+  ) |> ## Not using these variables in the analyses due to high number of missing values. So, it is not useful to show them in the table.
+  relocate(avgcor, .after = score) |>
+  rename(Correct = avgcor, `Final exam score` = score)
+
+
+datasummary_balance(
+  formula = ~newperiod,
+  data = f12,
+  fmt = 3,
+  output = "flextable"
+) |>
+  # 2. FIX WIDTH: Auto-fit contents, then ensure it fits page width
+  autofit() |>
+  fit_to_width(max_width = 6.5) |> # Standard Word page width (8.5" - 1" margins)
+
+  # 3. FORMATTING: Font size and spacing
+  fontsize(size = 9, part = "all") |>
+
+  # 4. FOOTNOTE (Clean version)
+  add_footer_lines(
+    values = "* p< 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale."
+  ) |>
+  fontsize(size = 8, part = "footer") |> # Make footnote slightly smaller
+  # 1. FIX FONT: Force Times New Roman for the whole table
+  font(fontname = "Times New Roman", part = "all")
+
+```
+
+\pagebreak
+::: {custom-style="Table title"}
+Table 2. Baseline estimates of effect of COVID-19 on students' academic performance
+:::
+
+```{r baseline-specification, echo=FALSE, warning=FALSE, message=FALSE}
+
+## This code produces table 3.2 in the main paper ------------------------------
+## Title : Baseline estimates of effect of COVID-19 on students' academic performance
+
+################################################################################################################
+################################################################################################################
+########### SIMPLE FIRST DIFFERENCE USING TOTAL EXAM SCORES AND MATCHED QUESTIONS IN ECO 1001 ##################
+################################################################################################################
+################################################################################################################
+
+## Load necessary libraries
+library(fixest)
+library(modelsummary)
+library(flextable)
+
+# Run regressions (Your code - unchanged)
+exam_base <- feols(
+  score ~ post +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
+  data = exam_level,
+  vcov = "hc1"
+)
+exam_base_long <- feols(
+  score ~ time +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
+  data = exam_level,
+  vcov = "hc1"
+)
+ques_base <- feols(
+  correct ~ post +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
+  data = question_level,
+  vcov = "hc1"
+)
+ques_base_long <- feols(
+  correct ~ time +
+    female +
+    r_black +
+    r_asian +
+    r_hispa +
+    r_other +
+    online +
+    cumgpa +
+    parttime +
+    gpamiss |
+    instructor + session,
+  data = question_level,
+  vcov = "hc1"
+)
+
+# Map labels
+rowlabs_base <- c(
+  "post" = "Post-COVID",
+  "time2" = "Fall 2020",
+  "time3" = "Spring 2021",
+  "time4" = "Fall 2021",
+  "time5" = "Spring 2022"
+)
+
+# ---- FIXED TABLE GENERATION ----
+
+modelsummary(
+  list(
+    "(1)" = exam_base,
+    "(2)" = exam_base_long,
+    "(3)" = ques_base,
+    "(4)" = ques_base_long
+  ),
+  coef_map = rowlabs_base,
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_map = c("nobs", "r.squared"),
+  output = "flextable" # <--- Critical: Output as Flextable
+) |>
+  delete_part(part = "footer") |>
+  # 1. Add Custom Headers (Replaces add_header_above)
+  add_header_row(
+    values = c(
+      "",
+      "Final Exam Score\n(mean = 57.1, sd = 15.6)",
+      "Did Student Get Answer Correct?\n(mean = 0.6, sd = 0.49)"
+    ),
+    colwidths = c(1, 2, 2) # 1 col for labels, 2 cols for Exams, 2 cols for Questions
+  ) |>
+
+  # 2. Add Footnote (Replaces kableExtra footnote)
+  add_footer_lines(
+    values = "* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include controls for: cumulative GPA, gender, race, age, sophomore status, part-time status, and imputed GPA dummy. Includes instructor and session fixed effects."
+  ) |>
+
+  # 3. Styling for Word (Times New Roman, Fits Page)
+  autofit() |>
+  fit_to_width(max_width = 6.5) |>
+  fontsize(size = 9, part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  align(align = "center", part = "header") # Center align headers
+
+
+```
+
+\pagebreak
+::: {custom-style="Table title"}
+Table 3. Differential effect of COVID-19 across GPA quartiles
+:::
+
+```{r gpa-by-quartiles, echo=FALSE, warning=FALSE, message=FALSE}
+
+# Run regressions (Your code - unchanged)
+exam_gpa_4 <- exam_level |>
+  feols(
+    fml = score ~ post +
+      q1 +
+      q2 +
+      q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+exam_gpa_int_4 <- exam_level |>
+  feols(
+    fml = score ~ post +
+      q1 +
+      q2 +
+      q3 +
+      post * q1 +
+      post * q2 +
+      post * q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+ques_gpa_4 <- question_level |>
+  feols(
+    fml = correct ~ post +
+      q1 +
+      q2 +
+      q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+ques_gpa_int_4 <- question_level |>
+  feols(
+    fml = correct ~ post +
+      q1 +
+      q2 +
+      q3 +
+      post * q1 +
+      post * q2 +
+      post * q3 +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+# Map labels (Your code - unchanged)
+rowlabs_gpa_quartiles <- c(
+  "post" = "Post-COVID",
+  "q1" = "GPA (first quartile)",
+  "q2" = "GPA (second quartile)",
+  "q3" = "GPA (third quartile)",
+  "post:q1" = "Post x GPA (first quartile)",
+  "post:q2" = "Post x GPA (second quartile)",
+  "post:q3" = "Post x GPA (third quartile)"
+)
+
+# ---- FIXED TABLE GENERATION ----
+
+modelsummary(
+  list(
+    "(1)" = exam_gpa_4,
+    "(2)" = exam_gpa_int_4,
+    "(3)" = ques_gpa_4,
+    "(4)" = ques_gpa_int_4
+  ),
+  coef_map = rowlabs_gpa_quartiles,
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_map = c("nobs", "r.squared"),
+  output = "flextable"
+) |>
+  delete_part(part = "footer") |>
+  # 1. Custom Headers
+  add_header_row(
+    values = c(
+      "",
+      "Final Exam Score\n(mean = 57.1, sd = 15.6)",
+      "Did Student Get The Answer Correct?\n(mean = 0.6, sd = 0.49)"
+    ),
+    colwidths = c(1, 2, 2)
+  ) |>
+
+  # 2. Footnotes
+  add_footer_lines(
+    values = "* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include controls for: cumulative GPA, gender, race, age, sophomore status, part-time status, and imputed GPA dummy. Includes instructor and session fixed effects."
+  ) |>
+
+  # 3. Styling
+  autofit() |>
+  fit_to_width(max_width = 6.5) |>
+  fontsize(size = 9, part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  align(align = "center", part = "header")
+```
+
+\pagebreak
+::: {custom-style="Table title"}
+Table 4A. Interaction Effects - Low GPA vs High GPA
+:::
+
+```{r interaction-effects-gpa, echo=FALSE, warning=FALSE, message=FALSE}
+
+# ---- Run Regressions (Same as before) ----
+# [Panel A Models]
+exam_gpa <- exam_level |>
+  feols(
+    score ~ post +
+      lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+exam_gpa_did <- exam_level |>
+  feols(
+    score ~ post +
+      lowgpa +
+      post * lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_gpa <- question_level |>
+  feols(
+    correct ~ post +
+      lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_gpa_did <- question_level |>
+  feols(
+    correct ~ post +
+      lowgpa +
+      post * lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+# [Panel B Models]
+exam_online <- exam_level |>
+  feols(
+    score ~ post +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+exam_online_did <- exam_level |>
+  feols(
+    score ~ post +
+      online +
+      post * online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_online <- question_level |>
+  feols(
+    correct ~ post +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_online_did <- question_level |>
+  feols(
+    correct ~ post +
+      online +
+      post * online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+# ---- Row Labels ----
+rowlabs_did <- c(
+  "post" = "Post-COVID",
+  "lowgpa" = "Low GPA",
+  "post:lowgpa" = "Post x Low GPA",
+  "online" = "Online",
+  "post:online" = "Post x Online"
+)
+
+# ==============================================================================
+# TABLE: PANEL A (Low GPA vs High GPA)
+# ==============================================================================
+
+modelsummary(
+  list(
+    "(1)" = exam_gpa,
+    "(2)" = exam_gpa_did,
+    "(3)" = ques_gpa,
+    "(4)" = ques_gpa_did
+  ),
+  coef_map = rowlabs_did,
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_map = c("nobs", "r.squared"),
+  output = "flextable",
+  title = "Table 4a. Interaction Effects - Low GPA vs High GPA"
+) |>
+  add_header_row(
+    values = c("", "Final Exam Score", "Did Student Get Answer Correct?"),
+    colwidths = c(1, 2, 2)
+  ) |>
+  delete_part(part = "footer") |>
+  add_footer_lines(
+    values = "* p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. Controls included: cumulative GPA, gender, race, part-time status, and imputed GPA dummy. Includes session and instructor fixed effects."
+  ) |>
+  autofit() |>
+  fit_to_width(max_width = 6.5) |>
+  fontsize(size = 9, part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  align(align = "center", part = "header")
+
+
+```
+
+\pagebreak
+::: {custom-style="Table title"}
+Table 4B. Interaction Effects - Online vs Hybrid
+:::
+
+```{r interaction-effects-online, echo=FALSE, warning=FALSE, message=FALSE}
+
+# ==============================================================================
+# TABLE: PANEL B (Online vs Hybrid)
+# ==============================================================================
+
+modelsummary(
+  list(
+    "(1)" = exam_online,
+    "(2)" = exam_online_did,
+    "(3)" = ques_online,
+    "(4)" = ques_online_did
+  ),
+  coef_map = rowlabs_did,
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_map = c("nobs", "r.squared"),
+  output = "flextable",
+  title = "Table 4b. Interaction Effects - Online vs Hybrid"
+) |>
+  add_header_row(
+    values = c("", "Final Exam Score", "Did Student Get Answer Correct?"),
+    colwidths = c(1, 2, 2)
+  ) |>
+  delete_part(part = "footer") |>
+  add_footer_lines(
+    values = "* p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. Controls included: cumulative GPA, gender, race, part-time status, and imputed GPA dummy. Includes session and instructor fixed effects."
+  ) |>
+  autofit() |>
+  fit_to_width(max_width = 6.5) |>
+  fontsize(size = 9, part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  align(align = "center", part = "header")
+
+```
+
+\pagebreak
+::: {custom-style="Table title"}
+Table 5a. Low GPA vs High GPA (Hard vs Easy Questions)
+:::
+
+```{r robust-gpa-easy-hard, echo=FALSE, warning=FALSE, message=FALSE}
+
+# ---- Run Regressions ----
+
+# [Panel A: Low GPA vs High GPA] (Hard vs Easy)
+ques_gpa_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(
+    correct ~ post +
+      lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_gpa_did_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(
+    correct ~ post +
+      lowgpa +
+      post * lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_gpa_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(
+    correct ~ post +
+      lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_gpa_did_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(
+    correct ~ post +
+      lowgpa +
+      post * lowgpa +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+# Labels
+rowlabs_eh <- c(
+  "post" = "Post-COVID",
+  "lowgpa" = "Low GPA",
+  "post:lowgpa" = "Post x Low GPA",
+  "online" = "Online",
+  "post:online" = "Post x Online"
+)
+
+# ==============================================================================
+# TABLE: PANEL A (Low GPA vs High GPA - Hard vs Easy)
+# ==============================================================================
+
+modelsummary(
+  list(
+    "(1)" = ques_gpa_hard,
+    "(2)" = ques_gpa_did_hard,
+    "(3)" = ques_gpa_easy,
+    "(4)" = ques_gpa_did_easy
+  ),
+  coef_map = rowlabs_eh,
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_map = c("nobs", "r.squared"),
+  output = "flextable",
+  title = "Table 5a. Low GPA vs High GPA (Hard vs Easy Questions)"
+) |>
+  add_header_row(
+    values = c("", "Hard Questions", "Easy Questions"),
+    colwidths = c(1, 2, 2)
+  ) |>
+  delete_part(part = "footer") |>
+  add_footer_lines(
+    values = "* p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. Controls included: cumulative GPA, gender, race, part-time status, and imputed GPA dummy. Includes session and instructor fixed effects."
+  ) |>
+  autofit() |>
+  fit_to_width(max_width = 6.5) |>
+  fontsize(size = 9, part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  align(align = "center", part = "header")
+
+```
+
+
+\pagebreak
+
+::: {custom-style="Table title"}
+Table 5b. Online vs Hybrid (Hard vs Easy Questions)
+:::
+
+
+```{r robust-online-hard-easy, echo=FALSE, warning=FALSE, message=FALSE}
+# [Panel B: Online vs Hybrid] (Hard vs Easy)
+ques_online_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(
+    correct ~ post +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_online_did_hard <- question_level |>
+  filter(difficulty == "h") |>
+  feols(
+    correct ~ post +
+      online +
+      post * online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_online_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(
+    correct ~ post +
+      online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+ques_online_did_easy <- question_level |>
+  filter(difficulty == "e") |>
+  feols(
+    correct ~ post +
+      online +
+      post * online +
+      female +
+      r_black +
+      r_asian +
+      r_hispa +
+      r_other +
+      cumgpa +
+      parttime +
+      gpamiss |
+      session + instructor,
+    vcov = "hc1"
+  )
+
+
+
+
+# ==============================================================================
+# TABLE: PANEL B (Online vs Hybrid - Hard vs Easy)
+# ==============================================================================
+
+modelsummary(
+  list(
+    "(1)" = ques_online_hard,
+    "(2)" = ques_online_did_hard,
+    "(3)" = ques_online_easy,
+    "(4)" = ques_online_did_easy
+  ),
+  coef_map = rowlabs_eh,
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_map = c("nobs", "r.squared"),
+  output = "flextable",
+  title = "Table 5b. Online vs Hybrid (Hard vs Easy Questions)"
+) |>
+  add_header_row(
+    values = c("", "Hard Questions", "Easy Questions"),
+    colwidths = c(1, 2, 2)
+  ) |>
+  delete_part(part = "footer") |>
+  add_footer_lines(
+    values = "* p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. Controls included: cumulative GPA, gender, race, part-time status, and imputed GPA dummy. Includes session and instructor fixed effects."
+  ) |>
+  autofit() |>
+  fit_to_width(max_width = 6.5) |>
+  fontsize(size = 9, part = "all") |>
+  font(fontname = "Times New Roman", part = "all") |>
+  align(align = "center", part = "header")
+
+```
+
+

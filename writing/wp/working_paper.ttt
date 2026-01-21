@@ -1,0 +1,203 @@
+\begin{table}[!h]
+\centering\centering
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\fontsize{9}{11}\selectfont
+\begin{threeparttable}
+\begin{tabular}[t]{lrrrrrr}
+\toprule
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Pre-Covid (N=752)} & \multicolumn{2}{c}{Post-Covid (N=3846)} & \multicolumn{2}{c}{ } \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & Mean & Std. Dev. & Mean & Std. Dev. & Diff. in Means & Std. Error\\
+\midrule
+Final exam score & \num{56.586} & \num{15.100} & \num{57.148} & \num{15.697} & \num{0.562} & \num{0.606}\\
+Correct & \num{0.620} & \num{0.247} & \num{0.582} & \num{0.289} & \num{-0.038} & \num{0.010}\\
+Hispanic & \num{0.133} & \num{0.340} & \num{0.189} & \num{0.391} & \num{0.056} & \num{0.014}\\
+Black & \num{0.082} & \num{0.275} & \num{0.077} & \num{0.267} & \num{-0.005} & \num{0.011}\\
+Asian & \num{0.512} & \num{0.500} & \num{0.457} & \num{0.498} & \num{-0.055} & \num{0.020}\\
+Other race & \num{0.012} & \num{0.109} & \num{0.060} & \num{0.238} & \num{0.048} & \num{0.006}\\
+Fall & \num{0.480} & \num{0.500} & \num{0.542} & \num{0.498} & \num{0.062} & \num{0.020}\\
+Online & \num{0.346} & \num{0.476} & \num{0.585} & \num{0.493} & \num{0.239} & \num{0.019}\\
+GPA & \num{3.146} & \num{0.710} & \num{3.302} & \num{0.580} & \num{0.155} & \num{0.035}\\
+Female & \num{0.440} & \num{0.497} & \num{0.464} & \num{0.499} & \num{0.024} & \num{0.020}\\
+Age & \num{21.352} & \num{4.592} & \num{20.219} & \num{3.161} & \num{-1.133} & \num{0.178}\\
+Parttime & \num{0.082} & \num{0.275} & \num{0.051} & \num{0.220} & \num{-0.031} & \num{0.011}\\
+Sophomore or below & \num{0.840} & \num{0.366} & \num{0.935} & \num{0.247} & \num{0.094} & \num{0.014}\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: }
+\item * p< 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.
+\end{tablenotes}
+\end{threeparttable}}
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+\centering\begingroup\fontsize{9}{11}\selectfont
+
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{threeparttable}
+\begin{tabular}[t]{lcccc}
+\toprule
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{\makecell[c]{Final Exam Score\\(mean = 57.1, sd = 15.6)}}}} & \multicolumn{2}{c}{\em{\textbf{\makecell[c]{Did Student Get The Answer Correct (Y/N)?\\(mean = 0.6, sd = 0.49)}}}} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & (1) & (2) & (3) & (4)\\
+\midrule
+postcovid & -1.151 &  & -0.019*** & \\
+ & (0.744) &  & (0.007) & \\
+fall 2020 &  & 1.308 &  & -0.102***\\
+ &  & (1.504) &  & (0.013)\\
+spring 2021 &  & -5.760*** &  & -0.082***\\
+\addlinespace
+ &  & (1.135) &  & (0.015)\\
+fall 2021 &  & 5.643*** &  & -0.019**\\
+ &  & (1.169) &  & (0.010)\\
+spring 2022 &  & -6.954*** &  & -0.088***\\
+ &  & (1.370) &  & (0.012)\\
+\addlinespace
+Num.Obs. & 4598 & 4598 & 47589 & 47589\\
+R2 & 0.209 & 0.223 & 0.036 & 0.039\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: }
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.
+\end{tablenotes}
+\end{threeparttable}}
+\endgroup{}
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+\centering\begingroup\fontsize{9}{11}\selectfont
+
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{threeparttable}
+\begin{tabular}[t]{lcccc}
+\toprule
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{\makecell[c]{Final Exam Score\\(mean = 57.1, sd = 15.6)}}}} & \multicolumn{2}{c}{\em{\textbf{\makecell[c]{Did Student Get The Answer Correct (Y/N)?\\(mean = 0.6, sd = 0.49)}}}} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & (1) & (2) & (3) & (4)\\
+\midrule
+postcovid & -1.894** & 1.564 & -0.022*** & 0.002\\
+ & (0.739) & (1.421) & (0.007) & (0.010)\\
+GPA (first quartile) & -18.335*** & -13.299*** & -0.202*** & -0.176***\\
+ & (0.610) & (1.673) & (0.006) & (0.010)\\
+GPA (second quartile) & -15.034*** & -11.586*** & -0.146*** & -0.116***\\
+\addlinespace
+ & (0.608) & (1.566) & (0.007) & (0.011)\\
+GPA (third quartile) & -10.191*** & -8.107*** & -0.112*** & -0.119***\\
+ & (0.573) & (1.958) & (0.006) & (0.011)\\
+post x GPA (first quartile) &  & -5.722*** &  & -0.041***\\
+ &  & (1.784) &  & (0.013)\\
+\addlinespace
+post x GPA (second quartile) &  & -3.946** &  & -0.059***\\
+ &  & (1.699) &  & (0.014)\\
+post x GPA (third quartile) &  & -2.362 &  & 0.008\\
+ &  & (2.048) &  & (0.013)\\
+Num.Obs. & 4598 & 4598 & 47589 & 47589\\
+\addlinespace
+R2 & 0.246 & 0.248 & 0.040 & 0.040\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: }
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at most a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.
+\end{tablenotes}
+\end{threeparttable}}
+\endgroup{}
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+\centering\begingroup\fontsize{9}{11}\selectfont
+
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{threeparttable}
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
+\toprule
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Final Exam Score}}} & \multicolumn{2}{c}{\em{\textbf{Did Student Get The Answer Correct (Y/N)?}}} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & (1) & (2) & (3) & (4)\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textit{\textbf{Panel A: Low GPA vs High GPA}}}\\
+\hspace{1em}postcovid & -2.637*** & -0.477 & -0.014* & 0.001\\
+\hspace{1em} & (0.750) & (1.139) & (0.007) & (0.008)\\
+\hspace{1em}lowgpa & -11.369*** & -8.541*** & -0.132*** & -0.113***\\
+\hspace{1em} & (0.442) & (1.225) & (0.005) & (0.008)\\
+\hspace{1em}post x lowgpa &  & -3.245** &  & -0.033***\\
+\hspace{1em} &  & (1.303) &  & (0.010)\\
+\hspace{1em}online & -1.573*** & -1.644*** & -0.071*** & -0.071***\\
+\hspace{1em} & (0.598) & (0.598) & (0.008) & (0.008)\\
+\hspace{1em}Mean of Dependent Variable & 57.056 & 57.056 & 0.599 & \vphantom{1} 0.599\\
+\hspace{1em}Num.Obs. & 4598 & 4598 & 47589 & \vphantom{1} 47589\\
+\hspace{1em}R2 & 0.187 & 0.188 & 0.034 & 0.035\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textit{\textbf{Panel B: Online vs Hybrid}}}\\
+\hspace{1em}postcovid & -1.151 & 0.971 & -0.019*** & -0.040***\\
+\hspace{1em} & (0.744) & (0.962) & (0.007) & (0.009)\\
+\hspace{1em}online & -1.778*** & 2.987** & -0.076*** & -0.106***\\
+\hspace{1em} & (0.592) & (1.408) & (0.007) & (0.010)\\
+\hspace{1em}post x online &  & -5.262*** &  & 0.060***\\
+\hspace{1em} &  & (1.428) &  & (0.014)\\
+\hspace{1em}Mean of Dependent Variable & 57.056 & 57.056 & 0.599 & 0.599\\
+\hspace{1em}Num.Obs. & 4598 & 4598 & 47589 & 47589\\
+\hspace{1em}R2 & 0.209 & 0.211 & 0.036 & 0.037\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: }
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
+    GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
+\end{tablenotes}
+\end{threeparttable}}
+\endgroup{}
+\end{table}
+\efloatseparator
+ 
+\begin{table}[H]
+\centering\begingroup\fontsize{9}{11}\selectfont
+
+\resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
+\begin{threeparttable}
+\begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
+\toprule
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Final Exam Score}}} & \multicolumn{2}{c}{\em{\textbf{Did Student Get The Answer Correct (Y/N)?}}} \\
+\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
+  & (1) & (2) & (3) & (4)\\
+\midrule
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textit{\textbf{Panel A: Low GPA vs High GPA}}}\\
+\hspace{1em}postcovid & -0.003 & 0.014 & -0.006 & -0.018\\
+\hspace{1em} & (0.010) & (0.011) & (0.018) & (0.020)\\
+\hspace{1em}lowgpa & -0.141*** & -0.120*** & -0.092*** & -0.101***\\
+\hspace{1em} & (0.006) & (0.010) & (0.009) & (0.013)\\
+\hspace{1em}post x lowgpa &  & -0.037*** &  & 0.022\\
+\hspace{1em} &  & (0.013) &  & (0.019)\\
+\hspace{1em}online & -0.039*** & -0.039*** & -0.118*** & -0.117***\\
+\hspace{1em} & (0.010) & (0.010) & (0.017) & (0.017)\\
+\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & \vphantom{1} 0.645\\
+\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & \vphantom{1} 13332\\
+\hspace{1em}R2 & 0.037 & 0.037 & 0.033 & 0.033\\
+\addlinespace[0.3em]
+\multicolumn{5}{l}{\textit{\textbf{Panel B: Online vs Hybrid}}}\\
+\hspace{1em}postcovid & -0.009 & -0.044*** & 0.003 & -0.005\\
+\hspace{1em} & (0.010) & (0.012) & (0.018) & (0.021)\\
+\hspace{1em}online & -0.047*** & -0.093*** & -0.126*** & -0.135***\\
+\hspace{1em} & (0.010) & (0.013) & (0.017) & (0.022)\\
+\hspace{1em}post x online &  & 0.100*** &  & 0.019\\
+\hspace{1em} &  & (0.018) &  & (0.027)\\
+\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & 0.645\\
+\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & 13332\\
+\hspace{1em}R2 & 0.042 & 0.043 & 0.031 & 0.031\\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[para]
+\item \textit{Note: }
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, and part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative
+    GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
+\end{tablenotes}
+\end{threeparttable}}
+\endgroup{}
+\end{table}

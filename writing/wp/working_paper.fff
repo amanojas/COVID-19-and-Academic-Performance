@@ -1,0 +1,75 @@
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{working_paper_files/figure-pdf/gpa-across-semesters-eco-1001-1.pdf}}
+
+}
+
+\caption{Average final GPA in ECO 1001 across semesters}
+
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{working_paper_files/figure-pdf/withdrawal-rate-1.pdf}}
+
+}
+
+\caption{Withdrawal rates in ECO 1001 across semesters}
+
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[H]
+
+{\centering \includegraphics[width=0.9\linewidth,height=\textheight,keepaspectratio]{working_paper_files/figure-pdf/dynamic-effects-1.pdf}
+
+}
+
+\caption{Dynamic effects of COVID-19 on students' performance}
+
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{working_paper_files/figure-pdf/exam-scores-mean-1.pdf}}
+
+}
+
+\caption{Average Final Exam Scores in ECO 1001 across Semesters}
+
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{working_paper_files/figure-pdf/share-gpa-low-high-1.pdf}}
+
+}
+
+\caption{Share of High vs Low GPA Students}
+
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{working_paper_files/figure-pdf/meangpa-gpa-group-1.pdf}}
+
+}
+
+\caption{Average GPA in High vs Low GPA Group of Students}
+
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{working_paper_files/figure-pdf/student-share-online-hybrid-1.pdf}}
+
+}
+
+\caption{Share of the Students in Hybrid vs Online Classes}
+
+\end{figure}

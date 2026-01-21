@@ -26,8 +26,8 @@
 \usepackage{lmodern}
 \ifPDFTeX\else
   % xetex/luatex font selection
-  \setmainfont[]{Times New Roman}
-  \setsansfont[]{Times New Roman}
+  \setmainfont[]{Palatino}
+  \setsansfont[]{Palatino}
   \setmonofont[]{Courier New}
   \setmathfont[]{TeX Gyre Termes Math}
 \fi
@@ -169,6 +169,14 @@
     ]}
   
 \KOMAoption{captions}{tableheading}
+\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{endfloat}
+\usepackage{threeparttable}
+\usepackage{siunitx}
+\sisetup{detect-all=true}
+\setlength{\defaultaddspace}{0pt}
+\providecommand\makecell[2][]{\begin{tabular}{@{}c@{}}#2\end{tabular}}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -227,7 +235,7 @@
 \title{Effects of COVID-19 on the Academic Performance of College
 Students}
 \author{Aman Desai}
-\date{2025-12-07}
+\date{Jan 21, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -796,8 +804,6 @@ academic outcomes and their learning loss.
 
 \begin{table}[!h]
 \centering\centering
-\caption{\label{tab:descriptive-stats}Descriptive Statistics}
-\centering
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
 \fontsize{9}{11}\selectfont
 \begin{threeparttable}
@@ -832,11 +838,9 @@ Sophomore or below & \num{0.840} & \num{0.366} & \num{0.935} & \num{0.247} & \nu
 \subsection{Baseline Specification}\label{baseline-specification}
 
 \begin{table}[H]
-\centering
-\caption{\label{tab:baseline-specification}Baseline estimates of the effect of COVID-19 on students' academic performance}
-\centering
+\centering\begingroup\fontsize{9}{11}\selectfont
+
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{9}{11}\selectfont
 \begin{threeparttable}
 \begin{tabular}[t]{lcccc}
 \toprule
@@ -865,14 +869,13 @@ R2 & 0.209 & 0.223 & 0.036 & 0.039\\
 \item * p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at least a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.
 \end{tablenotes}
 \end{threeparttable}}
+\endgroup{}
 \end{table}
 
 \begin{table}[H]
-\centering
-\caption{\label{tab:gpa-by-quartiles}Differential effect of COVID-19 across GPA quartiles}
-\centering
+\centering\begingroup\fontsize{9}{11}\selectfont
+
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{9}{11}\selectfont
 \begin{threeparttable}
 \begin{tabular}[t]{lcccc}
 \toprule
@@ -906,6 +909,7 @@ R2 & 0.246 & 0.248 & 0.040 & 0.040\\
 \item * p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale. Heteroskedasticity-robust standard errors are used. All regressions include the following control variables: cumulative GPA, gender, race, age, whether a student is at most a sophomore, part-time status of the student. All regressions also include a dummy variable, gpamiss, which is 1 if cumulative GPA is imputed using the mean and 0 otherwise. All regressions include course instructor fixed-effects and session fixed-effects.
 \end{tablenotes}
 \end{threeparttable}}
+\endgroup{}
 \end{table}
 
 \subsection{Impact of COVID on Low GPA
@@ -940,11 +944,9 @@ compared to high GPA students. The coefficient is statistically
 significant at the 1\% level.
 
 \begin{table}[H]
-\centering
-\caption{\label{tab:interaction-effects}Interaction effects of COVID-19 on students’ academic performance}
-\centering
+\centering\begingroup\fontsize{9}{11}\selectfont
+
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{9}{11}\selectfont
 \begin{threeparttable}
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
 \toprule
@@ -984,6 +986,7 @@ significant at the 1\% level.
     GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
 \end{tablenotes}
 \end{threeparttable}}
+\endgroup{}
 \end{table}
 
 \subsection{Abrupt Transition to Remote
@@ -1087,11 +1090,9 @@ labelled \emph{hard} by the instructors from the pre-pandemic exams, and
 the follow the same logic for the easy questions.
 
 \begin{table}[H]
-\centering
-\caption{\label{tab:robust-online-easy-hard}Estimates of COVID-19 on students’ performance on questions by level of difficulty}
-\centering
+\centering\begingroup\fontsize{9}{11}\selectfont
+
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{9}{11}\selectfont
 \begin{threeparttable}
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
 \toprule
@@ -1131,6 +1132,7 @@ the follow the same logic for the easy questions.
     GPA is imputed using the mean and 0 otherwise. All regressions include session fixed-effects and course instructor fixed-effects.
 \end{tablenotes}
 \end{threeparttable}}
+\endgroup{}
 \end{table}
 
 Results from panel A in table 3.5 show that on average low GPA students

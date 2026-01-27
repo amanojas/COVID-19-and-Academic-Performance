@@ -1,34 +1,37 @@
-\begin{table}[!h]
-\centering\centering
+\begin{table}[H]
+\centering\begingroup\fontsize{9}{11}\selectfont
+
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{9}{11}\selectfont
 \begin{threeparttable}
-\begin{tabular}[t]{lrrrrrr}
+\begin{tabular}{lllll}
 \toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Pre-Covid (N=752)} & \multicolumn{2}{c}{Post-Covid (N=3846)} & \multicolumn{2}{c}{ } \\
-\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
-  & Mean & Std. Dev. & Mean & Std. Dev. & Diff. in Means & Std. Error\\
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{1}{c}{\em{\textbf{Pre-COVID (N = 752)}}} & \multicolumn{1}{c}{\em{\textbf{Post-COVID (N = 3846)}}} & \multicolumn{2}{c}{\em{\textbf{ }}} \\
+\cmidrule(l{3pt}r{3pt}){2-2} \cmidrule(l{3pt}r{3pt}){3-3}
+  & Mean & Mean & Diff. in Means & Std.error\\
 \midrule
-Final exam score & \num{56.586} & \num{15.100} & \num{57.148} & \num{15.697} & \num{0.562} & \num{0.606}\\
-Correct & \num{0.620} & \num{0.247} & \num{0.582} & \num{0.289} & \num{-0.038} & \num{0.010}\\
-Hispanic & \num{0.133} & \num{0.340} & \num{0.189} & \num{0.391} & \num{0.056} & \num{0.014}\\
-Black & \num{0.082} & \num{0.275} & \num{0.077} & \num{0.267} & \num{-0.005} & \num{0.011}\\
-Asian & \num{0.512} & \num{0.500} & \num{0.457} & \num{0.498} & \num{-0.055} & \num{0.020}\\
-Other race & \num{0.012} & \num{0.109} & \num{0.060} & \num{0.238} & \num{0.048} & \num{0.006}\\
-Fall & \num{0.480} & \num{0.500} & \num{0.542} & \num{0.498} & \num{0.062} & \num{0.020}\\
-Online & \num{0.346} & \num{0.476} & \num{0.585} & \num{0.493} & \num{0.239} & \num{0.019}\\
-GPA & \num{3.146} & \num{0.710} & \num{3.302} & \num{0.580} & \num{0.155} & \num{0.035}\\
-Female & \num{0.440} & \num{0.497} & \num{0.464} & \num{0.499} & \num{0.024} & \num{0.020}\\
-Age & \num{21.352} & \num{4.592} & \num{20.219} & \num{3.161} & \num{-1.133} & \num{0.178}\\
-Parttime & \num{0.082} & \num{0.275} & \num{0.051} & \num{0.220} & \num{-0.031} & \num{0.011}\\
-Sophomore or below & \num{0.840} & \num{0.366} & \num{0.935} & \num{0.247} & \num{0.094} & \num{0.014}\\
+Final exam score & 56.586 & 57.148 & 0.562 & 0.606\\
+Correct & 0.620 & 0.582 & -0.038 & 0.010\\
+Hispanic & 0.133 & 0.189 & 0.056 & 0.014\\
+Black & 0.082 & 0.077 & -0.005 & 0.011\\
+Asian & 0.512 & 0.457 & -0.055 & 0.020\\
+\addlinespace
+Other race & 0.012 & 0.060 & 0.048 & 0.006\\
+Fall & 0.480 & 0.542 & 0.062 & 0.020\\
+Online & 0.346 & 0.585 & 0.239 & 0.019\\
+GPA & 3.146 & 3.302 & 0.155 & 0.035\\
+Female & 0.440 & 0.464 & 0.024 & 0.020\\
+\addlinespace
+Age & 21.352 & 20.219 & -1.133 & 0.178\\
+Parttime & 0.082 & 0.051 & -0.031 & 0.011\\
+Sophomore or below & 0.840 & 0.935 & 0.094 & 0.014\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]
 \item \textit{Note: }
-\item * p< 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.
+\item Final exam scores are based on a 100-point scale.
 \end{tablenotes}
 \end{threeparttable}}
+\endgroup{}
 \end{table}
 \efloatseparator
  
@@ -128,8 +131,6 @@ R2 & 0.246 & 0.248 & 0.040 & 0.040\\
 \hspace{1em} & (0.442) & (1.225) & (0.005) & (0.008)\\
 \hspace{1em}post x lowgpa &  & -3.245** &  & -0.033***\\
 \hspace{1em} &  & (1.303) &  & (0.010)\\
-\hspace{1em}online & -1.573*** & -1.644*** & -0.071*** & -0.071***\\
-\hspace{1em} & (0.598) & (0.598) & (0.008) & (0.008)\\
 \hspace{1em}Mean of Dependent Variable & 57.056 & 57.056 & 0.599 & \vphantom{1} 0.599\\
 \hspace{1em}Num.Obs. & 4598 & 4598 & 47589 & \vphantom{1} 47589\\
 \hspace{1em}R2 & 0.187 & 0.188 & 0.034 & 0.035\\
@@ -163,34 +164,32 @@ R2 & 0.246 & 0.248 & 0.040 & 0.040\\
 \begin{threeparttable}
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
 \toprule
-\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Final Exam Score}}} & \multicolumn{2}{c}{\em{\textbf{Did Student Get The Answer Correct (Y/N)?}}} \\
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Easy Questions}}} & \multicolumn{2}{c}{\em{\textbf{Hard Questions}}} \\
 \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
   & (1) & (2) & (3) & (4)\\
 \midrule
 \addlinespace[0.3em]
 \multicolumn{5}{l}{\textit{\textbf{Panel A: Low GPA vs High GPA}}}\\
-\hspace{1em}postcovid & -0.003 & 0.014 & -0.006 & -0.018\\
-\hspace{1em} & (0.010) & (0.011) & (0.018) & (0.020)\\
-\hspace{1em}lowgpa & -0.141*** & -0.120*** & -0.092*** & -0.101***\\
-\hspace{1em} & (0.006) & (0.010) & (0.009) & (0.013)\\
-\hspace{1em}post x lowgpa &  & -0.037*** &  & 0.022\\
-\hspace{1em} &  & (0.013) &  & (0.019)\\
-\hspace{1em}online & -0.039*** & -0.039*** & -0.118*** & -0.117***\\
-\hspace{1em} & (0.010) & (0.010) & (0.017) & (0.017)\\
-\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & \vphantom{1} 0.645\\
-\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & \vphantom{1} 13332\\
-\hspace{1em}R2 & 0.037 & 0.037 & 0.033 & 0.033\\
+\hspace{1em}postcovid & -0.006 & -0.018 & -0.003 & 0.014\\
+\hspace{1em} & (0.018) & (0.020) & (0.010) & (0.011)\\
+\hspace{1em}lowgpa & -0.092*** & -0.101*** & -0.141*** & -0.120***\\
+\hspace{1em} & (0.009) & (0.013) & (0.006) & (0.010)\\
+\hspace{1em}post x lowgpa &  & 0.022 &  & -0.037***\\
+\hspace{1em} &  & (0.019) &  & (0.013)\\
+\hspace{1em}Mean of Dependent Variable & 0.645 & 0.645 & 0.573 & \vphantom{1} 0.573\\
+\hspace{1em}Num.Obs. & 13332 & 13332 & 28018 & \vphantom{1} 28018\\
+\hspace{1em}R2 & 0.033 & 0.033 & 0.037 & 0.037\\
 \addlinespace[0.3em]
 \multicolumn{5}{l}{\textit{\textbf{Panel B: Online vs Hybrid}}}\\
-\hspace{1em}postcovid & -0.009 & -0.044*** & 0.003 & -0.005\\
-\hspace{1em} & (0.010) & (0.012) & (0.018) & (0.021)\\
-\hspace{1em}online & -0.047*** & -0.093*** & -0.126*** & -0.135***\\
-\hspace{1em} & (0.010) & (0.013) & (0.017) & (0.022)\\
-\hspace{1em}post x online &  & 0.100*** &  & 0.019\\
-\hspace{1em} &  & (0.018) &  & (0.027)\\
-\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & 0.645\\
-\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & 13332\\
-\hspace{1em}R2 & 0.042 & 0.043 & 0.031 & 0.031\\
+\hspace{1em}postcovid & 0.003 & -0.005 & -0.009 & -0.044***\\
+\hspace{1em} & (0.018) & (0.021) & (0.010) & (0.012)\\
+\hspace{1em}online & -0.126*** & -0.135*** & -0.047*** & -0.093***\\
+\hspace{1em} & (0.017) & (0.022) & (0.010) & (0.013)\\
+\hspace{1em}post x online &  & 0.019 &  & 0.100***\\
+\hspace{1em} &  & (0.027) &  & (0.018)\\
+\hspace{1em}Mean of Dependent Variable & 0.645 & 0.645 & 0.573 & 0.573\\
+\hspace{1em}Num.Obs. & 13332 & 13332 & 28018 & 28018\\
+\hspace{1em}R2 & 0.031 & 0.031 & 0.042 & 0.043\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]

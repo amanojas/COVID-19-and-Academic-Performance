@@ -29,7 +29,7 @@
   \setmainfont[]{Palatino}
   \setsansfont[]{Palatino}
   \setmonofont[]{Courier New}
-  \setmathfont[]{TeX Gyre Termes Math}
+  \setmathfont[]{Palatino}
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -160,14 +160,6 @@
 \usepackage[normalem]{ulem}
 \usepackage{makecell}
 \usepackage{xcolor}
-\usepackage{siunitx}
-
-    \newcolumntype{d}{S[
-      table-align-text-before=false,
-      table-align-text-after=false,
-      input-symbols={-,\*+()}
-    ]}
-  
 \KOMAoption{captions}{tableheading}
 \usepackage{makecell}
 \usepackage{booktabs}
@@ -235,7 +227,7 @@
 \title{Effects of COVID-19 on the Academic Performance of College
 Students}
 \author{Aman Desai}
-\date{Jan 21, 2026}
+\date{Jan 26, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
@@ -260,8 +252,10 @@ higher GPAs during the pandemic. Also, the mean probability of answering
 a nearly identical question before and after suddenly moving to online
 classes increased by 5.6 percentage points.
 
-\textbf{Keywords:} COVID-19, academic performance, undergraduate
-education, online learning
+\vspace{12pt}
+
+\noindent \textbf{Keywords:} COVID-19, academic performance,
+undergraduate education, online learning
 \end{abstract}
 
 
@@ -802,38 +796,88 @@ academic outcomes and their learning loss.
 
 \subsection{Descriptive Statistics}\label{descriptive-statistics}
 
-\begin{table}[!h]
-\centering\centering
+\begin{table}[H]
+\centering\begingroup\fontsize{9}{11}\selectfont
+
 \resizebox{\ifdim\width>\linewidth\linewidth\else\width\fi}{!}{
-\fontsize{9}{11}\selectfont
 \begin{threeparttable}
-\begin{tabular}[t]{lrrrrrr}
+\begin{tabular}{lllll}
 \toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Pre-Covid (N=752)} & \multicolumn{2}{c}{Post-Covid (N=3846)} & \multicolumn{2}{c}{ } \\
-\cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
-  & Mean & Std. Dev. & Mean & Std. Dev. & Diff. in Means & Std. Error\\
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{1}{c}{\em{\textbf{Pre-COVID (N = 752)}}} & \multicolumn{1}{c}{\em{\textbf{Post-COVID (N = 3846)}}} & \multicolumn{2}{c}{\em{\textbf{ }}} \\
+\cmidrule(l{3pt}r{3pt}){2-2} \cmidrule(l{3pt}r{3pt}){3-3}
+  & Mean & Mean & Diff. in Means & Std.error\\
 \midrule
-Final exam score & \num{56.586} & \num{15.100} & \num{57.148} & \num{15.697} & \num{0.562} & \num{0.606}\\
-Correct & \num{0.620} & \num{0.247} & \num{0.582} & \num{0.289} & \num{-0.038} & \num{0.010}\\
-Hispanic & \num{0.133} & \num{0.340} & \num{0.189} & \num{0.391} & \num{0.056} & \num{0.014}\\
-Black & \num{0.082} & \num{0.275} & \num{0.077} & \num{0.267} & \num{-0.005} & \num{0.011}\\
-Asian & \num{0.512} & \num{0.500} & \num{0.457} & \num{0.498} & \num{-0.055} & \num{0.020}\\
-Other race & \num{0.012} & \num{0.109} & \num{0.060} & \num{0.238} & \num{0.048} & \num{0.006}\\
-Fall & \num{0.480} & \num{0.500} & \num{0.542} & \num{0.498} & \num{0.062} & \num{0.020}\\
-Online & \num{0.346} & \num{0.476} & \num{0.585} & \num{0.493} & \num{0.239} & \num{0.019}\\
-GPA & \num{3.146} & \num{0.710} & \num{3.302} & \num{0.580} & \num{0.155} & \num{0.035}\\
-Female & \num{0.440} & \num{0.497} & \num{0.464} & \num{0.499} & \num{0.024} & \num{0.020}\\
-Age & \num{21.352} & \num{4.592} & \num{20.219} & \num{3.161} & \num{-1.133} & \num{0.178}\\
-Parttime & \num{0.082} & \num{0.275} & \num{0.051} & \num{0.220} & \num{-0.031} & \num{0.011}\\
-Sophomore or below & \num{0.840} & \num{0.366} & \num{0.935} & \num{0.247} & \num{0.094} & \num{0.014}\\
+Final exam score & 56.586 & 57.148 & 0.562 & 0.606\\
+Correct & 0.620 & 0.582 & -0.038 & 0.010\\
+Hispanic & 0.133 & 0.189 & 0.056 & 0.014\\
+Black & 0.082 & 0.077 & -0.005 & 0.011\\
+Asian & 0.512 & 0.457 & -0.055 & 0.020\\
+\addlinespace
+Other race & 0.012 & 0.060 & 0.048 & 0.006\\
+Fall & 0.480 & 0.542 & 0.062 & 0.020\\
+Online & 0.346 & 0.585 & 0.239 & 0.019\\
+GPA & 3.146 & 3.302 & 0.155 & 0.035\\
+Female & 0.440 & 0.464 & 0.024 & 0.020\\
+\addlinespace
+Age & 21.352 & 20.219 & -1.133 & 0.178\\
+Parttime & 0.082 & 0.051 & -0.031 & 0.011\\
+Sophomore or below & 0.840 & 0.935 & 0.094 & 0.014\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]
 \item \textit{Note: } 
-\item * p< 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.
+\item Final exam scores are based on a 100-point scale.
 \end{tablenotes}
 \end{threeparttable}}
+\endgroup{}
 \end{table}
+
+Table 3.1 outlines the sample characteristics before and after the
+pandemic. The sample includes 4,598 students enrolled in the course. The
+pre-Covid period covers observations from spring and fall 2019. The
+post-Covid data includes students enrolled in fall 2020, spring 2021,
+fall 2021, and spring 2022. The table reports the pre-Covid and
+post-Covid averages of the variables as well as differences in their
+means.
+
+On average, unadjusted difference in exam scores of the students in the
+common final exams is 0.562 points. This difference is not statistically
+significant. In case of performance on nearly identical questions, the
+average probability of answering the question, unadjusted, is about 7.6
+percentage points less in post-Covid exams relative to pre-Covid exams.
+The difference is statistically significant at 1\% level. Regarding
+student demographics, there has been an increase in the proportion of
+Hispanic students in the course from 13.3 percent before the pandemic to
+18.9 percent after. The enrollment proportion for Asian students has
+decreased, with a difference of -5.5 percent. The proportion of Black
+students has remained roughly the same before and after the pandemic,
+with the small difference not being statistically significant. The
+difference in enrollment for students of all races except for Black are
+statistically significant at the 1 percent level. Before the pandemic,
+around 35 percent of the students were enrolled in fully online classes.
+However, in the post-Covid period, about 59 percent of students chose
+fully online classes over hybrid classes. Notably, all students enrolled
+in this course took fully remote classes during the fall 2020 and spring
+2021 sessions. In contrast, during fall 2021, all students were enrolled
+in hybrid classes for the course. By spring 2022, both hybrid and online
+classes were available.
+
+In the post-pandemic period, students are nearly a year younger than in
+the pre-pandemic period, a difference that is statistically significant
+at the 1 percent level. The proportion of part-time students has
+decreased since 2019. The proportion of students whose native language
+is not English has also decreased significantly from 58.1 percent to
+43.1 percent. Most students taking the introductory microeconomics
+course are freshmen or sophomores. Their proportion has increased by 10
+percentage points in the post-pandemic period compared to the
+pre-pandemic period. A crucial control variable in this study is the
+students' GPA, for which I use their cumulative GPA from before the
+semester in which they enrolled in the course started. Some observations
+have missing values. If a student's cumulative GPA at the start of the
+semester is missing, I replace it with their GPA at the end of the
+semester. If a student's cumulative GPA before or after the semester is
+missing, I impute the value using the mean GPA of the semester in which
+the student enrolled in the course for further analyses.
 
 \subsection{Baseline Specification}\label{baseline-specification}
 
@@ -871,6 +915,60 @@ R2 & 0.209 & 0.223 & 0.036 & 0.039\\
 \end{threeparttable}}
 \endgroup{}
 \end{table}
+
+Table 3.2 presents the results of the baseline specification. As stated
+earlier, student performance was measured using two outcome variables.
+The coefficients with standard errors are reported. Also reported below
+the standard errors are standardized coefficients in brackets. In the
+first two columns, the outcome variable is the student's exam score on
+the common final exam. It appears from a simple model in the first
+column that performance measured using the exam score, decreased in the
+post-pandemic period. Looking at the first column, on average, in the
+post-pandemic period, the exam score decreased by a point (or 0.02
+standard deviations), although the coefficient is not statistically
+significant. Column 2 shows the results by semester using dummy
+variables, with spring and fall 2019 combined as the benchmark category.
+Due to limited pre-pandemic observations, I combined spring and fall
+2019 data into a single period. When the pandemic struck, the score
+increased by 1.35 points in fall 2020 compared to exam scores in 2019,
+but the coefficient is not statistically significant. The scores
+decreased sharply in spring 2021 by 5.75 points or 0.37 standard
+deviations below the mean score. Mean scores increased in fall 2021
+before decreasing in spring 2022 by 6.7 points (or 0.43 standard
+deviations).
+
+Columns 3-4 present the results from linear probability models, where
+the outcome variable is binary since I look at the students' performance
+on matched questions from pre and post pandemic final exam. For a full
+period post pandemic, the probability of students answering a similar
+question from pre pandemic exam decreases by 1.5 percentage points.
+Analyzing the results across semesters, immediately after the pandemic
+struck, I see a sharp decrease in the probability of students answering
+a nearly identical question correctly in fall 2020 compared to the
+common final exams in 2019. The probability of answering the nearly
+identical question in fall 2020 decreased by 10 percentage points or
+0.21 standard deviations below the mean probability compared to that of
+in 2019. The performance appeared to improve in subsequent semesters,
+with the probability of answering the nearly identical question from
+pre-pandemic common exams during the pandemic decreased by about 8
+percentage points in spring 2022. In all regressions, I control for
+students' demographic characteristics, including race and gender, as
+well as other factors such cumulative GPA and their part-time student
+status. In addition to that, in all regressions, I control for the
+gpamiss variable to see if the results change due to mean imputation of
+missing GPA values. The results do not appear to change due to that.
+
+I also examine closely the differential effect of the pandemic based on
+students' GPA quartiles for both exam scores and matched questions data.
+For the exam scores dataset, the GPA quartiles are constructed as
+follows: first quartile: GPA ≤ 3.01, second quartile: 3.01 \textless{}
+GPA ≤ 3.37, third quartile: 3.37 \textless{} GPA ≤ 3.71, and fourth
+quartile: GPA \textgreater{} 3.71. For matched questions data, the GPA
+quartiles are constructed as follows: first quartile: GPA ≤ 3.08, second
+quartile: 3.08 \textless{} GPA ≤ 3.32, third quartile: 3.32 \textless{}
+GPA ≤ 3.68, and fourth quartile: GPA \textgreater{} 3.68. Using students
+in the fourth GPA quartile as a benchmark group, I can examine how the
+pandemic affected students in other quartiles.
 
 \begin{table}[H]
 \centering\begingroup\fontsize{9}{11}\selectfont
@@ -911,6 +1009,23 @@ R2 & 0.246 & 0.248 & 0.040 & 0.040\\
 \end{threeparttable}}
 \endgroup{}
 \end{table}
+
+In table 3.3, looking at the results from exam scores data, students in
+the bottom quartile scored just over 18 points or 0.61 standard
+deviations lower than students in the top quartile of the GPA
+distribution. After the pandemic, this gap widened by 5.7 points (0.06
+standard deviations) in the final exam scores. The gap in scores between
+students in the third and top GPA quartiles widens by 2.36 points,
+though this change is not statistically significant. Looking at the
+results from matched-questions data, I observe a similar pattern. On
+average students in bottom quartile are 20 percentage points less likely
+to answer a nearly identical question compared to the students in top
+quartile. In the post-pandemic period, the gap in mean probability of
+answering a nearly identical question on a common exam widened by 4
+percentage points or 0.02 standard deviations between students in the
+top and bottom quartiles of the GPA distribution. These findings
+demonstrate that students with lower GPAs experienced significantly
+greater learning losses.
 
 \subsection{Impact of COVID on Low GPA
 Students}\label{impact-of-covid-on-low-gpa-students}
@@ -962,8 +1077,6 @@ significant at the 1\% level.
 \hspace{1em} & (0.442) & (1.225) & (0.005) & (0.008)\\
 \hspace{1em}post x lowgpa &  & -3.245** &  & -0.033***\\
 \hspace{1em} &  & (1.303) &  & (0.010)\\
-\hspace{1em}online & -1.573*** & -1.644*** & -0.071*** & -0.071***\\
-\hspace{1em} & (0.598) & (0.598) & (0.008) & (0.008)\\
 \hspace{1em}Mean of Dependent Variable & 57.056 & 57.056 & 0.599 & \vphantom{1} 0.599\\
 \hspace{1em}Num.Obs. & 4598 & 4598 & 47589 & \vphantom{1} 47589\\
 \hspace{1em}R2 & 0.187 & 0.188 & 0.034 & 0.035\\
@@ -1096,34 +1209,32 @@ the follow the same logic for the easy questions.
 \begin{threeparttable}
 \begin{tabular}[t]{>{\raggedright\arraybackslash}p{15em}cccc}
 \toprule
-\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Final Exam Score}}} & \multicolumn{2}{c}{\em{\textbf{Did Student Get The Answer Correct (Y/N)?}}} \\
+\multicolumn{1}{c}{\em{\textbf{ }}} & \multicolumn{2}{c}{\em{\textbf{Easy Questions}}} & \multicolumn{2}{c}{\em{\textbf{Hard Questions}}} \\
 \cmidrule(l{3pt}r{3pt}){2-3} \cmidrule(l{3pt}r{3pt}){4-5}
   & (1) & (2) & (3) & (4)\\
 \midrule
 \addlinespace[0.3em]
 \multicolumn{5}{l}{\textit{\textbf{Panel A: Low GPA vs High GPA}}}\\
-\hspace{1em}postcovid & -0.003 & 0.014 & -0.006 & -0.018\\
-\hspace{1em} & (0.010) & (0.011) & (0.018) & (0.020)\\
-\hspace{1em}lowgpa & -0.141*** & -0.120*** & -0.092*** & -0.101***\\
-\hspace{1em} & (0.006) & (0.010) & (0.009) & (0.013)\\
-\hspace{1em}post x lowgpa &  & -0.037*** &  & 0.022\\
-\hspace{1em} &  & (0.013) &  & (0.019)\\
-\hspace{1em}online & -0.039*** & -0.039*** & -0.118*** & -0.117***\\
-\hspace{1em} & (0.010) & (0.010) & (0.017) & (0.017)\\
-\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & \vphantom{1} 0.645\\
-\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & \vphantom{1} 13332\\
-\hspace{1em}R2 & 0.037 & 0.037 & 0.033 & 0.033\\
+\hspace{1em}postcovid & -0.006 & -0.018 & -0.003 & 0.014\\
+\hspace{1em} & (0.018) & (0.020) & (0.010) & (0.011)\\
+\hspace{1em}lowgpa & -0.092*** & -0.101*** & -0.141*** & -0.120***\\
+\hspace{1em} & (0.009) & (0.013) & (0.006) & (0.010)\\
+\hspace{1em}post x lowgpa &  & 0.022 &  & -0.037***\\
+\hspace{1em} &  & (0.019) &  & (0.013)\\
+\hspace{1em}Mean of Dependent Variable & 0.645 & 0.645 & 0.573 & \vphantom{1} 0.573\\
+\hspace{1em}Num.Obs. & 13332 & 13332 & 28018 & \vphantom{1} 28018\\
+\hspace{1em}R2 & 0.033 & 0.033 & 0.037 & 0.037\\
 \addlinespace[0.3em]
 \multicolumn{5}{l}{\textit{\textbf{Panel B: Online vs Hybrid}}}\\
-\hspace{1em}postcovid & -0.009 & -0.044*** & 0.003 & -0.005\\
-\hspace{1em} & (0.010) & (0.012) & (0.018) & (0.021)\\
-\hspace{1em}online & -0.047*** & -0.093*** & -0.126*** & -0.135***\\
-\hspace{1em} & (0.010) & (0.013) & (0.017) & (0.022)\\
-\hspace{1em}post x online &  & 0.100*** &  & 0.019\\
-\hspace{1em} &  & (0.018) &  & (0.027)\\
-\hspace{1em}Mean of Dependent Variable & 0.573 & 0.573 & 0.645 & 0.645\\
-\hspace{1em}Num.Obs. & 28018 & 28018 & 13332 & 13332\\
-\hspace{1em}R2 & 0.042 & 0.043 & 0.031 & 0.031\\
+\hspace{1em}postcovid & 0.003 & -0.005 & -0.009 & -0.044***\\
+\hspace{1em} & (0.018) & (0.021) & (0.010) & (0.012)\\
+\hspace{1em}online & -0.126*** & -0.135*** & -0.047*** & -0.093***\\
+\hspace{1em} & (0.017) & (0.022) & (0.010) & (0.013)\\
+\hspace{1em}post x online &  & 0.019 &  & 0.100***\\
+\hspace{1em} &  & (0.027) &  & (0.018)\\
+\hspace{1em}Mean of Dependent Variable & 0.645 & 0.645 & 0.573 & 0.573\\
+\hspace{1em}Num.Obs. & 13332 & 13332 & 28018 & 28018\\
+\hspace{1em}R2 & 0.031 & 0.031 & 0.042 & 0.043\\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}[para]

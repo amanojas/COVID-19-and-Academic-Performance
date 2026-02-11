@@ -415,7 +415,7 @@ tab_df |>
     escape = TRUE
   ) |>
   footnote(
-    "p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.",
+    "* p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.",
     escape = TRUE,
     threeparttable = TRUE,
     footnote_as_chunk = TRUE

@@ -30,7 +30,7 @@ Sophomore or below & 0.840 & 0.935 & 0.094*** & 0.014\\
 \end{tabular}
 \begin{tablenotes}[para]
 \item \textit{Note: }
-\item p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.
+\item * p < 0.1, ** p < 0.05, *** p < 0.01. Final exam scores are based on a 100-point scale.
 \end{tablenotes}
 \end{threeparttable}}
 \end{table}

@@ -1,0 +1,1334 @@
+---
+title: "Appendix: Matched Questions from Baruch College Exams"
+subtitle: "Common Exams Before and During COVID-19 Pandemic"
+format:
+  pdf:
+    documentclass: article
+    geometry: margin=1in
+    fontsize: 11pt
+    keep-tex: false
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{longtable}
+  - \usepackage{array}
+  - \usepackage{multirow}
+  - \usepackage{graphicx}
+---
+
+## Introduction
+
+The common exams had two versions. These questions are all from exam version A. We found the same matches for version B. Including questions from both versions, we found in total **35 pairs of questions** that are similar in common exams before and during the pandemic period.
+
+---
+
+## Match 1 (Fall 2019: Fall 2020) *Hard*
+
+### F19
+
+**Table 6.**
+
+|  | **Nintendo** | |
+|:---|:---:|:---:|:---:|
+|  |  | Reduce Price | Don't reduce price |
+| **Sony** | Reduce Price | **\$20 million** | **\$10 million** |
+|  |  | **\$20 million** | **\$40 million** |
+|  | Don't reduce price | **\$10 million** | **\$30 million** |
+|  |  | **\$40 million** | **\$30 million** |
+
+***Refer to Table 6:*** What is the Nash Equilibrium?
+
+a) Both firms reduce their price.
+b) No firm reduces their price.
+c) Nintendo reduces prices and Sony does not.
+d) Sony does not reduce prices and Nintendo does.
+
+### F20
+
+Microsoft Azure and Amazon AWS control most of the cloud computing market. Suppose the diagram below represents their strategic options. If both firms charge 5 cents/GB for storage space monthly they will each earn ten billion dollars. If AWS charges 2 cents, while Azure charges 5 cents, AWS will earn \$12.5 billion and Azure will earn \$5 billion, and vice versa. If they both charge 2 cents, they will each earn \$7.5 billion. What is the Nash equilibrium?
+
+|  | **Azure** | |
+|:---|:---:|:---:|
+|  | 5 cents | 2 cents |
+| **AWS** 5 cents | 10, 10 | 5, 12.5 |
+| **AWS** 2 cents | 12.5, 5 | 7.5, 7.5 |
+
+a. Both firms earned \$7.5 billion.
+b. Both firms earned \$10 billion.
+c. AWS earns \$12.5 billion, and Azure earns \$5 billion.
+d. AWS earns \$5 billion, and Azure earns \$12.5 billion.
+
+---
+
+## Match 2 (Fall 2019: Spring 2022) *Hard*
+
+### F19
+
+**Table 6.**
+
+|  | **Nintendo** | |
+|:---|:---:|:---:|:---:|
+|  |  | Reduce Price | Don't reduce price |
+| **Sony** | Reduce Price | **\$20 million** | **\$10 million** |
+|  |  | **\$20 million** | **\$40 million** |
+|  | Don't reduce price | **\$10 million** | **\$30 million** |
+|  |  | **\$40 million** | **\$30 million** |
+
+***Refer to Table 6:*** What is the Nash Equilibrium?
+
+a) Both firms reduce their price.
+b) No firm reduces their price.
+c) Nintendo reduces prices and Sony does not.
+d) Sony does not reduce prices and Nintendo does.
+
+### S22
+
+The following payoff matrix is for two players, each with two strategies:
+
+*[Note: Image reference in original document - Table showing game theory payoff matrix]*
+
+What is the Nash equilibrium of this game?
+
+a) Cheat and Cooperate
+b) Cheat and Cheat
+c) Cooperate and Cooperate
+d) Cooperate and Cheat
+
+---
+
+## Match 3 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+**Table 6.**
+
+|  | **Nintendo** | |
+|:---|:---:|:---:|:---:|
+|  |  | Reduce Price | Don't reduce price |
+| **Sony** | Reduce Price | **\$20 million** | **\$10 million** |
+|  |  | **\$20 million** | **\$40 million** |
+|  | Don't reduce price | **\$10 million** | **\$30 million** |
+|  |  | **\$40 million** | **\$30 million** |
+
+***Refer to Table 6:*** What is the Nash Equilibrium?
+
+a) Both firms reduce their price.
+b) No firm reduces their price.
+c) Nintendo reduces prices and Sony does not.
+d) Sony does not reduce prices and Nintendo does.
+
+### S22
+
+Consider the game depicted in the following table:
+
+|  | **Player 2** | |
+|:---|:---:|:---:|
+|  | Strategy A | Strategy B |
+| **Player 1** Strategy 1 | (9,3) | (2,4) |
+| **Player 1** Strategy 2 | (6,5) | (5,6) |
+
+The payout for player 1 is given first in parenthesis, with Player 2's payout second.
+
+What is the Nash equilibrium of this game?
+
+a) Strategy 1 and Strategy A
+b) Strategy 1 and Strategy B
+c) Strategy 2 and Strategy B
+d) This game does not have a Nash equilibrium.
+
+---
+
+## Match 4 (Spring 2019: Fall 2020) Easy
+
+### S19
+
+***Scenario 1: A star-crossed cartel:*** There are only two wells in the town of Verona, owned by two families, the Montagues, and the Capulets. The wells are old, so there are no fixed costs, and each gallon of water costs nothing to draw. Each family draws water from their respective wells and sells it by the gallon to the town's citizens. Verona's demand for water, including sales revenue, is tabulated below.
+
+| **Price per gallon** | **Gallons demanded daily** | **Total Revenue** |
+|:---:|:---:|:---:|
+| \$ 6.00 | 0 | \$ 0 |
+| \$ 5.50 | 25 | \$ 137.50 |
+| \$ 5.00 | 50 | \$ 250.00 |
+| \$ 4.50 | 75 | \$ 337.50 |
+| \$ 4.00 | 100 | \$ 400.00 |
+| \$ 3.50 | 125 | \$ 437.50 |
+| \$ 3.00 | 150 | \$ 450.00 |
+| \$ 2.50 | 175 | \$ 437.50 |
+| \$ 2.00 | 200 | \$ 400.00 |
+| \$ 1.50 | 225 | \$ 337.50 |
+| \$ 1.00 | 250 | \$ 250.00 |
+| \$ 0.50 | 275 | \$ 137.50 |
+| \$ 0 | 300 | \$ 0 |
+
+**Refer to *Scenario 1: A star-crossed cartel*.** If the Montagues and Capulets were able to successfully operate as a cartel and jointly earn the monopoly profit, how many gallons would each family sell per day, and what would be the price of water in Verona?
+
+a) The price of water will be \$2.00 per gallon, and each family will sell 100 gallons.
+b) The price of water will be \$2.50 per gallon, and each family will sell 75 gallons.
+c) The price of water will be \$3.00 per gallon, and each family will sell 75 gallons.
+d) The price of water will be \$3.00 per gallon, and each family will sell 150 gallons.
+
+### F20
+
+The following table presents the Demand Schedule and Profits for Smart Phones
+
+| **Quantity** | **Price** | **Profit** |
+|:---:|:---:|:---:|
+| 0 | \$1400 | \$ 0 |
+| 25 | 1300 | 275 |
+| 50 | 1200 | 500 |
+| 75 | 1100 | 675 |
+| 100 | 1000 | 800 |
+| 125 | 900 | 875 |
+| 150 | 800 | 900 |
+| 175 | 700 | 875 |
+| 200 | 600 | 800 |
+| 225 | 500 | 675 |
+| 250 | 400 | 500 |
+| 275 | 300 | 275 |
+| 300 | 200 | 0 |
+
+Suppose the market for smart phones is a duopoly and the two firms in the market are Apple and Samsung. Both Apple and Samsung make the same phones but with different names: iPhone and The Galaxy. Assume a constant marginal cost of \$200 and no fixed costs. If Apple and Samsung colluded, how many iPhones would Apple produce?
+
+a. 150
+b. 100
+c. 75
+d. 25
+
+---
+
+## Match 5 (Spring 2019: Fall 2021) Easy
+
+### S19
+
+***Scenario 1: A star-crossed cartel:*** There are only two wells in the town of Verona, owned by two families, the Montagues, and the Capulets. The wells are old, so there are no fixed costs, and each gallon of water costs nothing to draw. Each family draws water from their respective wells and sells it by the gallon to the town's citizens. Verona's demand for water, including sales revenue, is tabulated below.
+
+| **Price per gallon** | **Gallons demanded daily** | **Total Revenue** |
+|:---:|:---:|:---:|
+| \$ 6.00 | 0 | \$ 0 |
+| \$ 5.50 | 25 | \$ 137.50 |
+| \$ 5.00 | 50 | \$ 250.00 |
+| \$ 4.50 | 75 | \$ 337.50 |
+| \$ 4.00 | 100 | \$ 400.00 |
+| \$ 3.50 | 125 | \$ 437.50 |
+| \$ 3.00 | 150 | \$ 450.00 |
+| \$ 2.50 | 175 | \$ 437.50 |
+| \$ 2.00 | 200 | \$ 400.00 |
+| \$ 1.50 | 225 | \$ 337.50 |
+| \$ 1.00 | 250 | \$ 250.00 |
+| \$ 0.50 | 275 | \$ 137.50 |
+| \$ 0 | 300 | \$ 0 |
+
+**Refer to *Scenario 1: A star-crossed cartel*.** If the Montagues and Capulets were able to successfully operate as a cartel and jointly earn the monopoly profit, how many gallons would each family sell per day, and what will be the price of water in Verona?
+
+e) The price of water will be \$2.00 per gallon, and each family will sell 100 gallons.
+f) The price of water will be \$2.50 per gallon, and each family will sell 75 gallons.
+g) The price of water will be \$3.00 per gallon, and each family will sell 75 gallons.
+h) The price of water will be \$3.00 per gallon, and each family will sell 150 gallons.
+
+### F21
+
+The following table presents the demand schedule and profits for soft drinks.
+
+| **Quantity** | **Price** | **Profit** |
+|:---:|:---:|:---:|
+| 0 | \$1400 | \$ 0 |
+| 25 | 1300 | 275 |
+| 50 | 1200 | 500 |
+| 75 | 1100 | 675 |
+| 100 | 1000 | 800 |
+| 125 | 900 | 875 |
+| 150 | 800 | 900 |
+| 175 | 700 | 875 |
+| 200 | 600 | 800 |
+| 225 | 500 | 675 |
+| 250 | 400 | 500 |
+| 275 | 300 | 275 |
+| 300 | 200 | 0 |
+
+Suppose the market for soft drinks is a duopoly and the two firms in the market are Coca Cola and Pepsi. Assume Coca Cola and Pepsi make the same soft drinks but with different names: Coke and Pepsi. Assume a constant marginal cost of \$200 and no fixed costs. If Coca Cola and Pepsi collude, how many Cokes would Coca Cola produce?
+
+a) 25
+b) 75
+c) 100
+d) 150
+
+---
+
+## Match 6 (Fall 2019: Fall 2020) Easy
+
+### F19
+
+***Table 1:*** Assume that France and Italy can switch between producing cheese and producing wine at a constant rate.
+
+|  | **Labor Hours Needed to Make 1 Unit of** | | **Number of Units Produced in 40 Hours** | |
+|:---|:---:|:---:|:---:|:---:|
+|  | **Cheese** | **Wine** | **Cheese** | **Wine** |
+| **France** | **1** | **4** | **40** | **10** |
+| **Italy** | **4** | **8** | **10** | **5** |
+
+***Refer to Table 1:*** Which country has an absolute advantage in making Cheese and which country has a comparative advantage in making Cheese?
+
+a) France, France
+b) France, Italy
+c) Italy, Italy
+d) Italy, France
+
+### F20
+
+The table below presents the total output Factory A and Factory B can produce in one hour. Consider that Factory A and Factory B can switch between producing couches and producing beds at a constant rate. Assume that factory A and factory B, each has a 4-hour production day. Originally, each factory divided its time equally between the production of couches and beds. Now, each factory spends all its time producing the good in which it has a comparative advantage. As a result, the total output of beds increased by
+
+|  | **Output Produced in One Hour** | |
+|:---|:---:|:---:|
+|  | **Couches** | **Beds** |
+| **Factory A** | 12 | 6 |
+| **Factory B** | 24 | 3 |
+
+a) 6
+b) 12
+c) 3
+d) 9
+
+---
+
+## Match 7 (Fall 2019: Spring 2021) Easy
+
+### F19
+
+***Table 1:*** Assume that France and Italy can switch between producing cheese and producing wine at a constant rate.
+
+|  | **Labor Hours Needed to Make 1 Unit of** | | **Number of Units Produced in 40 Hours** | |
+|:---|:---:|:---:|:---:|:---:|
+|  | **Cheese** | **Wine** | **Cheese** | **Wine** |
+| **France** | **1** | **4** | **40** | **10** |
+| **Italy** | **4** | **8** | **10** | **5** |
+
+***Refer to Table 1:*** Which country has an absolute advantage in making Cheese and which country has a comparative advantage in making Cheese?
+
+a) France, France
+b) France, Italy
+c) Italy, Italy
+d) Italy, France
+
+### S21
+
+Assume that Australia and New Zealand can switch between producing coal and producing milk at a constant rate. The following table shows the tons of coal or the tons of milk each country can produce in one year. Which of the following is a plausible trading outcome between the two countries?
+
+a) New Zealand exports milk and imports coal at a rate of 100 tons of coal for 1 ton of milk.
+b) Australia exports milk and imports coal at a rate of 100 tons of coal for 1 ton of milk.
+c) New Zealand exports milk and imports coal at a rate of 300 tons of coal for 1 ton of milk.
+d) Australia exports milk and imports coal at a rate of 300 tons of coal for 1 ton of milk.
+
+---
+
+## Match 8 (Fall 2019: Fall 2020) Easy
+
+### F19
+
+***Table 1:*** Assume that France and Italy can switch between producing cheese and producing wine at a constant rate.
+
+|  | **Labor Hours Needed to Make 1 Unit of** | | **Number of Units Produced in 40 Hours** | |
+|:---|:---:|:---:|:---:|:---:|
+|  | **Cheese** | **Wine** | **Cheese** | **Wine** |
+| **France** | **1** | **4** | **40** | **10** |
+| **Italy** | **4** | **8** | **10** | **5** |
+
+***Refer to the Table 1:*** Italy should export
+
+a) wine and import cheese.
+b) neither good and import both goods.
+c) both goods and import neither good.
+d) cheese and import wine.
+
+### F20
+
+The table below presents the total output Factory A and Factory B can produce in one hour. Consider that Factory A and Factory B can switch between producing couches and producing beds at a constant rate. Assume that factory A and factory B, each has a 4-hour production day. Originally, each factory divided its time equally between the production of couches and beds. Now, each factory spends all its time producing the good in which it has a comparative advantage. As a result, the total output of beds increased by
+
+a) 6
+b) 12
+c) 3
+d) 9
+
+---
+
+## Match 9 (Fall 2019: Spring 2021) Easy
+
+### F19
+
+***Table 1:*** Assume that France and Italy can switch between producing cheese and producing wine at a constant rate.
+
+|  | **Labor Hours Needed to Make 1 Unit of** | | **Number of Units Produced in 40 Hours** | |
+|:---|:---:|:---:|:---:|:---:|
+|  | **Cheese** | **Wine** | **Cheese** | **Wine** |
+| **France** | **1** | **4** | **40** | **10** |
+| **Italy** | **4** | **8** | **10** | **5** |
+
+***Refer to the Table 1:*** Italy should export
+
+a) wine and import cheese.
+b) neither good and import both goods.
+c) both goods and import neither good.
+d) cheese and import wine.
+
+### S21
+
+Assume that Australia and New Zealand can switch between producing coal and producing milk at a constant rate. The following table shows the tons of coal or the tons of milk each country can produce in one year. Which of the following is a plausible trading outcome between the two countries?
+
+a) New Zealand exports milk and imports coal at a rate of 100 tons of coal for 1 ton of milk.
+b) Australia exports milk and imports coal at a rate of 100 tons of coal for 1 ton of milk.
+c) New Zealand exports milk and imports coal at a rate of 300 tons of coal for 1 ton of milk.
+d) Australia exports milk and imports coal at a rate of 300 tons of coal for 1 ton of milk.
+
+---
+
+## Match 10 (Fall 2019: Fall 2020) Easy
+
+### F19
+
+***Scenario 2, Monopoly:*** Let the following equations the market for energy for ConEd, a monopolist:
+
+\[P = 56 - 2Q\]
+
+\[MR = 56 - 4Q\]
+
+\[TC = 50 + 6Q + 3Q^{2}\]
+
+\[MC = 6 + 6Q\]
+
+***Refer to Scenario 2, Monopoly:*** What is the profit maximizing quantity for ConEd?
+
+a) 3.00
+b) 4.75
+c) 5.00
+d) 6.25
+
+### F20
+
+A monopolist has a total cost curve represented by \(TC=50+2Q+Q^2\), and a marginal cost curve represented by \(MC=2+2Q\). The monopolist faces the demand curve \(P=100-3Q\). The price is in dollars and the quantity is in thousands. What is the monopolist's profit? (pick the closest answer)
+
+a) \$330,330
+b) \$550,250
+c) \$750,000
+d) \$1,000,600
+
+---
+
+## Match 11 (Fall 2019: Fall 2020) Hard
+
+### F19
+
+***Scenario 2, Monopoly:*** Let the following equations the market for energy for ConEd, a monopolist:
+
+\[P = 56 - 2Q\]
+
+\[MR = 56 - 4Q\]
+
+\[TC = 50 + 6Q + 3Q^{2}\]
+
+\[MC = 6 + 6Q\]
+
+***Refer to Scenario 2, Monopoly:*** What is the profit of ConEd at the profit maximizing quantity? (round to the nearest whole number and pick the best answer)
+
+a) 100
+b) 50
+c) 75
+d) 155
+
+### F20
+
+A monopolist has a total cost curve represented by \(TC = 50 + 2Q + Q^{2}\), and a marginal cost curve represented by \(MC = 2 + 2Q\). The monopolist faces the demand curve \(P = 100 - 3Q\). The price is in dollars and the quantity is in thousands. What is the monopolist's profit? (pick the closest answer)
+
+a) \$330,330
+b) \$550,250
+c) \$750,000
+d) \$1,000,600
+
+---
+
+## Match 12 (Spring 2019: Spring 2021) Easy
+
+### S19
+
+***Scenario 2:*** Suppose a monopolist has a demand curve that can be expressed as \(P=90-Q\). The monopolist has constant marginal costs and average total costs of \$10.
+
+**Refer to *Scenario 2*.** The profit-maximizing monopolist will produce an output level of
+
+a) 80 units.
+b) 40 units.
+c) 20 units.
+d) 10 units.
+
+### S21
+
+Suppose a monopolist has a demand curve that can be expressed as \(P=100-Q\). Monopolist's marginal revenue is given by \(MR=100-2Q\). The monopolist has a constant marginal cost and has a constant average total cost of \$20. The profit-maximizing monopolist will produce an output level of
+
+a) 40 units.
+b) 60 units.
+c) 70 units.
+d) 80 units.
+
+---
+
+## Match 13 (Spring 2019: Spring 2021) Easy
+
+### S19
+
+*[Note: Image reference in original document - Graph showing cost curves]*
+
+**Refer to Figure 4.** What is the exit price of the firm in the long run?
+
+a) \$3
+b) \$5
+c) \$8
+d) \$10
+
+### S21
+
+Refer to Figure 14-1. The firm should shut down if the market price is
+
+a) above \$6 but less than \$13.
+b) less than \$6.
+c) above \$6 but less than \$18.
+d) above \$13.
+
+---
+
+## Match 14 (Fall 2019: Fall 2021) Hard
+
+### F19
+
+**Table 6.**
+
+|  | **Nintendo** | |
+|:---|:---:|:---:|:---:|
+|  |  | Reduce Price | Don't reduce price |
+| **Sony** | Reduce Price | **\$20 million** | **\$10 million** |
+|  |  | **\$20 million** | **\$40 million** |
+|  | Don't reduce price | **\$10 million** | **\$30 million** |
+|  |  | **\$40 million** | **\$30 million** |
+
+***Refer to Table 6:*** What is the Nash Equilibrium?
+
+e) Both firms reduce their price.
+f) No firm reduces their price.
+g) Nintendo reduces prices and Sony does not.
+h) Sony does not reduce prices and Nintendo does.
+
+### F21
+
+*[Note: Image reference in original document - Game theory payoff matrix]*
+
+The Nash equilibrium in this game is:
+
+a) Q = 6 for the firm A and Q = 6 for the firm B.
+b) Q = 5 for the firm A and Q = 5 for the firm B.
+c) Q = 5 for the firm A and Q = 6 for the firm B.
+d) Q = 6 for the firm A and Q = 5 for the firm B.
+
+---
+
+## Match 15 (Fall 2019: Fall 2021) Easy
+
+### F19
+
+***Scenario 2, Monopoly:*** Let the following equations the market for energy for ConEd, a monopolist:
+
+\[P = 56 - 2Q\]
+
+\[MR = 56 - 4Q\]
+
+\[TC = 50 + 6Q + 3Q^{2}\]
+
+\[MC = 6 + 6Q\]
+
+***Refer to Scenario 2, Monopoly:*** What is the profit maximizing quantity for ConEd?
+
+a) 3.00
+b) 4.75
+c) 5.00
+d) 6.25
+
+### F21
+
+Alex Potter owns the only well in a town that produces clean drinking water. He faces the following demand \(P=100-Q\), and marginal cost \(MC=20+2Q\), marginal revenue \(MR= 100-2Q\) curves. To maximize profits, Alex should charge a price of
+
+a) \$60 at the profit maximizing quantity with a marginal revenue equal to \$60.
+b) \$60 at the profit maximizing quantity with a marginal revenue equal to \$80.
+c) \$80 at the profit maximizing quantity with a marginal revenue equal to \$60.
+d) \$80 at the profit maximizing quantity with a marginal revenue equal to \$80.
+
+---
+
+## Match 16 (Fall 2019: Fall 2021) Easy
+
+### F19
+
+Assume lawyer services have an elasticity of demand of 0.6 in absolute value. Currently a lawyer charges \$300 per hour, and she sees 100 clients per week. If she raises her hourly rate to \$450 an hour, a 50% increase, her revenue will... (use point elasticity not the midpoint formula)
+
+a) fall from \$30,000 per week to \$28,500 per week.
+b) rise from \$30,000 per week to \$31,500 per week.
+c) rise from \$30,000 per week to \$34,000 per week
+d) fall from \$30,000 per week to \$26,000 per week
+
+### F21
+
+Assume lawyer services have an elasticity of demand of 0.5 in absolute value. Currently, a lawyer charges \$300 per consultation, and she has 100 consultations per week. If she raises her rate to \$450 per consultation (a 50% increase) her revenue will (use the general formula for elasticity not the midpoint formula)
+
+a) fall from \$30,000 per week to \$28,500 per week.
+b) rise from \$30,000 per week to \$31,500 per week
+c) rise from \$30,000 per week to \$33,750 per week
+d) fall from \$30,000 per week to \$26,000 per week
+
+---
+
+## Match 17 (Fall 2019: Fall 2021) Easy
+
+### F19
+
+***Scenario 1: Beer Sales in New York City:*** The table below shows a representative consumer's willingness to pay for a six-pack of beer. Assume the supply of beer is perfectly elastic.
+
+- First pack: \$16
+- Second pack: \$12
+- Third pack: \$10
+- Fourth pack: \$8
+- Fifth pack: \$5
+
+***Refer to Scenario 1: Beer Sales in New York City:*** If in the cost per six-pack is \$7 how many packs does each person buy and what is her consumer surplus (CS) assuming NO negative externalities exist from the consumption of beer.
+
+a) 4 packs, CS=\$20
+b) 3 packs, CS=\$17
+c) 4 packs, CS=\$18
+d) 4 packs, CS=\$19
+
+### F21
+
+The table below shows each smoker's willingness to pay for a pack of cigarettes (each smoker's WTP schedule is identical to the others).
+
+- First pack: \$20
+- Second pack: \$15
+- Third pack: \$10
+- Fourth pack: \$8
+- Fifth pack: \$5
+
+If the price per pack is \$9 (assume the supply curve is perfectly elastic), how many packs did each smoker buy and what is her consumer surplus (CS)?
+
+a) 3 packs and CS=\$20
+b) 3 packs and CS=\$25
+c) 3 packs and CS=\$18
+d) 4 packs and CS=\$17
+
+---
+
+## Match 18 (Fall 2019: Fall 2021) Hard
+
+### F19
+
+***Table 5, Fishy Friends:*** *Honey Bee* and *Chicken of the Ocean* are two firms in the canned fish market. Each firm must decide on a pricing strategy. Their potential profits are presented in the payoff matrix below.
+
+|  | **Chicken of the Ocean** | |
+|:---|:---:|:---:|
+|  | High Price | Low Price |
+| **Honey Bee** High Price | \$10,000, \$10,000 | \$7,000, \$9,000 |
+| **Honey Bee** Low Price | \$14,000, \$5,000 | \$9,000, \$8,000 |
+
+***Refer to Table 5, Fishy Friends:*** Which of the following statements is true.
+
+a) Chicken of the Ocean has a dominant strategy but Honey Bee does not.
+b) Chicken of the Ocean does not have a dominant strategy, but Honey Bee does.
+c) Chicken of the Ocean and Honey Bee both have dominant strategies.
+d) Chicken of the Ocean and Honey Bee do not have a dominant strategy.
+
+### F21
+
+*[Note: Image reference in original document - Payoff matrix for Pinnacle and Acme]*
+
+Which of the following statements is correct?
+
+a) Neither Pinnacle nor Acme have a dominant strategy.
+b) Pinnacle's dominant strategy is to produce Poor quality products, but Acme's dominant strategy is to produce good quality products.
+c) Pinnacle's dominant strategy is to produce *Good* quality products, but Acme's dominant strategy is to produce Poor quality products.
+d) The dominant strategy for both companies is to produce Good-quality products.
+
+---
+
+## Match 19 (Fall 2019: Fall 2021) Hard
+
+### F19
+
+***Table 5, Fishy Friends:*** *Honey Bee* and *Chicken of the Ocean* are two firms in the canned fish market. Each firm must decide on a pricing strategy. Their potential profits are presented in the payoff matrix below.
+
+|  | **Chicken of the Ocean** | |
+|:---|:---:|:---:|
+|  | High Price | Low Price |
+| **Honey Bee** High Price | \$10,000, \$10,000 | \$7,000, \$9,000 |
+| **Honey Bee** Low Price | \$14,000, \$5,000 | \$9,000, \$8,000 |
+
+***Refer to Table 5, Fishy Friends:*** Which of the following statements is true.
+
+a) Chicken of the Ocean has a dominant strategy, but Honey Bee does not.
+b) Chicken of the Ocean does not have a dominant strategy, but Honey Bee does.
+c) Chicken of the Ocean and Honey Bee both have dominant strategies.
+d) Chicken of the Ocean and Honey Bee do not have a dominant strategy.
+
+### F21
+
+Apple and Samsung control the majority of Smart Phones. Suppose the diagram below represents their strategic options, either to offer an expensive or a cheap phone in the market. If both firms offer an expensive phone, they will each earn 4 billion dollars. If Samsung offers a cheap phone, while Apple offers only an expensive phone, Samsung will earn \$6 billion and Apple will earn \$2 billion, and vice versa. If they both offer a cheap phone, they will each earn \$3 billion. What is each firm's dominant strategy?
+
+*[Note: Image reference in original document - Payoff matrix for Apple and Samsung]*
+
+a) The dominant strategy for Apple is to offer an expensive phone, but Samsung does not have a dominant strategy.
+b) The dominant strategy for Apple is to offer a cheap phone, but Samsung does not have a dominant strategy.
+c) The dominant strategy for both firms is to offer an expensive phone.
+d) The dominant strategy for both firms is to offer a cheap phone.
+
+---
+
+## Match 20 (Spring 2019: Fall 2021) Easy
+
+### S19
+
+***Scenario 2:*** Suppose a monopolist has a demand curve that can be expressed as \(P=90-Q\). The monopolist has constant marginal costs and average total costs of \$10.
+
+Refer to *Scenario 2*. The profit-maximizing monopolist will produce an output level of
+
+a) 80 units.
+b) 40 units.
+c) 20 units.
+d) 10 units.
+
+### F21
+
+Alex Potter owns the only well in a town that produces clean drinking water. He faces the following demand \(P=100-Q\), and marginal cost \(MC=20+2Q\), marginal revenue \(MR= 100-2Q\) curves. In order to maximize profits, Alex should charge a price of
+
+a) \$60 at the profit maximizing quantity with a marginal revenue equal to \$60.
+b) \$60 at the profit maximizing quantity with a marginal revenue equal to \$80.
+c) \$80 at the profit maximizing quantity with a marginal revenue equal to \$60.
+d) \$80 at the profit maximizing quantity with a marginal revenue equal to \$80.
+
+---
+
+## Match 21 (Spring 2019: Fall 2021) Hard
+
+### S19
+
+**Refer to Table 3: Christie's and Sotheby's.** Each cell of this table presents the revenues earned by the auction houses, Christie's and Sotheby's. Revenues are based on the type of commission each firm charges its clients, as well as what commission the other charges. Christie's revenues are listed first in each cell, then Sotheby's. Christie's dominant strategy is _______ commission and Sotheby's dominant strategy is _______ commission.
+
+**Table 3: Christie's and Sotheby's**
+
+|  | **Sotheby's Strategies** | |
+|:---|:---:|:---:|
+|  | **High Commission** | **Low Commission** |
+| **Christie's strategies** High Commission | \$4 million, \$4 million | \$2 million, \$6 million |
+| **Christie's strategies** Low Commission | \$6 million, \$2 million | \$3 million, \$3 million |
+
+a) high; high
+b) high; low
+c) low; high
+d) low; low
+
+### F21
+
+*[Note: Image reference in original document - Payoff matrix for Pinnacle and Acme]*
+
+Which of the following statements is correct?
+
+a) Neither Pinnacle nor Acme have a dominant strategy.
+b) Pinnacle's dominant strategy is to produce Poor quality products, but Acme's dominant strategy is to produce good quality products.
+c) Pinnacle's dominant strategy is to produce *Good* quality products, but Acme's dominant strategy is to produce Poor quality products.
+d) The dominant strategy for both companies is to produce Good-quality products.
+
+---
+
+## Match 22 (Spring 2019: Fall 2021) Hard
+
+### S19
+
+**Refer to Table 3: Christie's and Sotheby's.** Each cell of this table presents the revenues earned by the auction houses, Christie's and Sotheby's. Revenues are based on the type of commission each firm charges its clients, as well as what commission the other charges. Christie's revenues are listed first in each cell, then Sotheby's. Christie's dominant strategy is _______ commission and Sotheby's dominant strategy is _______ commission.
+
+**Table 3: Christie's and Sotheby's**
+
+|  | **Sotheby's Strategies** | |
+|:---|:---:|:---:|
+|  | **High Commission** | **Low Commission** |
+| **Christie's strategies** High Commission | \$4 million, \$4 million | \$2 million, \$6 million |
+| **Christie's strategies** Low Commission | \$6 million, \$2 million | \$3 million, \$3 million |
+
+a) high; high
+b) high; low
+c) low; high
+d) low; low
+
+### F21
+
+Apple and Samsung control the majority of Smart Phones. Suppose the diagram below represents their strategic options, either to offer an expensive or a cheap phone in the market. If both firms offer an expensive phone, they will each earn 4 billion dollars. If Samsung offers a cheap phone, while Apple offers only an expensive phone, Samsung will earn \$6 billion and Apple will earn \$2 billion, and vice versa. If they both offer a cheap phone, they will each earn \$3 billion. What is each firm's dominant strategy?
+
+*[Note: Image reference in original document - Payoff matrix for Apple and Samsung]*
+
+a) The dominant strategy for Apple is to offer an expensive phone, but Samsung does not have a dominant strategy.
+b) The dominant strategy for Apple is to offer a cheap phone, but Samsung does not have a dominant strategy.
+c) The dominant strategy for both firms is to offer an expensive phone.
+d) The dominant strategy for both firms is to offer a cheap phone.
+
+---
+
+## Match 23 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+***Table 5, Fishy Friends:*** *Honey Bee* and *Chicken of the Ocean* are two firms in the canned fish market. Each firm must decide on a pricing strategy. Their potential profits are presented in the payoff matrix below.
+
+|  | **Chicken of the Ocean** | |
+|:---|:---:|:---:|
+|  | High Price | Low Price |
+| **Honey Bee** High Price | \$10,000, \$10,000 | \$7,000, \$9,000 |
+| **Honey Bee** Low Price | \$14,000, \$5,000 | \$9,000, \$8,000 |
+
+***Refer to Table 5, Fishy Friends:*** Which of the following statements is true.
+
+a) Chicken of the Ocean has a dominant strategy, but Honey Bee does not.
+b) Chicken of the Ocean does not have a dominant strategy, but Honey Bee does.
+c) Chicken of the Ocean and Honey Bee both have dominant strategies.
+d) Chicken of the Ocean and Honey Bee do not have a dominant strategy.
+
+### S22
+
+**Consider the game depicted in the following table:**
+
+|  | **Player 2** | |
+|:---|:---:|:---:|
+|  | Strategy A | Strategy B |
+| **Player 1** Strategy 1 | (9,3) | (2,4) |
+| **Player 1** Strategy 2 | (6,5) | (5,6) |
+
+The payout for player 1 is given first in parenthesis, with Player 2's payout second. Does either player have a dominant strategy?
+
+a) Player one has a dominant strategy.
+b) Player two has a dominant strategy.
+c) Both players have a dominant strategy.
+d) Neither player has a dominant strategy.
+
+---
+
+## Match 24 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+**Table 6.**
+
+|  | **Nintendo** | |
+|:---|:---:|:---:|:---:|
+|  |  | Reduce Price | Don't reduce price |
+| **Sony** | Reduce Price | **\$20 million** | **\$10 million** |
+|  |  | **\$20 million** | **\$40 million** |
+|  | Don't reduce price | **\$10 million** | **\$30 million** |
+|  |  | **\$40 million** | **\$30 million** |
+
+***Refer to Table 6:*** What is the Nash Equilibrium?
+
+a) Both firms reduce their price.
+b) No firm reduces their price.
+c) Nintendo reduces prices and Sony does not.
+d) Sony does not reduce prices and Nintendo does.
+
+### S22
+
+Consider the game depicted in the following table:
+
+|  | **Player 2** | |
+|:---|:---:|:---:|
+|  | Strategy A | Strategy B |
+| **Player 1** Strategy 1 | (9,3) | (2,4) |
+| **Player 1** Strategy 2 | (6,5) | (5,6) |
+
+The payout for player 1 is given first in parenthesis, with Player 2's payout second.
+
+What is the Nash equilibrium of this game?
+
+a) Strategy 1 and Strategy A
+b) Strategy 1 and Strategy B
+c) Strategy 2 and Strategy B
+d) This game does not have a Nash equilibrium.
+
+---
+
+## Match 25 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+**Table 6.**
+
+|  | **Nintendo** | |
+|:---|:---:|:---:|:---:|
+|  |  | Reduce Price | Don't reduce price |
+| **Sony** | Reduce Price | **\$20 million** | **\$10 million** |
+|  |  | **\$20 million** | **\$40 million** |
+|  | Don't reduce price | **\$10 million** | **\$30 million** |
+|  |  | **\$40 million** | **\$30 million** |
+
+***Refer to Table 6:*** What is the Nash Equilibrium?
+
+a) Both firms reduce their price.
+b) No firm reduces their price.
+c) Nintendo reduces prices and Sony does not.
+d) Sony does not reduce prices and Nintendo does.
+
+### S22
+
+The following payoff matrix is for two players, each with two strategies:
+
+*[Note: Image reference in original document - Table showing game theory payoff matrix]*
+
+What is the Nash equilibrium of this game?
+
+a) Cheat and Cooperate
+b) Cheat and Cheat
+c) Cooperate and Cooperate
+d) Cooperate and Cheat
+
+---
+
+## Match 26 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+***Table 5, Fishy Friends:*** *Honey Bee* and *Chicken of the Ocean* are two firms in the canned fish market. Each firm must decide on a pricing strategy. Their potential profits are presented in the payoff matrix below.
+
+|  | **Chicken of the Ocean** | |
+|:---|:---:|:---:|
+|  | High Price | Low Price |
+| **Honey Bee** High Price | \$10,000, \$10,000 | \$7,000, \$9,000 |
+| **Honey Bee** Low Price | \$14,000, \$5,000 | \$9,000, \$8,000 |
+
+***Refer to Table 5, Fishy Friends:*** Is there a Nash Equilibrium?
+
+a) Yes both firms charge the high price
+b) Yes, both firms charge the low price
+c) No, because Honey Bee should always make \$14,000
+d) No, because Chicken of the Ocean's best strategy is to charge a high price
+
+### S22
+
+Consider the game depicted in the following table:
+
+|  | **Player 2** | |
+|:---|:---:|:---:|
+|  | Strategy A | Strategy B |
+| **Player 1** Strategy 1 | (9,3) | (2,4) |
+| **Player 1** Strategy 2 | (6,5) | (5,6) |
+
+The payout for player 1 is given first in parenthesis, with Player 2's payout second.
+
+What is the Nash equilibrium of this game?
+
+a) Strategy 1 and Strategy A
+b) Strategy 1 and Strategy B
+c) Strategy 2 and Strategy B
+d) This game does not have a Nash equilibrium.
+
+---
+
+## Match 27 (Fall 2019: Spring 2022) Easy
+
+### F19
+
+***Scenario 2, Monopoly:*** Let the following equations the market for energy for ConEd, a monopolist:
+
+\[P = 56 - 2Q\]
+
+\[MR = 56 - 4Q\]
+
+\[TC = 50 + 6Q + 3Q^{2}\]
+
+\[MC = 6 + 6Q\]
+
+***Refer to Scenario 2, Monopoly:*** What is the profit maximizing quantity for ConEd?
+
+a) 3.00
+b) 4.75
+c) 5.00
+d) 6.25
+
+### S22
+
+The following equations describe the monopolist's demand, marginal revenue, total cost, and the marginal cost:
+
+*[Note: Image reference in original document]*
+
+What is the monopolist's profit?
+
+a) \$10.50
+b) \$7.50
+c) \$15.00
+d) \$8.00
+
+---
+
+## Match 28 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+***Scenario 2, Monopoly:*** Let the following equations the market for energy for ConEd, a monopolist:
+
+\[P = 56 - 2Q\]
+
+\[MR = 56 - 4Q\]
+
+\[TC = 50 + 6Q + 3Q^{2}\]
+
+\[MC = 6 + 6Q\]
+
+**Refer to Scenario 2, Monopoly:** What is the profit of ConEd at the profit maximizing quantity? (round to the nearest whole number and pick the best answer)
+
+a) 100
+b) 50
+c) 75
+d) 155
+
+### S22
+
+The following equations describe the monopolist's demand, marginal revenue, total cost, and the marginal cost:
+
+*[Note: Image reference in original document]*
+
+What is the monopolist's profit?
+
+a) \$10.50
+b) \$7.50
+c) \$15.00
+d) \$8.00
+
+---
+
+## Match 29 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+***Scenario 2, Monopoly:*** Let the following equations the market for energy for ConEd, a monopolist:
+
+\[P = 56 - 2Q\]
+
+\[MR = 56 - 4Q\]
+
+\[TC = 50 + 6Q + 3Q^{2}\]
+
+\[MC = 6 + 6Q\]
+
+***Refer to Scenario 2, Monopoly:*** What is the deadweight loss at the profit maximizing quantity?
+
+a) \$15.00
+b) \$12.50
+c) \$6.25
+d) \$10.00
+
+### S22
+
+The following equations describe the monopolist's demand, marginal revenue, and the marginal cost:
+
+Demand: \(P = 120 - Q\)
+
+Marginal Revenue: \(MR = 120 - 2Q\)
+
+Marginal Cost: \(MC = 30 + Q\)
+
+If the monopolist produces at the profit-maximizing output, the deadweight loss for the market equals
+
+a) \$300.
+b) \$400.
+c) \$225.
+d) \$600.
+
+---
+
+## Match 30 (Fall 2019: Spring 2022) Easy
+
+### F19
+
+***Scenario 5:*** Imagine a small town in which only two residents, Kevin and Russell, own wells that produce safe drinking water. Each week Kevin and Russell work together to decide how many gallons of water to pump. They bring the water to town and sell it at whatever price the market will bear. To keep things simple, suppose that Kevin and Russell can pump as much water as they want without cost so that the marginal cost of water equals zero. The weekly town demand schedule and total revenue schedule for water is shown in the table below:
+
+| **Quantity (in gallons)** | **Price** | **Total Revenue (and Total Profit)** |
+|:---:|:---:|:---:|
+| 0 | \$600 | \$0 |
+| 50 | 550 | 27,500 |
+| 100 | 500 | 50,000 |
+| 150 | 450 | 67,500 |
+| 200 | 400 | 80,000 |
+| 250 | 350 | 87,500 |
+| 300 | 300 | 90,000 |
+| 350 | 250 | 87,500 |
+| 400 | 200 | 80,000 |
+| 450 | 150 | 67,500 |
+| 500 | 100 | 50,000 |
+| 550 | 50 | 27,500 |
+| 600 | 0 | 0 |
+
+***Refer to Scenario 5:*** If Kevin and Russell operate as a profit-maximizing monopoly in the market for water, how much profit will *each* of them earn?
+
+a) \$8,750
+b) \$9,000
+c) \$45,000
+d) \$18,000
+
+### S22
+
+A certain rural village has numerous small farms which raise livestock. There are two large and equally sized landowners, Jimmy and Bob, which produce hay for the farmers' animals. Below is the daily village demand for hay:
+
+| **Quantity (in bales)** | **Price** | **Total Revenue** |
+|:---:|:---:|:---:|
+| 0 | \$10 | \$0 |
+| 50 | \$9 | \$450 |
+| 100 | \$8 | \$800 |
+| 150 | \$7 | \$1,050 |
+| 200 | \$6 | \$1,200 |
+| 250 | \$5 | \$1,250 |
+| 300 | \$4 | \$1,200 |
+| 350 | \$3 | \$1,050 |
+| 400 | \$2 | \$800 |
+| 450 | \$1 | \$450 |
+| 500 | \$0 | \$0 |
+
+Suppose, for simplicity, that Jimmy and Bob have the same constant cost structure, so maximizing total revenue maximizes profit. If Jimmy and Bob can form a cartel and collude without cheating on each other, what will be the price per bale of hay in the village?
+
+a) \$6
+b) \$5
+c) \$4
+d) \$3
+
+---
+
+## Match 31 (Fall 2019: Spring 2022) Hard
+
+### F19
+
+***Scenario 5:*** Imagine a small town in which only two residents, Kevin and Russell, own wells that produce safe drinking water. Each week Kevin and Russell work together to decide how many gallons of water to pump. They bring the water to town and sell it at whatever price the market will bear. To keep things simple, suppose that Kevin and Russell can pump as much water as they want without cost so that the marginal cost of water equals zero. The weekly town demand schedule and total revenue schedule for water is shown in the table below:
+
+| **Quantity (in gallons)** | **Price** | **Total Revenue (and Total Profit)** |
+|:---:|:---:|:---:|
+| 0 | \$600 | \$0 |
+| 50 | 550 | 27,500 |
+| 100 | 500 | 50,000 |
+| 150 | 450 | 67,500 |
+| 200 | 400 | 80,000 |
+| 250 | 350 | 87,500 |
+| 300 | 300 | 90,000 |
+| 350 | 250 | 87,500 |
+| 400 | 200 | 80,000 |
+| 450 | 150 | 67,500 |
+| 500 | 100 | 50,000 |
+| 550 | 50 | 27,500 |
+| 600 | 0 | 0 |
+
+***Refer to Scenario 5:*** Suppose antitrust laws are enacted that prevent Kevin and Russell from operating as a monopoly. What is the price after Kevin and Russell reach a Nash equilibrium (they can only increase or decrease production by 50 gallons)?
+
+a) \$300
+b) \$200
+c) \$100
+d) \$0
+
+### S22
+
+A certain rural village has numerous small farms which raise livestock. There are two large and equally sized landowners, Jimmy and Bob, which produce hay for the farmers' animals. Below is the daily village demand for hay:
+
+| **Quantity (in bales)** | **Price** | **Total Revenue** |
+|:---:|:---:|:---:|
+| 0 | \$10 | \$0 |
+| 50 | \$9 | \$450 |
+| 100 | \$8 | \$800 |
+| 150 | \$7 | \$1,050 |
+| 200 | \$6 | \$1,200 |
+| 250 | \$5 | \$1,250 |
+| 300 | \$4 | \$1,200 |
+| 350 | \$3 | \$1,050 |
+| 400 | \$2 | \$800 |
+| 450 | \$1 | \$450 |
+| 500 | \$0 | \$0 |
+
+Suppose, for simplicity, that Jimmy and Bob have the same constant cost structure, so maximizing total revenue maximizes profit. If Jimmy and Bob initially form a cartel, but subsequently succumb to the temptation to cheat on each other, what will be the Nash equilibrium?
+
+a) Jimmy and Bob will each earn a daily profit of \$625.
+b) Jimmy will earn a daily profit of \$700, and Bob will earn a daily profit of \$500.
+c) Bob will earn a daily profit of \$700, and Jimmy will earn a daily profit of \$500.
+d) Jimmy and Bob will each earn a daily profit of \$525.
+
+---
+
+## Match 32 (Spring 2019: Spring 2022) Easy
+
+### S19
+
+***Scenario 1: A star-crossed cartel:*** There are only two wells in the town of Verona, owned by two families, the Montagues, and the Capulets. The wells are old, so there are no fixed costs, and each gallon of water costs nothing to draw. Each family draws water from their respective wells and sells it by the gallon to the town's citizens. Verona's demand for water, including sales revenue, is tabulated below.
+
+| **Price per gallon** | **Gallons demanded daily** | **Total Revenue** |
+|:---:|:---:|:---:|
+| \$ 6.00 | 0 | \$ 0 |
+| \$ 5.50 | 25 | \$ 137.50 |
+| \$ 5.00 | 50 | \$ 250.00 |
+| \$ 4.50 | 75 | \$ 337.50 |
+| \$ 4.00 | 100 | \$ 400.00 |
+| \$ 3.50 | 125 | \$ 437.50 |
+| \$ 3.00 | 150 | \$ 450.00 |
+| \$ 2.50 | 175 | \$ 437.50 |
+| \$ 2.00 | 200 | \$ 400.00 |
+| \$ 1.50 | 225 | \$ 337.50 |
+| \$ 1.00 | 250 | \$ 250.00 |
+| \$ 0.50 | 275 | \$ 137.50 |
+| \$ 0 | 300 | \$ 0 |
+
+**Refer to *Scenario 1: A star-crossed cartel*.** If the Montagues and Capulets were able to successfully operate as a cartel and jointly earn the monopoly profit, how many gallons would each family sell per day, and what would be the price of water in Verona?
+
+a) The price of water will be \$2.00 per gallon, and each family will sell 100 gallons.
+b) The price of water will be \$2.50 per gallon, and each family will sell 75 gallons.
+c) The price of water will be \$3.00 per gallon, and each family will sell 75 gallons.
+d) The price of water will be \$3.00 per gallon, and each family will sell 150 gallons.
+
+### S22
+
+A certain rural village has numerous small farms which raise livestock. There are two large and equally sized landowners, Jimmy and Bob, which produce hay for the farmers' animals. Below is the daily village demand for hay:
+
+| **Quantity (in bales)** | **Price** | **Total Revenue** |
+|:---:|:---:|:---:|
+| 0 | \$10 | \$0 |
+| 50 | \$9 | \$450 |
+| 100 | \$8 | \$800 |
+| 150 | \$7 | \$1,050 |
+| 200 | \$6 | \$1,200 |
+| 250 | \$5 | \$1,250 |
+| 300 | \$4 | \$1,200 |
+| 350 | \$3 | \$1,050 |
+| 400 | \$2 | \$800 |
+| 450 | \$1 | \$450 |
+| 500 | \$0 | \$0 |
+
+Suppose, for simplicity, that Jimmy and Bob have the same constant cost structure, so maximizing total revenue maximizes profit. If Jimmy and Bob can form a cartel and collude without cheating on each other, what will be the price per bale of hay in the village?
+
+a) \$6
+b) \$5
+c) \$4
+d) \$3
+
+---
+
+## Match 33 (Spring 2019: Spring 2022) Hard
+
+### S19
+
+***Scenario 1: A star-crossed cartel:*** There are only two wells in the town of Verona, owned by two families, the Montagues, and the Capulets. The wells are old, so there are no fixed costs, and each gallon of water costs nothing to draw. Each family draws water from their respective wells and sells it by the gallon to the town's citizens. Verona's demand for water, including sales revenue, is tabulated below.
+
+| **Price per gallon** | **Gallons demanded daily** | **Total Revenue** |
+|:---:|:---:|:---:|
+| \$ 6.00 | 0 | \$ 0 |
+| \$ 5.50 | 25 | \$ 137.50 |
+| \$ 5.00 | 50 | \$ 250.00 |
+| \$ 4.50 | 75 | \$ 337.50 |
+| \$ 4.00 | 100 | \$ 400.00 |
+| \$ 3.50 | 125 | \$ 437.50 |
+| \$ 3.00 | 150 | \$ 450.00 |
+| \$ 2.50 | 175 | \$ 437.50 |
+| \$ 2.00 | 200 | \$ 400.00 |
+| \$ 1.50 | 225 | \$ 337.50 |
+| \$ 1.00 | 250 | \$ 250.00 |
+| \$ 0.50 | 275 | \$ 137.50 |
+| \$ 0 | 300 | \$ 0 |
+
+**Refer to *Scenario 1: A star-crossed cartel*.** It does not take the Montague family long to realize the Capulets have cheated on the cartel agreement. What is the Nash equilibrium of this scenario?
+
+a) The Capulets' profit is \$250 and the Montagues' profit is \$150.
+b) The Capulets' profit is \$150 and the Montagues' profit is \$187.50.
+c) Each family has a profit of \$225.
+d) Each family has a profit of \$200.
+
+### S22
+
+A certain rural village has numerous small farms which raise livestock. There are two large and equally sized landowners, Jimmy and Bob, which produce hay for the farmers' animals. Below is the daily village demand for hay:
+
+| **Quantity (in bales)** | **Price** | **Total Revenue** |
+|:---:|:---:|:---:|
+| 0 | \$10 | \$0 |
+| 50 | \$9 | \$450 |
+| 100 | \$8 | \$800 |
+| 150 | \$7 | \$1,050 |
+| 200 | \$6 | \$1,200 |
+| 250 | \$5 | \$1,250 |
+| 300 | \$4 | \$1,200 |
+| 350 | \$3 | \$1,050 |
+| 400 | \$2 | \$800 |
+| 450 | \$1 | \$450 |
+| 500 | \$0 | \$0 |
+
+Suppose, for simplicity, that Jimmy and Bob have the same constant cost structure, so maximizing total revenue maximizes profit. If Jimmy and Bob initially form a cartel, but subsequently succumb to the temptation to cheat on each other, what will be the Nash equilibrium?
+
+a) Jimmy and Bob will each earn a daily profit of \$625.
+b) Jimmy will earn a daily profit of \$700, and Bob will earn a daily profit of \$500.
+c) Bob will earn a daily profit of \$700, and Jimmy will earn a daily profit of \$500.
+d) Jimmy and Bob will each earn a daily profit of \$525.
+
+---
+
+## Match 34 (Spring 2019: Spring 2022) Easy
+
+### S19
+
+*[Note: Image reference in original document - Graph showing cost curves]*
+
+**Refer to Figure 4.** What is the exit price of the firm in the long run?
+
+a) \$3
+b) \$5
+c) \$8
+d) \$10
+
+### S22
+
+Suppose a firm operating in a competitive market has the following cost curves:
+
+*[Note: Image reference in original document - Diagram showing cost curves]*
+
+Which of the following prices is the shutdown price?
+
+a) P1
+b) P2
+c) P3
+d) P4
+
+---
+
+## Match 35 (Spring 2019: Spring 2022) Hard
+
+### S19
+
+**Refer to Table 3: Christie's and Sotheby's.** Each cell of this table presents the revenues earned by the auction houses, Christie's and Sotheby's. Revenues are based on the type of commission each firm charges its clients, as well as what commission the other charges. Christie's revenues are listed first in each cell, then Sotheby's. Christie's dominant strategy is _______ commission and Sotheby's dominant strategy is _______ commission.
+
+**Table 3: Christie's and Sotheby's**
+
+|  | **Sotheby's Strategies** | |
+|:---|:---:|:---:|
+|  | **High Commission** | **Low Commission** |
+| **Christie's strategies** High Commission | \$4 million, \$4 million | \$2 million, \$6 million |
+| **Christie's strategies** Low Commission | \$6 million, \$2 million | \$3 million, \$3 million |
+
+a) high; high
+b) high; low
+c) low; high
+d) low; low
+
+### S22
+
+**Consider the game depicted in the following table:**
+
+|  | **Player 2** | |
+|:---|:---:|:---:|
+|  | Strategy A | Strategy B |
+| **Player 1** Strategy 1 | (9,3) | (2,4) |
+| **Player 1** Strategy 2 | (6,5) | (5,6) |
+
+The payout for player 1 is given first in parenthesis, with Player 2's payout second. Does either player have a dominant strategy?
+
+a) Player one has a dominant strategy.
+b) Player two has a dominant strategy.
+c) Both players have a dominant strategy.
+d) Neither player has a dominant strategy.
+
+---
+
+## Notes
+
+- Some questions reference images or figures from the original document that are noted as image references.
+- All 35 matched question pairs are included showing the exam questions from before (F19/S19) and during (F20/F21/S21/S22) the COVID-19 pandemic period at Baruch College.
+- Questions are categorized by difficulty level (Easy or Hard) as indicated in the original document.

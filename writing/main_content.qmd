@@ -92,67 +92,157 @@ The literature has provided valuable insights into the impact of the COVID-19 pa
 
 # Data
 
-The data used in this study are derived from two primary sources, covering the years 2019–2022. Firstly, I obtain information on students’ performance in the common final exams of the *introductory microeconomics* course, offered at a large public university in New York City. It is offered every semester and taught by multiple instructors. Each year, at least 700 students enroll in the course.
+The data for this study are drawn from two primary sources covering the academic years 2019 through 2022. The first source records student performance on common departmental final examinations for the *Introductory Microeconomics* course at a large public university in New York City. This course is offered every semester, taught by multiple instructors, and at least 700 students enroll annually.
 
-The department offers this course in three modes. *Hybrid* classes run twice a week, with one in-person meeting and one fully remote session each week. *Online* classes are entirely remote, with lectures delivered by professors using software. In spring 2019 and fall 2019, the courses were offered in mostly hybrid mode but with one large online section. During the pandemic in fall 2020, spring 2021, fall 2021, and spring 2022, the courses were fully online and hybrid. One section in 2022 was offered in person. I do not include those students in the analyses to facilitate the comparison between the efficacy of hybrid and online learning modes. Although the course is taught by multiple instructors with different instruction modalities, all students enrolled in the course are required to take a common final exam. Using students’ performance in these common exams removes the variation in the difficulty of questions set by the instructors. These exams are multiple choice, and the maximum possible points are 40. I obtain the answer sheets of the students who attempted these exams with information on their final score, their performance on each question, the course instructors, and learning mode of the course.
+The department offers the course through three modalities. *Hybrid* sections meet twice weekly, comprising one in-person session and one fully remote session. *Online* sections are conducted entirely remotely using software. In 2019 (Spring and Fall), the course was primarily offered in the hybrid mode, with one large online section. Following the onset of the COVID-19 pandemic—spanning Fall 2020 through Spring 2022—offerings were exclusively online or hybrid, with the exception of a single in-person section in 2022. I do not include those students in the analyses to facilitate the comparison between the efficacy of hybrid and online learning modes.
 
-I use two outcomes to measure students' academic performance. First, I use their scores on common final exams with maximum 40 possible points. This is a better measure of performance than course GPA or course completion rate since during the pandemic, a flexible grading policy was adopted. According to the university policy, students were allowed to drop the course on the last day of the semester after attempting the final exam or take the course for credit and move to the next semester. I also look at a more granular level. Since the final exams in *introductory microeconomics* are common, I can match nearly identical questions from these exams conducted before and during the pandemic. The answer sheet contains both the questions and their corresponding answers provided by the students. By analyzing the answer sheet, I am able to determine whether a student has answered a question correctly. The department offered both hybrid and online courses before the pandemic hit in March 2020.  There are two versions of the exams taken by the students. The only difference between the versions is that the questions are ordered differently to reduce cheating. To facilitate the comparison, I  have manually matched pairs of same or similar questions from the final exams before and after the onset of the pandemic.^[35 unique pairs of question are matched from before and after pandemic common exams. The questions are provided in a separate document.] I could not obtain the data for spring 2020.
+Although the course involves multiple instructors and teaching modalities, assessment is standardized; all enrolled students are required to complete a common, multiple-choice final examination with a maximum score of 40 points. Leveraging performance on common exams eliminates potential bias arising from heterogeneity in instructor-specific testing difficulty. The dataset includes answer sheets for all students who attempted these exams, providing the final score, item-level performance, instructor identifiers, and the course learning mode. Data for the Spring 2020 semester were unavailable.
 
-The second dataset is the institutional data on students who were enrolled in *introductory microeconomics* during the aforementioned semesters.^[The Baruch Office of Research and Compliance, Re:[2020-0621] Collecting Baseline Data on Distance Learning Performance, was determined not human subject research as there was no contact with subjects and data were de-identified.] This administrative dataset includes various information such as the students' gender, race, age, GPA, whether they are transfer students, whether they are part-time students, their native language, and their classification (freshman, sophomore, junior, or senior). By merging these two datasets, I can create a comprehensive set of data that includes both the characteristics of the students and their exams scores, with exam level characteristics also including learning modality, course instructor, semester in which the exam was taken, and the exam version. I also merge this data with the matched question level data where I identified pairs of similar questions from the common exams pre and during the pandemic. To the best of my knowledge, this dataset is the first of its kind to examine the impact of COVID-19 on student performance at such a granular level with a standardized outcome variable.
+The first measure is the aggregate score on the common final examination, converted from a raw maximum of 40 points to a standard 0–100 scale. This standardized measure provides a more consistent signal of learning than course GPA or withdrawal rates, which were potentially confounded by flexible grading policies adopted during the pandemic.
 
-My research sample includes 4,655 students enrolled in *introductory microeconomics* course, with a total of 47,589 observations once the similar exam questions from before and after the pandemic are matched. Here, the outcome variable is *correct*, which equals 1 if a student correctly answered the question, and 0 otherwise. Each observation is a student-question pair, indicating whether the student got the answer to the question correct or not.  Some observations have missing data, including missing GPA values. For the majority of students, I use their cumulative GPA prior to the start of the semester. If a student's cumulative GPA before the semester's start is unavailable, I substitute it with the GPA calculated at the end of that semester. If both values are unavailable, I impute it with the mean GPA from the semester in which the GPA is missing.
+To exploit the granularity of the data, I also construct a second measure based on item-level performance. Because the final exams are departmental, I am able to match identical or nearly identical questions appearing in exams administered both pre- and post-pandemic onset. While the department utilizes two versions of the exam to deter cheating (differing only in question order), the content remains constant. I manually identified and matched 35 unique pairs of questions across the pre-pandemic and pandemic periods. This allows for the construction of a binary outcome variable, *correct*, which takes a value of 1 if a student answered the matched question correctly and 0 otherwise.
 
-# Estimation Strategy
+The second data source consists of institutional administrative records for all students enrolled in *Introductory Microeconomics* during the relevant semesters. This dataset includes a rich set of covariates, including gender, race, age, transfer status, enrollment intensity (part-time vs. full-time), native language, and class standing (freshman through senior).
 
-I analyze students’ performance using multiple outcomes. I first examine their scores in the common final exam in *introductory microeconomics* and then use their performance on matched questions from these common final exams. The baseline specification is as follows:
+By merging these administrative records with the examination data, I construct a comprehensive dataset linking student characteristics to standardized performance metrics. This merger also incorporates exam-level characteristics, such as learning modality, course instructor, exam version, and the semester of administration. To my knowledge, this is the first dataset to facilitate a granular examination of COVID-19's impact on student performance using standardized, item-level outcomes.
 
-$$
+The final analytical sample comprises 4,655 unique students enrolled in the course. For the granular analysis using matched exam questions, the dataset expands to 47,589 student-question observations. Each observation represents a student-question pair indicating whether the specific item was answered correctly. For the majority of the sample, I utilize the cumulative GPA recorded prior to the start of the semester. If the pre-semester GPA is unavailable, I substitute it with the GPA calculated at the end of the concurrent semester. In cases where both values are missing, I impute the missing value using the mean GPA of the student cohort for that specific semester.
+
+To estimate the impact of the pandemic on student learning, I employ a series of Ordinary Least Squares  regressions. I first examine aggregate performance on the common final examination, followed by an analysis of item-level performance using matched questions across pre-pandemic and pandemic semesters. My primary empirical strategy estimates the effect of the pandemic on student outcomes using the following specification:
+
+\begin{equation}
 y_{i,c,t} = \delta P_{t} + \beta X_{i,c,t} + \gamma_{c} + \alpha_{s} + \epsilon_{i,c,t}
-$$ {#eq-model1}
+\end{equation}
 
-$X_{i,c,t}$ is the vector of individual-level controls for student *i* enrolled in a class taught by instructor *c* in semester *t* that include students' demographic characteristics such as race and gender. Student's race and gender enter the specification as  dummy variables. I include dummies for each race: Black, Asian, non-White Hispanic, and others, keeping White as the benchmark category. A dummy variable for gender is labeled as female, which is 1 if a student is female and 0 if male. There is also a dummy variable for being at most a sophomore student to account for where students are in the path of completing their degree. To account for student ability I control for their cumulative GPA before the start of the semester in which the students were enrolled in the course. $P_{t}$  is a dummy variable for the pandemic period, which is 1 for the exam taken in pandemic period and zero otherwise. $\gamma_{c}$ and $\alpha_{s}$ are instructor fixed effects and session fixed effects. Since the pandemic hit in March 2020, all the semesters after fall 2019 are considered to be in the pandemic period. $\epsilon_{i,c,t}$ is the error term.  The coefficient on $P_{t}$  is of my interest which reflects the effect of the pandemic on student performance as documented by the most studies in the literature mentioned above. As stated earlier, there are multiple outcome variables by which I measure student performance. In one set of regressions, *y* is student *i* score in the common final exam out if possible 40. In the other, *y* is a binary outcome variable which is 1 if the student answered the question correctly and 0 otherwise. 
+$y_{i,c,t}$ represents the academic outcome for student $i$ in class taught by instructor $c$ during semester $t$. I analyze two distinct outcomes for $y$. In the first set of regressions, $y$ is the students' aggregate score on the common final examination, scaled to a 0–100 range. In the second set of regressions,  I employ a linear probability model where $y$ is a binary indicator equal to 1 if the student answered a specific matched question correctly, and 0 otherwise. For this item-level analysis, the subscript $q$ is added to denote the specific question pair, such that the outcome is denoted as $y_{i,c,q,t}$.
 
-Both sets of regressions are estimated using OLS and heteroskedasticity robust standard errors are used. $y_{i,c,t}$ is the student academic outcome for which I use multiple measures. The first set of regressions takes outcome as points scored by the students in the common final exam out of total possible 40 points. In the second set of regressions I use the matched question pairs from the common exams in the course pre and post pandemic period. Hence, this set of regressions will have a binary outcome which is 1 if a student answers the question correctly and 0 otherwise. Using OLS to estimate this linear probability model, I can measure the impact of the pandemic on the average probability of students answering a similar question in pandemic period common exams compared to pre-pandemic common exams. The baseline specification will change slightly for this outcome as follows.
+The variable of interest is $P_{t}$, a binary indicator for the pandemic period, equal to 1 for any semester after Fall 2019 (i.e., Spring 2020 onward) and 0 otherwise. The coefficient $\delta$ captures the average effect of the pandemic on student performance.
 
-$$
-y_{i,c,q,t} = \delta P_{t} + \beta X_{i,c,q,t} + \gamma_{c} + \alpha_{s} + \epsilon_{i,c,q,t}
-$$ {#eq-model2}
-
-\noindent $y_{i,c,q,t}$ will be the student *i*’s outcome in question *q* in a class taught by instructor *c* in semester *t*. All the control variables on the right hand side will remain the same as described in the first specification.  $\gamma_{c}$ and $\alpha_{s}$ are instructor fixed effects and session fixed effects.
+$X_{i,c,t}$ includes student-level controls to account for demographic and academic heterogeneity. These include dummy variables for race (Black, Asian, non-White Hispanic, and Other, with White as the reference group), gender (equal to 1 if female), and class standing (equal to 1 if the student is a freshman or sophomore). To control for baseline ability, I include the student's cumulative GPA prior to the start of the course. The model also includes instructor fixed effects ($\gamma_{c}$) and session fixed effects ($\alpha_{s}$) to control for time-invariant instructor characteristics and semester-specific shocks unrelated to the pandemic. Standard errors are robust to heteroskedasticity.
 
 ## Identification of Differential Impact of COVID-19 on Low vs High GPA Students
 
-I also take a closer look at the differential impact of the pandemic on students with low GPA compared to high GPA students. I define low GPA students using a cutoff based on the median cumulative GPA. Students with a GPA less than the median GPA of 3.32 are classified as low GPA students, and those with a GPA of 3.32 or higher are classified as high GPA students.
+I further examine whether the pandemic differentially affected students based on their prior academic performance. I classify students into "Low GPA" and "High GPA" groups based on the sample median cumulative GPA of 3.32. Students below this threshold are defined as low-GPA, while those at or above are defined as high-GPA. I estimate the following interaction model:
 
-The regression specification builds on the baseline specification in equation 3.1. For both outcomes, exam scores and question-level outcomes, the specification remains similar. The following is the specification for exam scores as the outcome variable.
-
-$$
+\begin{equation}
 y_{i,c,t} = \delta P_{t} + \phi L_{i} + \mu P_{t} \times L_{i} + \beta X_{i,c,t} + \gamma_{c} + \alpha_{s} + \epsilon_{i,c,t}
-$$ {#eq-model3}
+\end{equation}
 
-\noindent Here, variable $L_{i}$ is a dummy variable representing students in the low GPA group.  $L_{i}$  takes a value of 1 if a student is in the low GPA group and 0 if a student is in the high GPA group. $\mu$ is the coefficient in which I am interested. A negative value of this coefficient will support the hypothesis of higher learning loss during the pandemic for low GPA students compared to high GPA students. Instructor and session fixed effects are included. All the included student-level covariates are the same as in equation 3.1, except for cumulative GPA.
-
+Here, $L_{i}$ is a binary indicator equal to 1 if student $i$ is in the low-GPA group. The coefficient of interest is $\mu$, which captures the differential impact of the pandemic on low-performing students relative to their high-performing peers. A negative $\mu$ would indicate that the pandemic exacerbated inequality in learning outcomes. This specification mirrors the baseline model but excludes continuous cumulative GPA from the vector $X_{i,c,t}$, as it is captured by the group classification.
 
 ## Identification of the Effect of Sudden Transition to Remote Learning
 
-So far, with all previous specifications, I can estimate the pandemic's impact on student outcomes. The coefficients I obtain represent the overall effect of the pandemic on students' academic performance. One main driver of the negative impact on academic performance is a sudden transition to a new learning modality. This sudden change affected both students and instructors, disrupting the learning process. I attempt to disentangle this impact of sudden change in learning modality due to the pandemic from the overall impact of the pandemic on students’ academic performance. As previously mentioned in the data section, during the time in consideration, the department of economics offered *introductory microeconomics* course to the students using two modalities. Hybrid mode that included 1 lecture in person and other online during a regular week and online classes were completely remote. Pandemic in March 2020 led to a sudden transition to online classes for all students in the course. This exogenous shock allows me to look at the impact of this sudden transition to remote learning from the hybrid mode during the pandemic period. I identify the impact of pandemic induced movement to remote learning by estimating a DiD specification as follows. 
+Finally, I isolate the effect of the sudden, forced transition to remote learning. While the aggregate pandemic effect ($\delta$ in Equation 1) captures broadly defined disruptions, a key mechanism was the shift in instructional modality. Prior to the pandemic, the department offered the course in two distinct modes: Hybrid (one in-person and one online session weekly) and Online (fully remote). The onset of the pandemic in March 2020 forced all hybrid sections to transition abruptly to a fully remote format. I exploit this variation using a difference-in-differences framework to estimate the impact of transitioning from hybrid to remote learning, relative to students who were already enrolled in fully online sections:
 
-$$
+\begin{equation}
 y_{i,c,t} = \delta P_{t} + \phi O_{i} + \mu P_{t} \times O_{i} + \beta X_{i,c,t} + \gamma_{c} + \alpha_{s} + \epsilon_{i,c,t}
-$$ {#eq-model4}
+\end{equation}
 
-\noindent As with the specification 3, I only show the equation for exam scores as the outcome. The specification will be the same for question-level outcome. Here, variable $O_{i}$ is a dummy variable representing students in classes with different modes of instruction.  $O_{i}$  takes a value of 1 if a student is enrolled in an online class and 0 if a student is in a hybrid class. $\mu$ is the coefficient in which I am interested. A negative value of this coefficient will result in learning loss for the students during the pandemic due to an abrupt transition to remote classes. Again, instructor and session fixed effects are included. All the included student-level covariates are the same as in equation 3.1, except for their instruction mode.
-
+In this specification, $O_{i}$ is an indicator equal to 1 if the student originally enrolled in an online section and 0 if they enrolled in a hybrid section. The interaction term $\mu$ tests whether students who selected into online learning—and thus experienced less disruption in modality—performed differently during the pandemic compared to those forced to switch from hybrid to remote instruction. Control variables remain consistent with the baseline specification, excluding the instruction mode indicator which is subsumed by the difference-in-differences terms.
 
 # Results
 
+```{r data-load, echo = FALSE, warning=FALSE, message=FALSE, include = FALSE}
+### Loading the question level data ------------------------------------------
+
+question_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/question_level.rds"
+question_level <- read_rds(question_url) |>
+  mutate(on = online) ## This is to ensure there are no glitches in the code where two panels of results are merged. A bad fix, but works!
+
+### Loading the exam level data ------------------------------------------
+## These scores are out of a possible 40 points.
+
+exam_url <- "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/exam_level.rds"
+exam_level <- read_rds(exam_url) |>
+  mutate(on = online) ## This is to ensure there are no glitches in the code where two panels of results are merged. A bad fix, but works!
+
+
+### Loading the course withdrawal data ------------------------------------------
+## It has share of students who took withdrawal, CR, NC options.
+full_grades <- read_dta(
+  "https://raw.githubusercontent.com/amanojas/COVID-19-and-Academic-Performance/main/data/grades-by-sem.dta"
+) # s2020 available
+full_g <- full_grades |>
+  mutate(
+    year = if_else(
+      semester == "S19" | semester == "F19",
+      2019,
+      if_else(
+        semester == "S20" | semester == "F20",
+        2020,
+        if_else(semester == "S21" | semester == "F21", 2021, 2022)
+      )
+    )
+  ) |>
+  mutate(
+    session = factor(if_else(
+      semester %in% c("S19", "S20", "S21", "S22"),
+      "S",
+      "F"
+    ))
+  ) |>
+  mutate(session = fct_relevel(session, c("S", "F")))
+
+```
+
 ## Average Course GPA Across Semesters in ECO 1001
 
-An important argument I make in this paper is that student performance is mostly measured using course completion, withdrawal rates, or GPA in the literature currently. These may not be good measures of academic performance during the pandemic, given that most educational institutions adopted flexible grading policies to reduce the burden on students due to pandemic-related disruptions.
+```{r gpa-across-semesters-eco-1001, echo = FALSE, warning=FALSE, message=FALSE, fig.cap= "(#fig:gpa-across-semesters-eco-1001) Average Course GPA in ECO 1001 across semesters", fig.pos="H",  fig.align = "center"}
+# Define semester labels
+gpa_labels <- c(
+  "Spring 2019",
+  "Fall 2019",
+  "Spring 2020",
+  "Fall 2020",
+  "Spring 2021",
+  "Fall 2021",
+  "Spring 2022"
+)
 
-In Figure 1, I show how the unadjusted average GPA in course ECO 1001 changes over time. I see an abrupt jump in course GPA in spring 2020 when the pandemic started. According to student surveys mentioned in the literature review, students faced hardships and struggled in their studies due to the disruption in their environment. Although these GPAs decreased in fall 2020 and spring 2021, they did not return to pre-pandemic levels until after fall 2021.
+# Summarize GPA statistics by semester
+gpa_summary <- full_g |>
+  dplyr::select(year, session, coursegpa) |>
+  dplyr::group_by(year, session) |>
+  dplyr::summarise(
+    avg_gpa = mean(coursegpa, na.rm = TRUE),
+    sd_gpa = sd(coursegpa, na.rm = TRUE),
+    n = dplyr::n(),
+    .groups = 'drop'
+  ) |>
+  dplyr::mutate(
+    margin_error = 1.96 * (sd_gpa / sqrt(n)),
+    semester = factor(seq_along(year), labels = gpa_labels)
+  )
 
-Using course GPA as a measure of student performance contradicts students’ experiences. A sudden change in the educational setting also affected instructors, who might have become more lenient with grading. This change could have led to common exams being held online, giving students more opportunities for possible misconduct. The possible negative impact of the pandemic on students’ actual performance could be overshadowed by these changes in institutional policies and educational settings.
+# Plot the results
+ggplot(gpa_summary, aes(x = semester, y = avg_gpa, label = round(avg_gpa, 2))) +
+  geom_bar(stat = "identity", width = 0.3, fill = "#009E73", alpha = 0.8) +
+  geom_errorbar(
+    aes(ymin = avg_gpa - margin_error, ymax = avg_gpa + margin_error),
+    width = 0.1,
+    color = "darkblue"
+  ) +
+  geom_text(
+    size = 3,
+    vjust = -2.5,
+    color = "black"
+  ) +
+  ylim(0, 4) +
+  labs(
+    x = NULL,
+    y = "Course GPA",
+    title = ""
+  ) +
+  scale_x_discrete(
+    labels = gpa_labels,
+    guide = ggplot2::guide_axis(n.dodge = 2)
+  ) +
+  theme_minimal(base_size = 10)
+```
+
+A central premise of this study is that conventional metrics commonly cited in the literature---such as course completion rates, withdrawal rates, and Grade Point Averages (GPA)---may fail to accurately capture academic performance during the pandemic period. The abrupt transition in instructional modality likely induced behavioral responses from instructors, including increased leniency in grading standards to accommodate the disruptive environment. Furthermore, the shift to remote assessment may have introduced opportunities for academic misconduct, thereby inflating scores. Consequently, relying solely on GPA may mask the true negative impact of the pandemic on human capital accumulation, as these institutional policy shifts and grading accommodations can overshadow actual declines in content mastery.
+
+Figure 1 presents the temporal evolution of unadjusted average GPAs in the introductory microeconomics course. The data reveal a sharp discontinuity in Spring 2020, coinciding with the transition to online instruction. This increase in average grades contradicts contemporaneous survey evidence suggesting that students faced substantial personal and academic hardships during this period [@aucejo_impact_2020; @rodriguez-planas_hitting_2020]. If GPAs were a consistent proxy for learning, one would expect a decline in grades reflecting these documented struggles. Instead, while GPAs moderated slightly in Fall 2020 and Spring 2021, they remained persistently elevated above pre-pandemic levels until after Fall 2021, suggesting a structural break in grading norms rather than an improvement in student performance.
 
 ## Withdrawal Rate Across Semesters in ECO 1001
 
